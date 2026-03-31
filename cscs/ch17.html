@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.17 · Program Design for Resistance Training</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.17</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 17 <span>Program Design for Resistance Training</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">🔍</div>
+      <div class="ct">步驟一：需求分析</div>
+      <div class="cs">運動分析·生理分析·傷害分析·訓練狀態·測試評估</div>
+      <div class="tag">基礎</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">🏋️</div>
+      <div class="ct">步驟二：動作選擇</div>
+      <div class="cs">主要動作·輔助動作·結構性·爆發性·動作特異性·肌肉平衡</div>
+      <div class="tag">動作選擇</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">📅</div>
+      <div class="ct">步驟三：訓練頻率</div>
+      <div class="cs">訓練狀態·賽季·負荷·分部位訓練·休息天數</div>
+      <div class="tag">頻率</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🔢</div>
+      <div class="ct">步驟四：動作順序</div>
+      <div class="cs">爆發力優先·推拉交替·上下肢交替·超級組·複合組</div>
+      <div class="tag">順序</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.17</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">阻力訓練<br>課程設計</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">7大步驟 · CSCS核心章節</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">⚖️</div>
+      <div class="ct">步驟五：負荷與次數</div>
+      <div class="cs">1RM測試·最大反覆次數連續譜·百分比設定·2-for-2法則</div>
+      <div class="tag">負荷</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">📊</div>
+      <div class="ct">步驟六：訓練量</div>
+      <div class="cs">訓練量負荷·次數訓練量·組數·訓練目標·單組vs多組</div>
+      <div class="tag">訓練量</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">⏱️</div>
+      <div class="ct">步驟七：組間休息</div>
+      <div class="cs">肌力2-5分·肥大30秒-1.5分·肌耐力≤30秒·依負荷調整</div>
+      <div class="tag">休息</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">📐</div>
+      <div class="ct">訓練原則 & 考題重點</div>
+      <div class="cs">特異性·超負荷·漸進·需求適應原則·三情境比較</div>
+      <div class="tag">大觀念</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- s1: Needs Analysis -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">🔍 步驟一：需求分析</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">運動分析</div><div class="sb">動作模式、關節ROM、主要肌群參與（如：shot-put = 三頭、臀、股四頭）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">生理分析</div><div class="sb">優先訓練目標：肌力 / 爆發力 / 肥大 / 肌耐力，每賽季只專注一項</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">傷害分析</div><div class="sb">找出常見受傷部位與原因，設計預防性輔助動作（assistance exercises）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">訓練狀態分類</div><div class="sb">Beginner（&lt;2月）/ Intermediate（2-6月）/ Advanced（&gt;1年）；影響頻率、強度、技術要求</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">需求<br>分析</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">體能測試</div><div class="sb">1RM、爆發力、體組成等；選與運動相關的測試項目（bench press、squat、power clean）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">賽季優先順序</div><div class="sb">Off: 肥大→肌力；Pre: 肌力/爆發；In: 維持；Post: 非特定</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">訓練背景評估</div><div class="sb">評估項目：訓練類型、持續時間、強度水準、技術熟練度（technique experience）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">主要訓練目標</div><div class="sb">由測試結果 + 運動分析 + 賽季共同決定，一次只訂一個目標</div></div>
+  </div>
+</div>
+
+<!-- s2: Exercise Selection -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🏋️ 步驟二：動作選擇</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">主要動作</div><div class="sb">大肌群、多關節（multijoint）；直接影響運動表現優先選擇（如：squat、bench press）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">輔助動作</div><div class="sb">小肌群、單關節（single-joint）；常用於傷害預防與復健（如：biceps curl、calf raise）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">結構性動作</div><div class="sb">脊椎直接或間接承重的主要動作（如：back squat直接；power clean間接）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">爆發性動作</div><div class="sb">以爆發方式執行的結構性動作（如：power clean, snatch）；需最高技術與專注度</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">動作<br>選擇</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">動作特異性</div><div class="sb">需求適應原則：訓練動作越像運動動作，正向遷移越大（back squat > leg press for jump）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">肌肉平衡</div><div class="sb">拮抗肌群需保持適當力量比例（主動肌 vs 拮抗肌），防止失衡造成傷害</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">恢復性動作</div><div class="sb">低強度、低神經壓力動作；幫助代謝廢物清除，加速組織修復</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">實務考量</div><div class="sb">技術經驗、設備可用性、訓練時間都影響動作選擇（時間少 → 機器 > 自由重量）</div></div>
+  </div>
+</div>
+
+<!-- s3: Training Frequency -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">📅 步驟三：訓練頻率</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">依訓練狀態</div><div class="sb">初學者: 2-3次/週；中階: 3-4次；進階: 4-7次</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">依賽季</div><div class="sb">休賽季: 4-6次；季前: 3-4次；賽季中: 1-3次；賽後: 0-3次（休息恢復）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">休息天數原則</div><div class="sb">同肌群訓練之間至少1天休息、最多不超過3天（以維持訓練效果）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">分部位訓練</div><div class="sb">進階選手分部位訓練（上下肢分開），可增加訓練日數而不過度疲勞</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">訓練<br>頻率</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">負荷與恢復</div><div class="sb">近最大負荷需更長恢復；上肢比下肢恢復快；單關節比多關節恢復快</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">其他訓練影響</div><div class="sb">有氧、增強式、專項練習都會消耗恢復資源，需整體考量訓練頻率</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">分部位範例</div><div class="sb">週一&四=下肢，週二&五=上肢；每個部位之間有2-3天休息，共4次/週</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">賽季中原則</div><div class="sb">賽季中時間有限 → 減少頻率維持訓練，優先保留專項練習時間</div></div>
+  </div>
+</div>
+
+<!-- s4: Exercise Order -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🔢 步驟四：動作順序</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">爆發力優先原則</div><div class="sb">爆發性動作 → 主要動作 → 輔助動作；爆發力動作需最高技術與能量，疲勞最敏感，必須最先做</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">上下肢交替</div><div class="sb">讓局部肌群充分恢復；適合初學者或時間有限時；可用於循環訓練</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">推拉交替</div><div class="sb">推（臥推、肩推）與拉（划船、下拉）交替，避免同一肌群連續疲勞</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">超級組</div><div class="sb">兩個相鄰拮抗肌群動作連續執行（二頭彎舉 → 三頭下推），省時且增加刺激</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">動作<br>順序</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">複合組</div><div class="sb">同一肌群兩個動作連續執行（槓鈴彎舉 → 錘式彎舉），疊加同部位刺激</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">循環訓練</div><div class="sb">上下肢交替 + 極短休息（20-30秒）= 循環訓練；可同時刺激心肺（但效果不及有氧）</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">下背肌注意</div><div class="sb">需要直立姿勢的動作先做；下背疲勞會影響深蹲/硬舉技術，增加傷害風險</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">考題陷阱</div><div class="sb">爆發上搏必須排最前；同一肌群多動作連續排列會降低後續組數表現</div></div>
+  </div>
+</div>
+
+<!-- s6: Load & Reps -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">⚖️ 步驟五：負荷與次數</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">直接測試最大單次</div><div class="sb">適合中階/進階；需足夠技術與訓練背景；建議3-5組完成測定</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">間接估算最大單次</div><div class="sb">10RM測試後查表估算1RM；準確度在≤10RM、>75%1RM時最高</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">目標次數測試法</div><div class="sb">直接以計畫的目標次數做多次最大測試（如計畫6次就測6RM），省去換算步驟</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">百分比與訓練目標</div><div class="sb">肌力≥85%（≤6次）；爆發75-90%（1-5次）；肥大67-85%（6-12次）；肌耐力≤67%（≥12次）</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">負荷<br>與次數</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">輔助動作負荷上限</div><div class="sb">輔助動作最重不超過8RM負荷，保護單關節的關節與結締組織</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">負荷波動策略</div><div class="sb">重日(100%)→輕日(80%)→中日(90%)；防止過度訓練，維持頻率與訓練量</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">兩加兩法則</div><div class="sb">連續兩次訓練最後一組超出目標次數≥2次 → 下次訓練增加重量</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">負荷增加量</div><div class="sb">上肢較弱+2.5-5磅；下肢較弱+5-10磅；上肢強壯+5-10+磅；下肢強壯+10-15+磅</div></div>
+  </div>
+</div>
+
+<!-- s7: Volume -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">📊 步驟六：訓練量</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">訓練量負荷定義</div><div class="sb">組數 × 次數 × 重量；直接正比於機械功與代謝需求；比單純「組數」更精確</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">次數訓練量</div><div class="sb">總次數（不含重量）；訓練量負荷 ÷ 次數訓練量 = 每次平均重量（代表強度）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">肌力組數</div><div class="sb">主要動作: 2-6組，≤6次；輔助動作: 1-3組；多組優於單組（尤其中階/進階）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">爆發力組數</div><div class="sb">3-5組，1-5次；量比肌力略低以保持動作品質；不可讓技術因疲勞而崩壞</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">訓練量</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">肥大組數</div><div class="sb">3-6組，6-12次；高訓練量 → 更大肌肥大；每肌群建議≥3個動作</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">肌耐力組數</div><div class="sb">2-3組，≥12次；輕重量多次 → 訓練量負荷不一定高，但代謝壓力大</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">單組 vs 多組</div><div class="sb">初學者單組有效；中階/進階需多組才能持續進步；3組10次 > 1組力竭（研究支持）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">訓練狀態影響</div><div class="sb">初學從1-2組開始，逐漸增加；進階者需更高總訓練量才能繼續適應</div></div>
+  </div>
+</div>
+
+<!-- s8: Rest Periods -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">⏱️ 步驟七：組間休息</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">肌力組間休息</div><div class="sb">2-5分鐘；重量越大需越長；下肢/全身結構動作需要最長（深蹲研究：3分 > 30秒）</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">爆發力組間休息</div><div class="sb">同肌力：2-5分鐘；需完全恢復神經系統才能維持爆發品質</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">肥大組間休息</div><div class="sb">30秒-1.5分鐘；刻意未完全恢復即開始下一組，增加代謝壓力與生長激素分泌</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">肌耐力組間休息</div><div class="sb">≤30秒；循環訓練常見；短休息本身就是肌耐力特異性訓練的一部分</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">組間<br>休息</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">輔助動作例外</div><div class="sb">即使在肌力計畫中，若輔助動作用10RM → 休息應改為30秒-1.5分（按實際負荷決定）</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">肌群大小影響</div><div class="sb">大肌群/多關節需更長休息；小肌群/單關節恢復較快，可縮短休息</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">上下肢差異</div><div class="sb">上肢比下肢恢復快 → 下肢訓練通常需要更長的組間休息</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">考題重點</div><div class="sb">休息長短依「實際使用的百分比」決定，而非「訓練計畫目標」；每個動作需個別分析</div></div>
+  </div>
+</div>
+
+<!-- s9: Principles & Exam Tips -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">📐 訓練原則 & 考題重點</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">特異性 / 需求適應</div><div class="sb">訓練刺激決定適應結果；動作模式、速度、肌群都要盡量接近運動需求</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">超負荷原則</div><div class="sb">超過現有能力的刺激才能產生適應；可增重量、次數、組數、縮短休息等方式達成</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">漸進原則</div><div class="sb">循序漸進提升強度；應依訓練狀態系統性增加，過快 → 過度訓練，過慢 → 停滯</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">情境A：籃球（季前）</div><div class="sb">進階；目標：肌力/爆發力；3次/週；週一重/週三輕/週五中；爆發上搏優先</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">整體<br>觀念</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">情境B：美足（休賽）</div><div class="sb">進階；目標：肥大；4次/週（分部位）；週一四下肢 / 週二五上肢；輪胎翻轉</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">情境C：越野跑（賽季）</div><div class="sb">初學者；目標：肌耐力；2次/週；循環訓練；≥12次/組；≤30秒休息</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">常見考題方向</div><div class="sb">爆發動作排序、賽季頻率增減、負荷與休息對應、兩加兩法則、輔助動作8RM上限</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">力量-速度曲線</div><div class="sb">最大爆發力出現在中等速度/中等負荷（75-90%）；最大單次速度太慢，功率反而低</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
