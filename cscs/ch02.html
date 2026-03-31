@@ -7,6 +7,12 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
 h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
 h2{font-size:18px;font-weight:700;margin-bottom:20px;}
 h2 span{color:#7c6af7;}
@@ -47,6 +53,14 @@ h2 span{color:#7c6af7;}
 </style>
 </head>
 <body>
+
+<nav class="breadcrumb">
+  <a href="../../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="../index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.2</span>
+</nav>
 
 <h1>CSCS 備考 · 九宮格複習</h1>
 <h2>Chapter 2 <span>阻力運動生物力學</span></h2>
