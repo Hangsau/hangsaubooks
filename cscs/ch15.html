@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.15 · Exercise Technique for Free Weight and Machine Training</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.15</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 15 <span>Exercise Technique: Free Weight & Machine</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">✋</div>
+      <div class="ct">握法 Handgrips</div>
+      <div class="cs">pronated · supinated · alternated · hook · closed vs open · grip width</div>
+      <div class="tag">基本技術</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">🏋️</div>
+      <div class="ct">身體姿勢 Body Position</div>
+      <div class="cs">五點接觸 · standing · seated · machine alignment · 脊椎中立</div>
+      <div class="tag">基本技術</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">🌬️</div>
+      <div class="ct">呼吸 Breathing</div>
+      <div class="cs">sticking point · exhale/inhale · Valsalva maneuver · 1RM注意</div>
+      <div class="tag">基本技術</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🪖</div>
+      <div class="ct">護腰帶 Weight Belt</div>
+      <div class="cs">適用時機 · structural exercises · near-maximal load · 副作用</div>
+      <div class="tag">基本技術</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.15</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">Exercise<br>Technique</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">🤝</div>
+      <div class="ct">保護補位 Spotting</div>
+      <div class="cs">overhead · over-face · 人數判斷 · liftoff · 溝通 · power exception</div>
+      <div class="tag">安全</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">🦵</div>
+      <div class="ct">下肢動作 Lower Body</div>
+      <div class="cs">Back Squat · Front Squat · Deadlift · RDL · Lunge · Hip Sled</div>
+      <div class="tag">動作分類</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">💪</div>
+      <div class="ct">上肢推拉 Upper Body</div>
+      <div class="cs">Bench Press · Row · Lat Pulldown · Shoulder Press · Curl · Triceps</div>
+      <div class="tag">動作分類</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">⚡</div>
+      <div class="ct">爆發力動作 Power</div>
+      <div class="cs">Power Clean · Power Snatch · Push Press · Push Jerk · Hang variation</div>
+      <div class="tag">動作分類</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- s1: 握法 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">✋ 握法 Handgrips</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">Pronated Grip</div><div class="sb">掌心朝下（overhand）；最常用的基本握法</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Supinated Grip</div><div class="sb">掌心朝上（underhand）；常用於 biceps curl</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Alternated Grip</div><div class="sb">一手正握一手反握；deadlift 大重量時使用</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Hook Grip</div><div class="sb">拇指壓在食指中指下方；power exercises（snatch）增加握力</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">握法<br>Handgrips</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Closed vs Open</div><div class="sb">Closed：拇指環繞（安全）；Open/False：拇指不繞，危險</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Grip Width</div><div class="sb">Common（肩寬）/ Wide / Narrow；保持槓鈴平衡</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Clean Grip</div><div class="sb">稍寬於肩寬，置於膝外側；用於 clean 動作</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Snatch Grip</div><div class="sb">寬握；fist-to-opposite-shoulder 或 elbow-to-elbow（scarecrow）法測量</div></div>
+  </div>
+</div>
+
+<!-- s2: 身體姿勢 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🏋️ 身體姿勢 Body Position</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">站立姿勢</div><div class="sb">雙腳稍寬於髖寬；腳跟與前腳掌均接觸地面</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">五點接觸 5-Point</div><div class="sb">頭、肩背、臀（bench）；左腳掌、右腳掌均平放地面</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Point 1: 頭部</div><div class="sb">頭部穩固貼於椅背或背墊（head on bench/back pad）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Point 2 & 3: 肩臀</div><div class="sb">肩膀上背均勻貼墊；臀部均勻貼坐墊</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">身體姿勢<br>Body Position</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Point 4 & 5: 雙腳</div><div class="sb">左腳掌與右腳掌均平放地面；促進最大穩定性</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Machine Alignment</div><div class="sb">關節軸心需與機器旋轉軸對齊（axis of rotation）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">中立脊椎</div><div class="sb">維持自然腰椎前凸（neutral/lordotic）；結構性動作必備</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">ROM & Speed</div><div class="sb">全關節活動度；慢速控制可達完整ROM；power動作求最大加速</div></div>
+  </div>
+</div>
+
+<!-- s3: 呼吸 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">🌬️ 呼吸 Breathing</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">Sticking Point</div><div class="sb">一次動作中最費力的點（通常在向心轉換後不久）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">一般呼吸原則</div><div class="sb">通過 sticking point 時呼氣（concentric）；回程吸氣（eccentric）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Valsalva 定義</div><div class="sb">閉聲門用力呼氣（expiring against closed glottis）；腹肌與肋籠肌同時收縮</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Valsalva 作用</div><div class="sb">增加腹內壓 → 全身軀幹剛性 → 減少脊椎椎間盤壓縮力</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">呼吸<br>Breathing</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Fluid Ball</div><div class="sb">下軀幹液體 + 上軀幹空氣 = 形成剛性腔室，支撐脊椎</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Valsalva 適用</div><div class="sb">有經驗者 × structural exercises × 大重量；憋氣約 1–2 秒</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Valsalva 副作用</div><div class="sb">頭暈、定向感喪失、血壓飆升（可達靜止 3 倍）、昏厥</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">1RM 注意</div><div class="sb">squat、deadlift、hip sled 等測 1RM 時需告知 Valsalva 優缺點</div></div>
+  </div>
+</div>
+
+<!-- s4: 護腰帶 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🪖 護腰帶 Weight Belt</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">功用</div><div class="sb">維持腹內壓（intra-abdominal pressure）；輔助支撐下背</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">適用時機</div><div class="sb">動作會對下背施壓 × 使用接近最大重量或最大重量時</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">適用動作</div><div class="sb">Back Squat、Deadlift、Hip Sled 等結構性動作 × 大重量</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">不需穿戴</div><div class="sb">①不施壓下背的動作（biceps curl, lat pulldown）②輕重量即使動作施壓下背也不需要</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">護腰帶<br>Weight Belt</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">副作用</div><div class="sb">過度依賴 → 腹肌訓練機會減少 → 核心自然穩定能力下降</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">考試關鍵</div><div class="sb">兩條件需同時符合：① 動作對下背施壓 ② 重量接近或達最大</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">腹內壓原理</div><div class="sb">與 Valsalva 協同作用 → 結合正確技術可降低下背受傷風險</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">繫法</div><div class="sb">貼身但不過緊（snugly）；機器動作有時需扣上安全帶</div></div>
+  </div>
+</div>
+
+<!-- s6: 保護補位 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">🤝 保護補位 Spotting</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">Spotter 角色</div><div class="sb">首要任務是安全；次要才是激勵與 forced rep 輔助</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Overhead 動作</div><div class="sb">槓鈴舉過頭（shoulder press）需 1+ spotters；站在後方輔助</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Over-the-Face 動作</div><div class="sb">Bench Press 等：spotter 抓握器材或運動員手腕；不可只抓手肘</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Dumbbell 補位</div><div class="sb">盡量靠近手腕（as close to the wrist）補位，不補肘</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">補位<br>Spotting</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Power 動作例外</div><div class="sb">爆發力動作（power clean/snatch）不補位；需教會如何「miss」</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">人數判斷</div><div class="sb">依重量、動作風險決定；大重量動作可能需 2+ spotters</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">溝通原則</div><div class="sb">開始前確認：動作名稱、次數、liftoff 時機；雙方責任</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Liftoff</div><div class="sb">協助將器材從架上移至起始位置；大重量需 2+ 人配合</div></div>
+  </div>
+</div>
+
+<!-- s7: 下肢動作 -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">🦵 下肢動作 Lower Body</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">Back Squat</div><div class="sb">槓置上背（trapezius）；膝對腳尖；neutral spine；需 spotters</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">Front Squat</div><div class="sb">槓置前三角肌；肘高、核心緊；需 spotters；比 back squat 更直立</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">Deadlift</div><div class="sb">hip hinge；neutral spine；腹內壓；不補位；alternated 或 hook grip</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">Romanian Deadlift</div><div class="sb">膝微彎，從髖部屈曲下降；強調 hamstring；槓不觸地</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">下肢動作<br>Lower Body</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">Stiff-Leg Deadlift</div><div class="sb">膝幾乎完全伸直；最大 hamstring 伸展；注意下背壓力</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">Lunge / Step-Up</div><div class="sb">Lunge 後腳膝不觸地；Step-Up 整個腳掌上台；軀幹直立</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">Hip Sled</div><div class="sb">Machine；腳踩踏板位置影響肌群；完整 ROM；1RM 考慮 Valsalva</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">Leg Curl / Extension</div><div class="sb">Machine；軸心對齊膝關節；full ROM；避免代償</div></div>
+  </div>
+</div>
+
+<!-- s8: 上肢推拉 -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">💪 上肢推拉 Upper Body</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">Flat Bench Press</div><div class="sb">五點接觸；closed pronated grip；spotter 用 double overhand；bar 降至胸口</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Incline Dumbbell Press</div><div class="sb">靠背板角度約 30–45°；對稱同步推；spotter 補近手腕</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Bent-Over Row</div><div class="sb">hip hinge；略高於平行；neutral spine；pronated grip（不用 alternated）</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Lat Pulldown</div><div class="sb">Machine；寬握 pronated；下拉至下巴；不需護腰帶</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">上肢推拉<br>Upper Body</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Shoulder Press</div><div class="sb">Seated；需 spotter；overhead → 風險高；槓從前或後均有</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Upright Row</div><div class="sb">肘高於手；pronated narrow grip；主訓三角肌與斜方肌</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Biceps Curl</div><div class="sb">站立或坐姿；supinated；不需護腰帶；sticking point 約中段向心</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Triceps Pushdown</div><div class="sb">Machine；肘固定側身；全伸展；neutral 或 pronated grip</div></div>
+  </div>
+</div>
+
+<!-- s9: 爆發力動作 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">⚡ 爆發力動作 Power Exercises</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">Power Clean</div><div class="sb">Clean grip（pronated，稍寬肩）；triple extension → catch in rack position；最常考</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Hang Power Clean</div><div class="sb">起始在膝上；省略初拉階段；適合初學者學習接槓動作</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Power Snatch</div><div class="sb">Snatch grip（寬）；全程頭頂接槓；需更高協調與靈活度</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Hang Power Snatch</div><div class="sb">起始在膝上；降低技術門檻；仍需全力加速</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">爆發力<br>Power</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Push Press</div><div class="sb">下蹲借力（dip-drive）推槓過頭；比 shoulder press 可用更大重量</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Push Jerk</div><div class="sb">推槓後雙腳跳開再接槓；比 push press 更大的重量；落腳後膝伸直</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">不補位原則</div><div class="sb">Power 動作速度快 → 補位反而危險；需教運動員如何安全放槓</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Triple Extension</div><div class="sb">踝、膝、髖三關節同時伸展；產生最大垂直力量傳遞至槓鈴</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
