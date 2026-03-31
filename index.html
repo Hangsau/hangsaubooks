@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>我的讀書庫</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --bg:#0a0a0c;
+  --bg2:#111116;
+  --bg3:#18181f;
+  --border:#2a2a35;
+  --border2:#3a3a48;
+  --text:#e8e8f0;
+  --muted:#666680;
+  --accent:#7c6af7;
+  --accent2:#3fc87c;
+  --accent3:#f0a030;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Serif TC',serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* 背景裝飾 */
+body::before{
+  content:'';
+  position:fixed;
+  top:-200px;right:-200px;
+  width:600px;height:600px;
+  background:radial-gradient(circle, rgba(124,106,247,0.06) 0%, transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+body::after{
+  content:'';
+  position:fixed;
+  bottom:-200px;left:-100px;
+  width:500px;height:500px;
+  background:radial-gradient(circle, rgba(63,200,124,0.04) 0%, transparent 70%);
+  pointer-events:none;
+  z-index:0;
+}
+
+.wrap{
+  max-width:900px;
+  margin:0 auto;
+  padding:60px 24px 80px;
+  position:relative;
+  z-index:1;
+}
+
+/* Header */
+header{
+  margin-bottom:64px;
+}
+.site-label{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:.25em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:16px;
+}
+h1{
+  font-size:clamp(36px,6vw,56px);
+  font-weight:900;
+  line-height:1.1;
+  letter-spacing:-.02em;
+}
+h1 em{
+  font-style:normal;
+  color:var(--accent);
+}
+.subtitle{
+  margin-top:12px;
+  font-size:14px;
+  color:var(--muted);
+  font-family:'Space Mono',monospace;
+  letter-spacing:.05em;
+}
+
+/* 統計列 */
+.stats{
+  display:flex;
+  gap:32px;
+  margin-bottom:48px;
+  padding:20px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+.stat-item{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.stat-num{
+  font-size:24px;
+  font-weight:900;
+  color:var(--accent);
+  font-family:'Space Mono',monospace;
+}
+.stat-label{
+  font-size:11px;
+  color:var(--muted);
+  font-family:'Space Mono',monospace;
+  letter-spacing:.1em;
+}
+
+/* Section 標題 */
+.section-label{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:.25em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.section-label::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+/* 書架格子 */
+.shelf{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:16px;
+  margin-bottom:48px;
+}
+
+.book-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:24px;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  transition:all .2s;
+  position:relative;
+  overflow:hidden;
+}
+.book-card::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:var(--card-color, var(--accent));
+  border-radius:14px 14px 0 0;
+}
+.book-card:hover{
+  border-color:var(--border2);
+  transform:translateY(-3px);
+  background:var(--bg3);
+}
+
+.book-cover{
+  width:100%;
+  aspect-ratio:3/2;
+  object-fit:cover;
+  border-radius:8px;
+  background:var(--bg3);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  border:1px solid var(--border);
+}
+.book-cover img{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.book-meta{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  flex:1;
+}
+.book-tag{
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:.15em;
+  color:var(--card-color, var(--accent));
+  text-transform:uppercase;
+}
+.book-title{
+  font-size:16px;
+  font-weight:700;
+  line-height:1.3;
+}
+.book-desc{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.book-footer{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.chapter-count{
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+}
+.arrow{
+  font-size:14px;
+  color:var(--card-color, var(--accent));
+  transition:transform .2s;
+}
+.book-card:hover .arrow{
+  transform:translateX(4px);
+}
+
+/* 新增佔位卡 */
+.add-card{
+  background:transparent;
+  border:1px dashed var(--border);
+  border-radius:14px;
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  min-height:200px;
+  color:var(--muted);
+  font-size:13px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:.05em;
+  transition:all .2s;
+}
+.add-card:hover{
+  border-color:var(--border2);
+  color:var(--text);
+}
+.add-icon{
+  font-size:28px;
+  opacity:.4;
+}
+
+/* Footer */
+footer{
+  margin-top:64px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  color:var(--muted);
+  letter-spacing:.1em;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* 進度條 */
+.progress-bar{
+  height:3px;
+  background:var(--border);
+  border-radius:2px;
+  margin-top:8px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  border-radius:2px;
+  background:var(--card-color, var(--accent));
+  transition:width .4s ease;
+}
+
+@media(max-width:480px){
+  .shelf{grid-template-columns:1fr;}
+  .stats{gap:20px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="site-label">Study Library · 讀書庫</div>
+    <h1>我的<em>讀書庫</em></h1>
+    <p class="subtitle">// 備考筆記 · 九宮格複習系統</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat-item">
+      <span class="stat-num" id="book-count">1</span>
+      <span class="stat-label">本書</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" id="chapter-count">0</span>
+      <span class="stat-label">章節</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">∞</span>
+      <span class="stat-label">持續更新中</span>
+    </div>
+  </div>
+
+  <div class="section-label">書架</div>
+
+  <div class="shelf">
+
+    <!-- ===== CSCS 書卡 ===== -->
+    <!-- 之後新增書就複製這個 book-card 區塊 -->
+    <a class="book-card" href="cscs/index.html" style="--card-color:#7c6af7">
+      <!-- 如果有封面圖，把下面的 emoji 換成：
+           <div class="book-cover"><img src="cscs/cover.jpg" alt="封面"></div>
+           如果沒有就保留 emoji -->
+      <div class="book-cover">📘</div>
+      <div class="book-meta">
+        <span class="book-tag">Strength & Conditioning</span>
+        <span class="book-title">CSCS 肌力與體能訓練</span>
+        <span class="book-desc">Essentials of Strength Training and Conditioning · 備考筆記</span>
+        <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
+      </div>
+      <div class="book-footer">
+        <span class="chapter-count">0 章節</span>
+        <span class="arrow">→</span>
+      </div>
+    </a>
+
+    <!-- 佔位：下一本書 -->
+    <div class="add-card">
+      <span class="add-icon">＋</span>
+      <span>下一本書<br>唸了再加</span>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>我的讀書庫 · 持續更新</span>
+    <span id="update-date"></span>
+  </footer>
+
+</div>
+
+<script>
+// 自動顯示更新日期
+const d = new Date();
+document.getElementById('update-date').textContent =
+  `Updated ${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+</script>
+</body>
+</html>
