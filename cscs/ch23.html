@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.23 · Facility Design, Layout, and Organization</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.23</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 23 <span>Facility Design, Layout &amp; Organization</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">🏗️</div>
+      <div class="ct">新設施四階段</div>
+      <div class="cs">Predesign · Design · Construction · Preoperation</div>
+      <div class="tag">流程</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">🔍</div>
+      <div class="ct">運動需求評估</div>
+      <div class="cs">人數·目標·年齡·排程·設備狀況</div>
+      <div class="tag">Needs Analysis</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">📐</div>
+      <div class="ct">設施設計要素</div>
+      <div class="cs">位置·天花板·地板·鏡子·入口</div>
+      <div class="tag">Design</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🌡️</div>
+      <div class="ct">環境因素</div>
+      <div class="cs">溫度·濕度·照明·通風·音響</div>
+      <div class="tag">Environment</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.23</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">Facility<br>Design</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">🗂️</div>
+      <div class="ct">設備配置區域</div>
+      <div class="cs">暖身·循環訓練·自由重量·有氧·舉重</div>
+      <div class="tag">Layout</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">📏</div>
+      <div class="ct">間距規格數字</div>
+      <div class="cs">36吋·24吋·100sqft·12-14ft 天花板</div>
+      <div class="tag">⭐ 考試重點</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">🧹</div>
+      <div class="ct">維護與清潔</div>
+      <div class="cs">地板·牆面·天花板·設備·頻率</div>
+      <div class="tag">Maintenance</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">⚡</div>
+      <div class="ct">電力·安全·其他</div>
+      <div class="cs">接地·GFI·ADA法規·儲藏室·電話</div>
+      <div class="tag">Safety</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- S1: 新設施四階段 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">🏗️ 新設施四階段</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">① Predesign 前設計</div><div class="sb">需求分析 + 可行性研究(SWOT) + 主計畫 + 聘建築師（競標）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">② Design 設計</div><div class="sb">確認委員會 → 與建築師製作藍圖 → 考慮設備規格與動線</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">③ Construction 施工</div><div class="sb">最長階段；定期對照 master plan；延誤可能導致訴訟</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">可行性研究 SWOT</div><div class="sb">S/W/O/T 分析；確認財務可行性、競爭分析、市場評估</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">新設施<br>四階段</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">④ Preoperation 前營運</div><div class="sb">完成裝潢；聘有 CSCS 認證人員；建立清潔排班；行政規劃</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">委員會組成</div><div class="sb">承包商、建築師、設計師、律師、使用者（含至少一位 S&C 專家）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Master Plan 主計畫</div><div class="sb">含建築計畫、設施設計、預算、短/長期營運目標、人員發展計畫</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">既有設施改造</div><div class="sb">步驟相似但少施工流程；可能不需建築師；仍需 SWOT 與委員會</div></div>
+  </div>
+</div>
+
+<!-- S2: 運動需求評估 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🔍 運動需求評估 6 大問題</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">① 使用人數</div><div class="sb">決定場地大小與排班；消防法規限制最大容納人數；建議每人最低 100 ft²（9.3 m²）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">② 訓練目標</div><div class="sb">教練哲學決定設備選擇；例：強調增強式訓練 → 需人工草皮區；舉重 → rack + platform 比 bench 更省空間</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">③ 運動員人口特性</div><div class="sb">年齡/性別/程度影響設備需求；年長者 → 器械多；大學團體 → 分區同時訓練</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">④ 訓練經驗</div><div class="sb">初學者較多徒手；進階者需自由重量；需評估季節性與年度需求變化</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">需求<br>評估</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">⑤ 排班方式</div><div class="sb">多組同時使用 → 分區設計；錯開到館時間；維持建議 staff : athlete 比例</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">⑥ 設備維修狀況</div><div class="sb">纜線磨損 → 立即停用；破損設備修復或販售；附件升級（如 cable column 加 attachment）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">最低空間標準</div><div class="sb">每位運動員最少 100 ft²（9.3 m²）；空間不足對訓練環境影響 &gt; 缺少特殊設備</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">既有設備評估</div><div class="sb">無破洞/裂痕/缺件；纜線磨損立即下架；定期清潔、及時維修或出售換新</div></div>
+  </div>
+</div>
+
+<!-- S3: 設施設計要素 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">📐 設施設計要素</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">位置 Location</div><div class="sb">優先選一樓；避免干擾辦公室/教室；非一樓需確認地板承重 ≥ 100 lb/ft²（488 kg/m²）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">督導站位置</div><div class="sb">位於中央、視線可及全場；可搭配鏡子；建議高於地板以利俯瞰</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">無障礙入口</div><div class="sb">高差 &gt;0.5吋需坡道（12:1 比例）或機械升降；設雙門方便大型設備進出</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">天花板高度</div><div class="sb">建議 12–14 ft（3.66–4.27 m）；需容納跳躍、Olympic lifting 等動作</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">設施<br>設計</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">地板類型</div><div class="sb">橡膠地板（捲/磚/灌）最常見；室內草皮適合增強式/敏捷；舉重平台中央木材+外側橡膠</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">鏡子規格</div><div class="sb">距地面 ≥ 20 吋（51 cm）；距設備 ≥ 6 吋（15 cm）；標準槓片 18 吋 → 預留 2 吋保護空間</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">其他配備</div><div class="sb">飲水機（遠離訓練區）；更衣室/淋浴；ADA 合規電話；防撞護欄；儲藏室</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">動線規劃</div><div class="sb">矮器材置中央方便視線；高器材靠牆（避免窗/鏡）；主要走道 ≥ 36 吋</div></div>
+  </div>
+</div>
+
+<!-- S4: 環境因素 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🌡️ 環境因素</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">照明 Lighting</div><div class="sb">人工 + 自然光並用；50–100 流明（依天花板高度與自然光量）；窗戶讓空間感更開放</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">溫度 Temperature</div><div class="sb">適合範圍：68–78°F（20–25°C）；最佳：72–78°F（22–25°C）；HVAC 可分區控制最佳</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">相對濕度</div><div class="sb">不超過 60%；防止細菌與微生物生長；避免感染傳播</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">通風換氣</div><div class="sb">空氣每小時換 8–12 次；每 1,200 ft² 建議 2–4 台風扇；防止悶熱與異味</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">環境<br>因素</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">音響系統</div><div class="sb">音量 &lt;90 分貝（確保聽到指令）；喇叭抬高置角落；朝向房間中央投射聲音</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">噪音隔離</div><div class="sb">瑜珈/舞蹈教室用吸音材料；橡膠地板可降低跳躍/落重衝擊音</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">鏡子採光效果</div><div class="sb">鏡子反射窗戶光線，補足自然光不足的角落；兼具視覺美化效果</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">HVAC 系統</div><div class="sb">暖氣+冷氣+新鮮空氣交換系統三合一；搭配天花板/箱型風扇輔助循環</div></div>
+  </div>
+</div>
+
+<!-- S6: 設備配置區域 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">🗂️ 設備配置區域</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">暖身伸展區</div><div class="sb">開放空間 ≥49 ft²（4.6 m²）；泡棉滾筒、彈力帶、PVC管、跳繩、軟球；可鋪墊子</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">循環訓練區</div><div class="sb">器械排列成易切換迴路；分組方式：上/下肢、推/拉、各部位；考慮受傷運動員動線</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">自由重量區</div><div class="sb">啞鈴架+架子沿牆排列；確保走道空間；壺鈴區需較大空間（動態動作）</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">舉重區</div><div class="sb">rack + platform；平台間距 3–4 ft（0.9–1.2 m）；rack 需螺栓固定地板；無平台則需橡膠地板+混凝土基礎</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">設備<br>配置</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">有氧區</div><div class="sb">腳踏車/階梯機/橢圓機/跑步機/划船機分組；靠牆（電源）或地板/柱子有插座</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">有氧設備空間需求</div><div class="sb">腳踏車 24 ft² · 階梯機 24 ft² · 划船機 40 ft² · 跑步機 45 ft² · 滑雪機 6 ft²</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">器械排列原則</div><div class="sb">機器可排房間中央形成兩側走道；高機器螺栓固定地板/柱/牆；電器設備遠離走道</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">整體動線</div><div class="sb">主走道 ≥36 吋（91 cm）；矮設備置中易監看；分區可讓多組同時訓練不干擾</div></div>
+  </div>
+</div>
+
+<!-- S7: 間距規格數字（考試重點） -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">📏 間距規格數字 ⭐ 考試高頻</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">每人最低空間</div><div class="sb">100 ft²（9.3 m²）/ 人</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">天花板高度</div><div class="sb">建議 12–14 ft（3.66–4.27 m）；最低 12 ft（NSCA checklist）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">鏡子離地高度</div><div class="sb">最低 20 吋（51 cm）離地；距設備 ≥6 吋（15 cm）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">啞鈴/槓鈴間距</div><div class="sb">槓端間 ≥36 吋（91 cm）；器械間最低 24 吋（61 cm），建議 36 吋</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">⭐<br>數字<br>總整理</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">走道寬度</div><div class="sb">主走道 ≥36 吋（91 cm）；循環訓練走道 4–7 ft（1.2–2.1 m）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">舉重平台間距</div><div class="sb">平台間 3–4 ft（0.9–1.2 m）；Olympic lifting 區需 (8+4)×(8+4)=144 ft²</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">坡道比例</div><div class="sb">每 1 吋高差需 12 吋長度；高差 &gt;0.5 吋即需坡道或升降設施（ADA）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">承重/濕度/溫度</div><div class="sb">地板承重 ≥100 lb/ft²；濕度 ≤60%；溫度 68–78°F；最佳 72–78°F</div></div>
+  </div>
+</div>
+
+<!-- S8: 維護與清潔 -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">🧹 維護與清潔</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">清潔頻率原則</div><div class="sb">使用越頻繁的設備清潔頻率越高；護墊/乙烯基材質每日或隔日；清潔劑需可防 HIV 和肝炎傳播</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">地板維護</div><div class="sb">非吸收地板定期拖地；木製平台查裂縫；螺栓定期鎖緊；地毯需吸塵防黴菌</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">牆面與天花板</div><div class="sb">每1–2週清潔一次；無積塵；清除蜘蛛網；裂掉的鏡子立即更換；用微纖布+玻璃清潔劑</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">設備維護</div><div class="sb">纜線/滑輪定期檢查；故障設備貼「停用」標示或移入儲藏室；積垢影響功能與衛生</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">維護<br>清潔</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">清潔排班建議</div><div class="sb">每日：地板/軟墊/飲水機/設備接觸面/鏡子；每週2–3次：有氧機/selectorized machine guide rod；每週：天花板燈具除塵</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">NSCA Safety Checklist</div><div class="sb">涵蓋地板/牆/天花板/各設備區；需作為制定清潔排班的參考依據</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">清潔工具儲放</div><div class="sb">清潔材料應上鎖儲存；工具放工具箱收好；定期盤點補充清潔與維修耗材</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">成本效益</div><div class="sb">定期清潔 &lt; 更換護墊/地板；預防性維護保護設施投資；維持環境美觀也是重點</div></div>
+  </div>
+</div>
+
+<!-- S9: 電力·安全·其他 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">⚡ 電力、安全與其他規範</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">電力需求</div><div class="sb">需比一般建築更多插座；階梯機/跑步機等需較高電壓；需妥善接地防雷擊/突波</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Ground-Fault Circuit</div><div class="sb">漏電斷路器（GFI）保護運動員；電路短路時自動斷電；所有設備區均應設置</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">ADA 無障礙規範</div><div class="sb">輪椅可及電話（置於入口/辦公室外）；緊急時可供輪椅使用者呼救</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">防撞護欄 Bumper Rails</div><div class="sb">保護鏡子/石膏牆；防止人或物品撞擊；瑜珈/舞蹈室也常見，兼具扶手功能</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">電力<br>安全</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">儲藏室</div><div class="sb">存放備用設備/清潔用品/工具/待修設備；大型設施需更大儲藏空間；最多空間通常被閒置設備佔用</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">NCAA 認證要求</div><div class="sb">NCAA 現強制規定 S&C 人員需持有 CSCS 認證；聘僱時需確認最低資格要求</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">飲水機位置</div><div class="sb">遠離訓練區、不影響動線；通常置於入口旁或廁所/置物櫃旁；每日清潔消毒</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">更衣室/淋浴</div><div class="sb">至少有一處淋浴；促進衛生習慣防止感染傳播；可提升運動員使用意願</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
