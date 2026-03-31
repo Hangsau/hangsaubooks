@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS · 章節目錄</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700;900&family=Space+Mono:wght@400;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a0c;--bg2:#111116;--bg3:#18181f;
+  --border:#2a2a35;--border2:#3a3a48;
+  --text:#e8e8f0;--muted:#666680;
+  --accent:#7c6af7;
+}
+body{background:var(--bg);color:var(--text);font-family:'Noto Serif TC',serif;min-height:100vh;}
+body::before{content:'';position:fixed;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(124,106,247,0.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
+
+.wrap{max-width:860px;margin:0 auto;padding:48px 24px 80px;position:relative;z-index:1;}
+
+.breadcrumb{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:32px;display:flex;align-items:center;gap:8px;}
+.breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s;}
+.breadcrumb a:hover{color:var(--text);}
+.breadcrumb span{opacity:.4;}
+
+.book-header{display:flex;gap:24px;align-items:flex-start;margin-bottom:40px;}
+.book-icon{font-size:40px;flex-shrink:0;width:68px;height:68px;display:flex;align-items:center;justify-content:center;background:var(--bg2);border:1px solid var(--border);border-radius:12px;}
+.book-info{flex:1;}
+.book-tag{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:8px;}
+.book-title{font-size:clamp(20px,4vw,28px);font-weight:900;line-height:1.2;margin-bottom:6px;}
+.book-sub{font-size:12px;color:var(--muted);font-family:'Space Mono',monospace;}
+
+.stats{display:flex;gap:24px;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:36px;}
+.stat{display:flex;flex-direction:column;gap:3px;}
+.stat-num{font-size:20px;font-weight:900;color:var(--accent);font-family:'Space Mono',monospace;}
+.stat-label{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:.1em;}
+
+.section-label{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--muted);text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Part 分隔 */
+.part-header{margin:32px 0 12px;padding:10px 16px;background:var(--bg2);border-left:3px solid var(--accent);border-radius:0 8px 8px 0;}
+.part-label{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:2px;}
+.part-title{font-size:13px;font-weight:700;color:var(--text);}
+
+/* 章節卡片 */
+.chapter-list{display:flex;flex-direction:column;gap:6px;}
+
+.ch-card{display:flex;align-items:center;gap:16px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:14px 18px;text-decoration:none;color:inherit;transition:all .15s;cursor:pointer;}
+.ch-card:hover{border-color:var(--accent);background:var(--bg3);transform:translateX(4px);}
+.ch-card.done{border-left:3px solid #3fc87c;}
+.ch-card.done .ch-num{color:#3fc87c;}
+.ch-card.wip{border-left:3px solid var(--accent);}
+.ch-card.wip .ch-num{color:var(--accent);}
+.ch-card.locked{opacity:.45;cursor:default;}
+.ch-card.locked:hover{transform:none;border-color:var(--border);background:var(--bg2);}
+
+.ch-num{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);min-width:28px;font-weight:700;}
+.ch-info{flex:1;}
+.ch-title{font-size:13px;font-weight:700;line-height:1.4;margin-bottom:3px;}
+.ch-sub{font-size:11px;color:var(--muted);line-height:1.5;}
+.ch-badge{font-family:'Space Mono',monospace;font-size:9px;padding:3px 8px;border-radius:20px;flex-shrink:0;}
+.badge-done{background:rgba(63,200,124,.12);color:#3fc87c;}
+.badge-wip{background:rgba(124,106,247,.12);color:var(--accent);}
+.badge-lock{background:rgba(102,102,128,.1);color:var(--muted);}
+
+footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--border);font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);display:flex;justify-content:space-between;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="breadcrumb">
+    <a href="../index.html">我的讀書庫</a>
+    <span>/</span>
+    <span>CSCS</span>
+  </div>
+
+  <div class="book-header">
+    <div class="book-icon">📘</div>
+    <div class="book-info">
+      <div class="book-tag">Strength &amp; Conditioning</div>
+      <div class="book-title">CSCS 肌力與體能訓練</div>
+      <div class="book-sub">Essentials of Strength Training and Conditioning · 4th Ed.</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><span class="stat-num">24</span><span class="stat-label">章節</span></div>
+    <div class="stat"><span class="stat-num" id="done-count">0</span><span class="stat-label">已完成</span></div>
+    <div class="stat"><span class="stat-num" id="pct">0%</span><span class="stat-label">進度</span></div>
+  </div>
+
+  <div class="section-label">章節目錄</div>
+
+  <div class="chapter-list">
+
+    <!-- Part 1 -->
+    <div class="part-header">
+      <div class="part-label">Part I</div>
+      <div class="part-title">Exercise Sciences 運動科學基礎</div>
+    </div>
+
+    <a class="ch-card locked" href="ch01.html">
+      <span class="ch-num">01</span>
+      <div class="ch-info">
+        <div class="ch-title">Structure and Function of Body Systems</div>
+        <div class="ch-sub">Musculoskeletal · Neuromuscular · Cardiovascular · Respiratory</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch02.html">
+      <span class="ch-num">02</span>
+      <div class="ch-info">
+        <div class="ch-title">Biomechanics of Resistance Exercise</div>
+        <div class="ch-sub">Skeletal Musculature · Joint Biomechanics · Human Strength and Power</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch03.html">
+      <span class="ch-num">03</span>
+      <div class="ch-info">
+        <div class="ch-title">Bioenergetics of Exercise and Training</div>
+        <div class="ch-sub">Biological Energy Systems · Substrate Depletion · Metabolic Specificity</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch04.html">
+      <span class="ch-num">04</span>
+      <div class="ch-info">
+        <div class="ch-title">Endocrine Responses to Resistance Exercise</div>
+        <div class="ch-sub">Hormones · Anabolic Hormones · Adrenal Hormones</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch05.html">
+      <span class="ch-num">05</span>
+      <div class="ch-info">
+        <div class="ch-title">Adaptations to Anaerobic Training Programs</div>
+        <div class="ch-sub">Neural · Muscular · Connective Tissue · Overtraining · Detraining</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch06.html">
+      <span class="ch-num">06</span>
+      <div class="ch-info">
+        <div class="ch-title">Adaptations to Aerobic Endurance Training Programs</div>
+        <div class="ch-sub">Acute Responses · Chronic Adaptations · Overtraining</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch07.html">
+      <span class="ch-num">07</span>
+      <div class="ch-info">
+        <div class="ch-title">Age- and Sex-Related Differences</div>
+        <div class="ch-sub">Children · Female Athletes · Older Adults</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <!-- Part 2 -->
+    <div class="part-header">
+      <div class="part-label">Part II</div>
+      <div class="part-title">Nutrition and Pharmacology 營養與藥理</div>
+    </div>
+
+    <a class="ch-card locked" href="ch08.html">
+      <span class="ch-num">08</span>
+      <div class="ch-info">
+        <div class="ch-title">Psychology of Athletic Preparation and Performance</div>
+        <div class="ch-sub">Arousal · Anxiety · Motivation · Attention · Focus</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch09.html">
+      <span class="ch-num">09</span>
+      <div class="ch-info">
+        <div class="ch-title">Basic Nutrition Factors in Health</div>
+        <div class="ch-sub">Macronutrients · Vitamins · Minerals · Fluid and Electrolytes</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch10.html">
+      <span class="ch-num">10</span>
+      <div class="ch-info">
+        <div class="ch-title">Nutrition Strategies for Maximizing Performance</div>
+        <div class="ch-sub">Pre/During/Post Competition · Body Composition · Eating Disorders</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch11.html">
+      <span class="ch-num">11</span>
+      <div class="ch-info">
+        <div class="ch-title">Performance-Enhancing Substances and Methods</div>
+        <div class="ch-sub">Hormones · Dietary Supplements · PES Types</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <!-- Part 3 -->
+    <div class="part-header">
+      <div class="part-label">Part III</div>
+      <div class="part-title">Testing and Evaluation 測試與評估</div>
+    </div>
+
+    <a class="ch-card locked" href="ch12.html">
+      <span class="ch-num">12</span>
+      <div class="ch-info">
+        <div class="ch-title">Principles of Test Selection and Administration</div>
+        <div class="ch-sub">Testing Terminology · Test Quality · Test Selection</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch13.html">
+      <span class="ch-num">13</span>
+      <div class="ch-info">
+        <div class="ch-title">Administration, Scoring, and Interpretation of Selected Tests</div>
+        <div class="ch-sub">Athletic Performance · Statistical Evaluation</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <!-- Part 4 -->
+    <div class="part-header">
+      <div class="part-label">Part IV</div>
+      <div class="part-title">Exercise Techniques 運動技術</div>
+    </div>
+
+    <a class="ch-card locked" href="ch14.html">
+      <span class="ch-num">14</span>
+      <div class="ch-info">
+        <div class="ch-title">Warm-Up and Flexibility Training</div>
+        <div class="ch-sub">Warm-Up · Flexibility · Types of Stretching</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch15.html">
+      <span class="ch-num">15</span>
+      <div class="ch-info">
+        <div class="ch-title">Exercise Technique for Free Weight and Machine Training</div>
+        <div class="ch-sub">Fundamentals · Spotting Free Weight Exercises</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch16.html">
+      <span class="ch-num">16</span>
+      <div class="ch-info">
+        <div class="ch-title">Exercise Technique for Alternative Modes and Nontraditional Implements</div>
+        <div class="ch-sub">Bodyweight · Core Stability · Variable-Resistance · Unilateral</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <!-- Part 5 -->
+    <div class="part-header">
+      <div class="part-label">Part V</div>
+      <div class="part-title">Program Design 訓練計畫設計</div>
+    </div>
+
+    <a class="ch-card locked" href="ch17.html">
+      <span class="ch-num">17</span>
+      <div class="ch-info">
+        <div class="ch-title">Program Design for Resistance Training</div>
+        <div class="ch-sub">Needs Analysis · Exercise Selection · Load · Volume · Rest</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch18.html">
+      <span class="ch-num">18</span>
+      <div class="ch-info">
+        <div class="ch-title">Program Design and Technique for Plyometric Training</div>
+        <div class="ch-sub">Mechanics · Program Design · Age Considerations · Safety</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch19.html">
+      <span class="ch-num">19</span>
+      <div class="ch-info">
+        <div class="ch-title">Program Design and Technique for Speed and Agility Training</div>
+        <div class="ch-sub">Speed Mechanics · Neurophysiology · Agility · Change of Direction</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch20.html">
+      <span class="ch-num">20</span>
+      <div class="ch-info">
+        <div class="ch-title">Program Design and Technique for Aerobic Endurance Training</div>
+        <div class="ch-sub">Aerobic Performance Factors · Training Types · Season Application</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch21.html">
+      <span class="ch-num">21</span>
+      <div class="ch-info">
+        <div class="ch-title">Periodization</div>
+        <div class="ch-sub">Periodization Hierarchy · Linear vs Undulating · Annual Plan</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch22.html">
+      <span class="ch-num">22</span>
+      <div class="ch-info">
+        <div class="ch-title">Rehabilitation and Reconditioning</div>
+        <div class="ch-sub">Types of Injury · Tissue Healing · Program Design · Reinjury Risk</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <!-- Part 6 -->
+    <div class="part-header">
+      <div class="part-label">Part VI</div>
+      <div class="part-title">Facility and Administration 場館管理</div>
+    </div>
+
+    <a class="ch-card locked" href="ch23.html">
+      <span class="ch-num">23</span>
+      <div class="ch-info">
+        <div class="ch-title">Facility Design, Layout, and Organization</div>
+        <div class="ch-sub">Facility Design · Equipment Arrangement · Maintenance</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+    <a class="ch-card locked" href="ch24.html">
+      <span class="ch-num">24</span>
+      <div class="ch-info">
+        <div class="ch-title">Facility Policies, Procedures, and Legal Issues</div>
+        <div class="ch-sub">Legal &amp; Ethical Issues · Emergency Planning · Staff Policies</div>
+      </div>
+      <span class="ch-badge badge-lock">未開始</span>
+    </a>
+
+  </div>
+
+  <footer>
+    <span>CSCS · 24 Chapters</span>
+    <span id="update-date"></span>
+  </footer>
+</div>
+
+<script>
+// 計算完成數
+const done = document.querySelectorAll('.ch-card.done').length;
+const wip = document.querySelectorAll('.ch-card.wip').length;
+document.getElementById('done-count').textContent = done;
+document.getElementById('pct').textContent = Math.round((done/24)*100) + '%';
+
+// 日期
+const d = new Date();
+document.getElementById('update-date').textContent =
+  `Updated ${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`;
+</script>
+</body>
+</html>
