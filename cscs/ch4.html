@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.4 · 內分泌對阻力訓練的反應</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;500;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:'Noto Sans TC',system-ui,sans-serif;
+  padding:20px;
+  background:#080810;
+  color:#e8e8f4;
+  min-height:100vh;
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(100,60,200,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(40,120,200,0.06) 0%, transparent 60%);
+}
+
+/* 頂部 */
+.top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.breadcrumb{font-size:11px;color:#404060;display:flex;align-items:center;gap:6px;font-family:'Space Mono',monospace;}
+.breadcrumb .cur{color:#8b7cf8;}
+.chapter-badge{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  color:#8b7cf8;
+  background:rgba(139,124,248,0.12);
+  border:1px solid rgba(139,124,248,0.25);
+  padding:4px 10px;
+  border-radius:20px;
+  letter-spacing:.1em;
+}
+
+h1{
+  font-family:'Space Mono',monospace;
+  font-size:9px;
+  letter-spacing:.25em;
+  color:#404060;
+  text-transform:uppercase;
+  margin-bottom:5px;
+}
+.page-title{
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:22px;
+  line-height:1.3;
+}
+.page-title em{
+  font-style:normal;
+  color:#8b7cf8;
+  background:linear-gradient(135deg,#8b7cf8,#5bc4f7);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+/* 主九宮格 */
+.mandala{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:5px;
+}
+.cell{
+  background:linear-gradient(145deg,#0f0f1a,#131320);
+  border:1px solid #1e1e30;
+  border-radius:12px;
+  padding:14px;
+  cursor:pointer;
+  transition:all .2s cubic-bezier(.34,1.56,.64,1);
+  min-height:120px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  position:relative;
+  overflow:hidden;
+}
+.cell::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+  border-radius:12px 12px 0 0;
+}
+.cell:hover{
+  transform:translateY(-3px) scale(1.02);
+  border-color:rgba(139,124,248,0.4);
+  box-shadow:0 8px 30px rgba(0,0,0,0.4), 0 0 20px rgba(139,124,248,0.08);
+  z-index:2;
+}
+.cell.center{
+  cursor:default;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:linear-gradient(145deg,#100e1f,#0d0c1e);
+  border-color:#2a2040;
+  transform:none!important;
+}
+.cell.center::before{display:none;}
+
+.ci{font-size:20px;line-height:1;}
+.ct{font-size:12px;font-weight:700;line-height:1.3;}
+.cs{font-size:10px;color:#505070;line-height:1.6;flex:1;}
+.tag{
+  font-size:9px;
+  padding:2px 7px;
+  border-radius:4px;
+  align-self:flex-start;
+  font-family:'Space Mono',monospace;
+  letter-spacing:.05em;
+}
+
+/* 顏色 */
+.c1::before{background:#8b7cf8;} .c1 .ct{color:#8b7cf8;} .c1 .tag{background:rgba(139,124,248,.15);color:#8b7cf8;}
+.c2::before{background:#3fcf8e;} .c2 .ct{color:#3fcf8e;} .c2 .tag{background:rgba(63,207,142,.15);color:#3fcf8e;}
+.c3::before{background:#f0a030;} .c3 .ct{color:#f0a030;} .c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4::before{background:#f25c7a;} .c4 .ct{color:#f25c7a;} .c4 .tag{background:rgba(242,92,122,.15);color:#f25c7a;}
+.c5::before{background:#3b9dd4;} .c5 .ct{color:#3b9dd4;} .c5 .tag{background:rgba(59,157,212,.15);color:#3b9dd4;}
+.c6::before{background:#d46ed4;} .c6 .ct{color:#d46ed4;} .c6 .tag{background:rgba(212,110,212,.15);color:#d46ed4;}
+.c7::before{background:#4ecdc4;} .c7 .ct{color:#4ecdc4;} .c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8::before{background:#f7c948;} .c8 .ct{color:#f7c948;} .c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 中心格 */
+.center-inner{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.center-ch{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  color:#404060;
+  letter-spacing:.15em;
+}
+.center-title{
+  font-size:13px;
+  font-weight:700;
+  background:linear-gradient(135deg,#8b7cf8,#5bc4f7);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+  line-height:1.4;
+  text-align:center;
+}
+.center-sub{font-size:9px;color:#404060;text-align:center;line-height:1.5;}
+.center-badge{
+  font-size:9px;
+  background:rgba(139,124,248,0.15);
+  border:1px solid rgba(139,124,248,0.2);
+  color:#8b7cf8;
+  padding:3px 9px;
+  border-radius:20px;
+  font-family:'Space Mono',monospace;
+}
+
+/* 子九宮格 */
+.sub-area{display:none;}
+.sub-area.show{display:block;}
+
+.sub-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+.back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+  color:#505070;
+  cursor:pointer;
+  padding:5px 12px;
+  border:1px solid #1e1e30;
+  border-radius:8px;
+  background:#0f0f1a;
+  transition:all .15s;
+  font-family:'Space Mono',monospace;
+}
+.back-btn:hover{color:#e8e8f4;border-color:#404060;}
+.sub-title{font-size:15px;font-weight:700;}
+
+.sub-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:4px;
+}
+.sc{
+  background:#0a0a14;
+  border:1px solid #1a1a28;
+  border-radius:8px;
+  padding:12px;
+  min-height:90px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  transition:border-color .15s;
+}
+.sc:hover{border-color:#2a2a40;}
+.sc.scc{
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:linear-gradient(145deg,#0f0e20,#0d0c1e);
+}
+.st{font-size:11px;font-weight:700;line-height:1.4;}
+.sb{font-size:9.5px;color:#505070;line-height:1.6;flex:1;}
+.exam-tag{
+  font-size:8px;
+  padding:1px 5px;
+  border-radius:3px;
+  align-self:flex-start;
+  font-family:'Space Mono',monospace;
+  margin-top:2px;
+}
+
+.hint{
+  font-size:10px;
+  color:#2a2a40;
+  text-align:center;
+  margin-top:10px;
+  font-family:'Space Mono',monospace;
+  letter-spacing:.05em;
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <nav class="breadcrumb">
+    <span>CSCS</span>
+    <span>/</span>
+    <span>Essentials of S&C</span>
+    <span>/</span>
+    <span class="cur">Ch.4</span>
+  </nav>
+  <div class="chapter-badge">CSCS EXAM · HIGH PRIORITY</div>
+</div>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<div class="page-title">Chapter 4 <em>內分泌對阻力訓練的反應</em></div>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">🧪</div>
+      <div class="ct">荷爾蒙基礎概念</div>
+      <div class="cs">合成·儲存·分泌·結合蛋白·受器·鎖鑰理論</div>
+      <div class="tag">Endocrinology</div>
+    </div>
+
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">💪</div>
+      <div class="ct">睾固酮 Testosterone</div>
+      <div class="cs">合成代謝·雄激素受器·男女差異·訓練變項</div>
+      <div class="tag">Anabolic ★★★</div>
+    </div>
+
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">🌱</div>
+      <div class="ct">生長激素 GH</div>
+      <div class="cs">22kDa·超家族·分子量變體·乳酸刺激·分泌模式</div>
+      <div class="tag">GH Superfamily ★★★</div>
+    </div>
+
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🔗</div>
+      <div class="ct">類胰島素生長因子 IGF</div>
+      <div class="cs">IGF-I·IGF-II·結合蛋白·mechano growth factor</div>
+      <div class="tag">IGF Axis ★★</div>
+    </div>
+
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div class="center-inner">
+        <div class="center-ch">CH.4</div>
+        <div class="center-title">Endocrine<br>Responses</div>
+        <div class="center-sub">內分泌對<br>阻力訓練的反應</div>
+        <div class="center-badge">8 主題 · 點擊展開</div>
+      </div>
+    </div>
+
+    <div class="cell c5" onclick="showSub('s5')">
+      <div class="ci">⚖️</div>
+      <div class="ct">皮質醇 Cortisol</div>
+      <div class="cs">分解代謝·糖皮質素·T/C比值·訓練量影響</div>
+      <div class="tag">Catabolic ★★★</div>
+    </div>
+
+    <div class="cell c6" onclick="showSub('s6')">
+      <div class="ci">⚡</div>
+      <div class="ct">兒茶酚胺 Catecholamines</div>
+      <div class="cs">腎上腺素·正腎上腺素·多巴胺·戰鬥或逃跑</div>
+      <div class="tag">Fight-or-Flight ★★</div>
+    </div>
+
+    <div class="cell c7" onclick="showSub('s7')">
+      <div class="ci">🔑</div>
+      <div class="ct">受器機制與調節</div>
+      <div class="cs">上調·下調·結合親和力·類固醇vs胜肽荷爾蒙</div>
+      <div class="tag">Receptor ★★</div>
+    </div>
+
+    <div class="cell c8" onclick="showSub('s8')">
+      <div class="ci">🎯</div>
+      <div class="ct">訓練處方操控策略</div>
+      <div class="cs">急性變項選擇·最大化合成·預防過度訓練</div>
+      <div class="tag">Program Design ★★★</div>
+    </div>
+
+  </div>
+  <p class="hint">↑ CLICK TO EXPAND SUBTOPICS</p>
+</div>
+
+<!-- S1: 荷爾蒙基礎概念 -->
+<div class="sub-area" id="s1">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#8b7cf8">🧪 荷爾蒙基礎概念</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">荷爾蒙定義</div>
+      <div class="sb">化學訊號分子；由內分泌腺合成、儲存、分泌入血液；作用於含有特異性受器的目標組織</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">三大類別</div>
+      <div class="sb">① 類固醇（脂溶性，擴散進細胞）② 胜肽/多肽（水溶性，作用於膜受器）③ 胺類（酪氨酸或色氨酸衍生）</div>
+      <div class="exam-tag" style="background:rgba(139,124,248,.15);color:#8b7cf8;">考題常考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">分泌途徑</div>
+      <div class="sb">內分泌（入血）· 旁分泌（鄰近細胞）· 自分泌（作用自身）· 胞內分泌（細胞內）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">結合蛋白</div>
+      <div class="sb">血液中攜帶荷爾蒙；延長半衰期；防止降解；多數荷爾蒙必須「游離」才有活性（free hormone hypothesis）</div>
+    </div>
+    <div class="sc scc" style="border-color:#8b7cf8;">
+      <div class="st" style="color:#8b7cf8;font-size:13px;">荷爾蒙<br>基礎概念</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">鎖鑰理論</div>
+      <div class="sb">受器=鎖；荷爾蒙=鑰匙；每種荷爾蒙對應特異受器；但現知互動比鎖鑰更複雜（交叉反應、異位結合）</div>
+      <div class="exam-tag" style="background:rgba(139,124,248,.15);color:#8b7cf8;">考題常考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">類固醇作用機制</div>
+      <div class="sb">擴散穿過細胞膜 → 與細胞質受器結合 → H-RC 移入細胞核 → 與 DNA 結合 → 轉錄 mRNA → 蛋白質合成</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">胜肽作用機制</div>
+      <div class="sb">與膜受器結合 → 活化二級訊使（cAMP、JAK/STAT 等）→ 訊號傳導至細胞核或代謝途徑</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#8b7cf8">一般適應症候群</div>
+      <div class="sb">Selye 提出；壓力 → 警戒反應（功能下降）→ 抵抗期（適應，功能超越基準）→ 週期化理論基礎</div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: 睾固酮 -->
+<div class="sub-area" id="s2">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#3fcf8e">💪 睾固酮 Testosterone</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">來源與功能</div>
+      <div class="sb">男：睾丸為主；女：卵巢＋腎上腺；促進蛋白質合成·抑制蛋白質分解·合成代謝最重要荷爾蒙</div>
+      <div class="exam-tag" style="background:rgba(63,207,142,.15);color:#3fcf8e;">必考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">游離睾固酮</div>
+      <div class="sb">僅佔總量 0.5~2%；重阻訓可急性增加游離睾固酮；年齡↑ → 游離睾固酮反應↓；較老年男性生理潛能較小</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">SHBG</div>
+      <div class="sb">性荷爾蒙結合球蛋白；攜帶睾固酮；可自身與膜受器結合啟動 cAMP 途徑；並非單純載體</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">男性反應</div>
+      <div class="sb">大肌群運動後血中睾固酮顯著↑；早晨濃度最高；需多組、大重量、足夠肌肉量才能觀察到增加</div>
+      <div class="exam-tag" style="background:rgba(63,207,142,.15);color:#3fcf8e;">考題常考</div>
+    </div>
+    <div class="sc scc" style="border-color:#3fcf8e;">
+      <div class="st" style="color:#3fcf8e;font-size:13px;">Testosterone<br>睾固酮</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">女性反應</div>
+      <div class="sb">濃度為男性 1/15~1/20；多數研究無顯著急性↑；但雄激素受器上調更快（約1小時）；對少量睾固酮高度敏感</div>
+      <div class="exam-tag" style="background:rgba(63,207,142,.15);color:#3fcf8e;">考題常考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">升高睾固酮的訓練條件</div>
+      <div class="sb">① 大肌群動作（深蹲、硬舉、爆發上舉）② 重負荷 85~95% 1RM ③ 多組數/多動作 ④ 中等休息（30~60秒）</div>
+      <div class="exam-tag" style="background:rgba(63,207,142,.15);color:#3fcf8e;">必考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">神經系統影響</div>
+      <div class="sb">睾固酮與神經元受器結合 → 增加神經傳導物質 → 改變結構蛋白 → 提升神經肌肉力量潛力</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fcf8e">訓練適應</div>
+      <div class="sb">長期訓練可小幅增加靜息睾固酮（Häkkinen 研究：2年訓練後菁英舉重選手靜息T上升）；LH/FSH 同步上升</div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: GH -->
+<div class="sub-area" id="s3">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#f0a030">🌱 生長激素 Growth Hormone</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#f0a030">22 kDa 單體</div>
+      <div class="sb">191 胺基酸多肽；由前腦垂體 somatotroph 產生；最常被測量的形式（RIA/ELISA）；但非唯一形式</div>
+      <div class="exam-tag" style="background:rgba(240,160,48,.15);color:#f0a030;">基礎知識</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">GH 超家族</div>
+      <div class="sb">含多種 splice variants 及聚合體（aggregates）；生物活性 GH 濃度遠高於 22kDa 單體；超家族才是真正作用主體</div>
+      <div class="exam-tag" style="background:rgba(240,160,48,.15);color:#f0a030;">新知</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">主要生理功能</div>
+      <div class="sb">↑蛋白合成·↑胺基酸轉運·↑脂肪利用(脂解)·↓葡萄糖利用·↓糖原合成·↑膠原蛋白合成·促軟骨生長</div>
+      <div class="exam-tag" style="background:rgba(240,160,48,.15);color:#f0a030;">必考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">刺激 GH 分泌的訓練條件</div>
+      <div class="sb">高乳酸 + 低 pH 是主要刺激；10RM（重）+ 短休息（1分鐘）+ 多組數 = 最大 GH 反應；長休息（&gt;3分）GH 反應↓</div>
+      <div class="exam-tag" style="background:rgba(240,160,48,.15);color:#f0a030;">必考</div>
+    </div>
+    <div class="sc scc" style="border-color:#f0a030;">
+      <div class="st" style="color:#f0a030;font-size:13px;">Growth<br>Hormone</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">女性 GH</div>
+      <div class="sb">女性 22kDa GH 靜息濃度高於男性（分泌頻率與振幅更高）；月經週期各期反應不同；生物活性GH隨訓練增加靜息值</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">分泌模式</div>
+      <div class="sb">脈衝式分泌（pulsatile）；夜間睡眠時 22kDa 最高；運動可增加脈衝振幅與次數；生物活性 GH 無明顯日夜節律</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">訓練適應</div>
+      <div class="sb">訓練後對同等絕對強度的 22kDa GH 反應↓（效率提升）；生物活性GH靜息值可能↑；長期適應仍在研究中</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">調節機制</div>
+      <div class="sb">下視丘 GhRH（+）→ 促進 GH；生長激素抑制素 Somatostatin（−）→ 抑制 GH；複雜神經內分泌回饋迴路</div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: IGF -->
+<div class="sub-area" id="s4">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#f25c7a">🔗 類胰島素生長因子 IGF</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">IGF-I 基本</div>
+      <div class="sb">70 胺基酸多肽；主要由肝臟在 GH 刺激後產生；促進蛋白質合成的核心角色；也存在肌肉局部合成</div>
+      <div class="exam-tag" style="background:rgba(242,92,122,.15);color:#f25c7a;">重點</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">IGF 結合蛋白</div>
+      <div class="sb">至少 6 種（IGFBP-1 ~ IGFBP-6）；IGFBP-1 和 IGFBP-3 研究最多；調節 IGF 的受器可及性；各有獨立生物活性</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">Mechano Growth Factor</div>
+      <div class="sb">機械刺激（過負荷、伸展）→ 肌肉細胞大量合成 IGF-I；以自分泌方式作用；可能是肌肉 IGF 最重要作用途徑</div>
+      <div class="exam-tag" style="background:rgba(242,92,122,.15);color:#f25c7a;">新知重點</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">IGF 運動反應</div>
+      <div class="sb">初始濃度低 → 運動後 IGF↑；初始濃度高 → 變化不明顯；需 8~24h 才從肝臟產生；急性增加可能來自細胞破壞</div>
+      <div class="exam-tag" style="background:rgba(242,92,122,.15);color:#f25c7a;">考題常考</div>
+    </div>
+    <div class="sc scc" style="border-color:#f25c7a;">
+      <div class="st" style="color:#f25c7a;font-size:13px;">IGF<br>Axis</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">營養的重要性</div>
+      <div class="sb">IGF-I 對急性熱量攝入極敏感；訓練前後補充蛋白質+碳水化合物可顯著提升 IGF-I（Kraemer 研究圖 4.7）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">局部 vs 循環 IGF</div>
+      <div class="sb">循環中 IGF-I 增加不一定反映肌肉局部 IGF 信號；間質液（ISF）中的 IGF 可能更直接影響肌肉；不同生物隔室</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">女性 IGF 適應</div>
+      <div class="sb">阻力訓練可增加女性總 IGF-I；降低 IGFBP-1 → 更多 IGF 可與受器結合；顯示運動模式特異性適應</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f25c7a">調控因子</div>
+      <div class="sb">GH 為主要刺激；甲狀腺素和睾固酮也參與；營養狀態（正氮平衡、蛋白質攝入）是關鍵調節變項</div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: Cortisol -->
+<div class="sub-area" id="s5">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#3b9dd4">⚖️ 皮質醇 Cortisol</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">來源與分類</div>
+      <div class="sb">腎上腺皮質分泌的糖皮質素（glucocorticoid）；由 ACTH（前腦垂體）刺激分泌；人體主要糖皮質素</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">分解代謝作用</div>
+      <div class="sb">① 胺基酸→碳水化合物（糖質新生）② ↑蛋白水解酶 ③ ↓蛋白質合成 ④ 抑制糖原合成 ⑤ 抑制免疫細胞功能</div>
+      <div class="exam-tag" style="background:rgba(59,157,212,.15);color:#3b9dd4;">必考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">日夜節律</div>
+      <div class="sb">早晨濃度最高，全天下降；測量時必須記錄採血時間點；比較研究需控制日夜節律變數</div>
+      <div class="exam-tag" style="background:rgba(59,157,212,.15);color:#3b9dd4;">注意事項</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">急性 vs 慢性</div>
+      <div class="sb">急性↑：協助去除受損蛋白質，是肌肉重塑過程的一部分；慢性高濃度：負面，導致肌肉萎縮、力量↓</div>
+      <div class="exam-tag" style="background:rgba(59,157,212,.15);color:#3b9dd4;">考題常考</div>
+    </div>
+    <div class="sc scc" style="border-color:#3b9dd4;">
+      <div class="st" style="color:#3b9dd4;font-size:13px;">Cortisol<br>皮質醇</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">T/C 比值</div>
+      <div class="sb">睾固酮/皮質醇比值：評估合成/分解代謝狀態的指標；概念上有吸引力；但預測力有限；皮質醇&gt;800 nmol/L 可能代表過度訓練</div>
+      <div class="exam-tag" style="background:rgba(59,157,212,.15);color:#3b9dd4;">考題常考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">升高皮質醇的訓練條件</div>
+      <div class="sb">大訓練量 + 大肌群 + 短休息 → 皮質醇↑；與 GH 升高的訓練條件相似（高代謝壓力）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">肌纖維差異</div>
+      <div class="sb">對 Type II 纖維分解代謝效果更強（蛋白質含量更多）；Type I 纖維主要靠減少降解來達到肥大</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b9dd4">免疫系統影響</div>
+      <div class="sb">使免疫細胞（B/T cells）失活；運動後免疫抑制的部分原因；影響骨骼肌的恢復與重塑；B 細胞受器有預期性反應</div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: 兒茶酚胺 -->
+<div class="sub-area" id="s6">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#d46ed4">⚡ 兒茶酚胺 Catecholamines</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">來源</div>
+      <div class="sb">腎上腺髓質（medulla）直接由神經刺激分泌；腎上腺素（Epinephrine）為主 + 正腎上腺素 + 多巴胺</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">生理功能</div>
+      <div class="sb">↑力量輸出（中樞）·↑肌肉收縮速率·↑血壓·↑能量可用性·↑肌肉血流（血管擴張）·促進其他合成荷爾蒙分泌</div>
+      <div class="exam-tag" style="background:rgba(212,110,212,.15);color:#d46ed4;">必考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">腎上腺素與乳酸</div>
+      <div class="sb">腎上腺素濃度與乳酸相關；高強度短休息訓練後 NE/E/DA 維持升高 5 分鐘進入恢復期</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">力量維持</div>
+      <div class="sb">賽前/訓練前更高兒茶酚胺釋放 → 整個訓練過程中更能維持力量輸出（研究證據）</div>
+    </div>
+    <div class="sc scc" style="border-color:#d46ed4;">
+      <div class="st" style="color:#d46ed4;font-size:13px;">Catecholamines<br>兒茶酚胺</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">腎上腺素枯竭</div>
+      <div class="sb">訓練不變化 → 持續應激 → 腎上腺髓質持續參與 → 最終導致腎上腺素能耗竭（adrenergic exhaustion）</div>
+      <div class="exam-tag" style="background:rgba(212,110,212,.15);color:#d46ed4;">重要警示</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">Proenkephalins</div>
+      <div class="sb">腎上腺髓質也分泌 Peptide F 等前腦啡肽片段；增強免疫細胞功能；對運動後恢復至關重要</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">訓練適應</div>
+      <div class="sb">長期重訓 → 最大運動時腎上腺素分泌能力↑；對單次訓練的腎上腺素反應可能↓（效率提升）；最早啟動的內分泌機制之一</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46ed4">胺類特性</div>
+      <div class="sb">由酪氨酸（tyrosine）合成；與胜肽荷爾蒙類似與膜受器結合作用；但不像胜肽荷爾蒙受到直接負回饋調節</div>
+    </div>
+  </div>
+</div>
+
+<!-- S7: 受器機制 -->
+<div class="sub-area" id="s7">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#4ecdc4">🔑 受器機制與調節</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">上調 Upregulation</div>
+      <div class="sb">受器數量↑ 或 結合敏感性↑；1~2 次重訓即可增加雄激素受器數量；使現有睾固酮可被更充分利用</div>
+      <div class="exam-tag" style="background:rgba(78,205,196,.15);color:#4ecdc4;">必考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">下調 Downregulation</div>
+      <div class="sb">過度刺激（如胰島素抵抗）或已達肌肉最大尺寸 → 受器反應性↓；荷爾蒙無法有效與受器結合 → 細胞代謝無改變</div>
+      <div class="exam-tag" style="background:rgba(78,205,196,.15);color:#4ecdc4;">必考</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">雄激素受器</div>
+      <div class="sb">睾固酮的受器；訓練影響最大數量（非結合敏感性）；女性受器上調速度更快（約1小時）；可能有膜受器存在</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">受器 vs 血中濃度</div>
+      <div class="sb">血中荷爾蒙濃度 ≠ 細胞效果；重要的是受器狀態；低量訓練（1~2RM）可能不改變血中T但增加受器數量</div>
+      <div class="exam-tag" style="background:rgba(78,205,196,.15);color:#4ecdc4;">概念陷阱</div>
+    </div>
+    <div class="sc scc" style="border-color:#4ecdc4;">
+      <div class="st" style="color:#4ecdc4;font-size:13px;">Receptor<br>Mechanisms</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">神經活化影響</div>
+      <div class="sb">神經活化肌纖維 → 增加肌肉受器結合親和力；訓練水平影響神經-內分泌整合方式；不同訓練程度者整合不同</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">SHBG 作用</div>
+      <div class="sb">性荷爾蒙結合球蛋白可與膜受器結合 → 啟動 cAMP 途徑；結合蛋白本身具有生物活性；不只是運送工具</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">mTOR 途徑</div>
+      <div class="sb">皮質醇可阻斷 Akt/mTOR 信號通路（mRNA 翻譯起始）；睾固酮反效果；兩者競爭對 DNA 元件的結合</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">訓練前營養</div>
+      <div class="sb">訓練前攝取蛋白質+碳水化合物可上調骨骼肌雄激素受器含量；進一步強化睾固酮利用效率</div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: 訓練處方 -->
+<div class="sub-area" id="s8">
+  <div class="sub-header">
+    <span class="back-btn" onclick="goBack()">← 返回</span>
+    <div class="sub-title" style="color:#f7c948">🎯 訓練處方操控策略</div>
+  </div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#f7c948">最大化睾固酮</div>
+      <div class="sb">① 大肌群動作（深蹲/硬舉/爆發上舉）② 85~95% 1RM ③ 多組數 or 多動作（高容量）④ 短休息 30~60秒</div>
+      <div class="exam-tag" style="background:rgba(247,201,72,.15);color:#f7c948;">必考配方</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">最大化 GH（22kDa）</div>
+      <div class="sb">① 高強度（10RM）+ 三組 ② 短休息（1分鐘）③ 訓練前後補充蛋白質+碳水化合物；關鍵：產生高乳酸+低pH</div>
+      <div class="exam-tag" style="background:rgba(247,201,72,.15);color:#f7c948;">必考配方</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">優化腎上腺反應</div>
+      <div class="sb">大訓練量+大肌群+短休息 → 腎上腺應激；但必須週期化：長休息/低量/完全休息日 → 預防腎上腺枯竭</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">週期化原則</div>
+      <div class="sb">訓練必須變化（週期化）才能讓腎上腺恢復；避免慢性高皮質醇；防止非功能性超量訓練（overreaching）</div>
+      <div class="exam-tag" style="background:rgba(247,201,72,.15);color:#f7c948;">重要原則</div>
+    </div>
+    <div class="sc scc" style="border-color:#f7c948;">
+      <div class="st" style="color:#f7c948;font-size:13px;">Program<br>Design</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">急性變項的重要性</div>
+      <div class="sb">強度·組數·動作順序·休息時間·動作選擇 → 決定荷爾蒙反應模式；不同組合產生不同合成/分解代謝環境</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">募集原則</div>
+      <div class="sb">只有被活化的肌纖維才接受荷爾蒙適應；募集越多運動單位 → 全肌肉重塑範圍越大；大小原則決定荷爾蒙系統參與程度</div>
+      <div class="exam-tag" style="background:rgba(247,201,72,.15);color:#f7c948;">基本原則</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">過度訓練警示</div>
+      <div class="sb">皮質醇持續&gt;800 nmol/L → 過度訓練警示；T/C比↓；負向蛋白代謝平衡；免疫抑制；肌肉萎縮</div>
+      <div class="exam-tag" style="background:rgba(247,201,72,.15);color:#f7c948;">臨床指標</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">營養時機</div>
+      <div class="sb">訓練前後補充蛋白質+碳水化合物可：① 提升 IGF-I ② 上調雄激素受器 ③ 優化合成代謝環境</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  window.scrollTo(0,0);
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
