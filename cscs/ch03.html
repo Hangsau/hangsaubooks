@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.3 · 運動生物能量學</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="#">讀書庫</a>
+  <span>/</span>
+  <a href="#">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.3</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 3 <span>運動與訓練的生物能量學</span></h2>
+
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">⚡</div>
+      <div class="ct">磷酸原系統</div>
+      <div class="cs">ATP · CP · 肌酸激酶 · 腺苷酸激酶 · 質量作用定律</div>
+      <div class="tag">無氧</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">🔄</div>
+      <div class="ct">糖解作用</div>
+      <div class="cs">快速/慢速糖解 · 丙酮酸 · 乳酸 · 淨ATP產量</div>
+      <div class="tag">無氧/有氧</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">🌬️</div>
+      <div class="ct">氧化系統</div>
+      <div class="cs">Krebs Cycle · ETC · 脂肪β氧化 · 蛋白質氧化</div>
+      <div class="tag">有氧</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🧪</div>
+      <div class="ct">乳酸與代謝酸中毒</div>
+      <div class="cs">LT · OBLA · H⁺堆積 · Cori Cycle · 乳酸清除</div>
+      <div class="tag">高頻考點</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.3</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">生物<br>能量學</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">📊</div>
+      <div class="ct">能量產生與容量</div>
+      <div class="cs">強度×持續時間 · 三系統比較 · 速率 vs 容量</div>
+      <div class="tag">概念核心</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">🔋</div>
+      <div class="ct">基質耗竭與補充</div>
+      <div class="cs">磷酸原回補 · 肝醣耗竭 · 碳水攝取時機</div>
+      <div class="tag">恢復策略</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">🏃</div>
+      <div class="ct">攝氧量與EPOC</div>
+      <div class="cs">氧虧 · EPOC影響因素 · 有氧/無氧貢獻比例</div>
+      <div class="tag">生理監測</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">🎯</div>
+      <div class="ct">訓練代謝專一性</div>
+      <div class="cs">間歇訓練 · HIIT · 組合訓練 · 功休比</div>
+      <div class="tag">訓練設計</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- S1: 磷酸原系統 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">⚡ 磷酸原系統</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">ATP水解</div><div class="sb">ATP+H₂O → ADP+Pi+H⁺+能量；由ATPase催化；肌肉儲量僅80-100g</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">肌酸激酶反應</div><div class="sb">ADP+CP → ATP+肌酸；快速提供能量，但CP有限，不能長時間供能</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">腺苷酸激酶反應</div><div class="sb">2ADP → ATP+AMP；AMP為強力糖解促進劑，啟動糖解加速能量產生</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">CP儲量</div><div class="sb">靜息時CP為ATP的4-6倍；Type II纖維CP濃度 > Type I；爆發性運動更有效</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">磷酸原<br>系統</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">質量作用定律</div><div class="sb">反應物/產物濃度驅動反應方向；ADP↑ → 肌酸激酶加速；ATP↑ → 反應減緩</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">適用活動</div><div class="sb">0-10秒極高強度；阻力訓練、衝刺；所有運動初始皆高度活化</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">ATP耗竭上限</div><div class="sb">肌肉ATP最多下降50-60%（維持基本細胞功能需求）；CP可近乎完全耗竭</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">能量速率</div><div class="sb">三系統中ATP生成速率最快（速率排名#1）；但總容量最小（容量排名#5）</div></div>
+  </div>
+</div>
+
+<!-- S2: 糖解作用 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🔄 糖解作用</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">定義</div><div class="sb">碳水化合物（肌糖原或血糖）分解再合成ATP；發生在肌漿（sarcoplasm）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">快速糖解</div><div class="sb">丙酮酸→乳酸；快速再生NAD⁺；H⁺增加→pH下降；無氧條件；短時間</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">慢速糖解</div><div class="sb">丙酮酸→粒線體→Krebs cycle；有氧條件；速率慢但持續時間長</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">淨ATP產量</div><div class="sb">血糖起始：淨2 ATP；肌糖原起始：淨3 ATP（不需hexokinase消耗ATP）</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">糖解<br>作用</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">關鍵酶調控</div><div class="sb">PFK（限速步驟）：ATP抑制、AMP活化；Hexokinase：G-6-P抑制；Pyruvate kinase：ATP抑制</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">磷酸化方式</div><div class="sb">基質磷酸化（substrate-level）：4 ATP gross；氧化磷酸化（oxidative）：via ETC</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">糖解促進因子</div><div class="sb">ADP↑、Pi↑、AMP↑、NH₃↑、pH輕微下降→糖解加速；pH顯著下降→抑制糖解</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">糖解終產物</div><div class="sb">→乳酸（無氧/能量需求高）or 丙酮酸進粒線體（有氧/能量需求低）；由細胞能量狀態決定</div></div>
+  </div>
+</div>
+
+<!-- S3: 氧化系統 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">🌬️ 氧化系統</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">Krebs Cycle</div><div class="sb">丙酮酸→乙醯CoA（pyruvate dehydrogenase）→進入TCA；每葡萄糖產2 ATP（GTP）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">電子傳遞鏈ETC</div><div class="sb">NADH→3 ATP；FADH₂→2 ATP；O₂為最終電子受體→形成H₂O；氧化磷酸化</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">葡萄糖總ATP產量</div><div class="sb">血糖：38 ATP；肌糖原：39 ATP；氧化磷酸化佔>90%的ATP合成</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">脂肪氧化</div><div class="sb">三酸甘油酯→游離脂肪酸→β氧化→乙醯CoA→Krebs；1分子棕櫚酸(16C)可產>100 ATP</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">氧化<br>系統</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">蛋白質氧化</div><div class="sb">胺基酸→葡萄糖/丙酮酸/Krebs中間物；貢獻3-18%（長時間運動）；BCAA為主要氧化胺基酸</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">基質偏好</div><div class="sb">靜息：70%脂肪+30%碳水；高強度：近100%碳水；長時間次極量：逐漸轉向脂肪</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Krebs限速步驟</div><div class="sb">isocitrate→α-ketoglutarate（isocitrate dehydrogenase）；ADP活化、ATP抑制</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">容量最大</div><div class="sb">ATP生成速率最慢（#5）但總容量最大（#1）；適合低強度長時間運動（>3分鐘）</div></div>
+  </div>
+</div>
+
+<!-- S4: 乳酸與代謝酸中毒 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🧪 乳酸與代謝酸中毒</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">乳酸非疲勞原因</div><div class="sb">乳酸≠疲勞成因；乳酸脫氫酶反應本身消耗H⁺（鹼化）；實為能量基質</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">真正酸化來源</div><div class="sb">ATP水解（ATP→ADP+Pi+H⁺）才是H⁺主要來源；非乳酸堆積；乳酸酸中毒為誤稱</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">代謝酸中毒效應</div><div class="sb">抑制糖解酶、干擾興奮-收縮耦合（鈣離子與肌鈣蛋白結合受阻）、抑制橫橋循環</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">乳酸閾值LT</div><div class="sb">血乳酸開始急劇上升的運動強度；未訓練者50-60% VO₂max；訓練者70-80%</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">乳酸<br>代謝</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">OBLA</div><div class="sb">血乳酸達4 mmol/L的第二個轉折點；對應大運動單位（Type II）大量徵召</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">乳酸清除</div><div class="sb">停止運動後約5分鐘達峰值；1小時內回基線；主動恢復優於被動；有訓練者清除更快</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Cori Cycle</div><div class="sb">乳酸→血液→肝臟→糖質新生（glucose）；長時間運動與恢復期的重要機制</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">訓練對LT影響</div><div class="sb">LT/OBLA右移（更高強度才開始堆積）；粒線體增加、兒茶酚胺分泌減少</div></div>
+  </div>
+</div>
+
+<!-- S6: 能量產生與容量 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">📊 能量產生與容量</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">速率vs容量反比</div><div class="sb">能量系統速率越高，總容量越低；磷酸原最快但量最少；脂肪氧化最慢但量最多</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">0-6秒活動</div><div class="sb">極高強度；主要系統：磷酸原；例：鉛球、舉重抓舉</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">6-30秒活動</div><div class="sb">非常高強度；磷酸原＋快速糖解；例：100m衝刺</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">30秒-2分鐘</div><div class="sb">高強度；快速糖解為主；例：400m跑、200m游泳</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">能量<br>產生</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">2-3分鐘活動</div><div class="sb">中強度；快速糖解＋氧化系統；例：1500m跑</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">>3分鐘活動</div><div class="sb">低強度；以氧化系統為主；例：馬拉松、長跑</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">速率排名</div><div class="sb">1磷酸原 2快速糖解 3慢速糖解 4碳水氧化 5脂肪/蛋白氧化</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">三系統同時作用</div><div class="sb">任何時刻三系統皆同時活化；由強度（主）和持續時間（次）決定各系統貢獻比例</div></div>
+  </div>
+</div>
+
+<!-- S7: 基質耗竭與補充 -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">🔋 基質耗竭與補充</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">CP耗竭速率</div><div class="sb">高強度運動5-30秒可下降50-70%；極度衰竭可近乎耗盡；有氧運動耗竭較慢</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">磷酸原回補時間</div><div class="sb">ATP完全回補：3-5分鐘；CP完全回補：約8分鐘；主要靠有氧代謝完成</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">肌糖原儲量</div><div class="sb">全身肌肉300-400g；肝臟70-100g；可受訓練與飲食影響</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">糖原耗竭與強度</div><div class="sb">>60% VO₂max肌糖原為關鍵能源；阻力訓練可使肌糖原下降20-60%（少數組數即可）</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">基質<br>管理</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">肌糖原回補策略</div><div class="sb">運動後每2小時攝取0.7-3.0 g/kg碳水；前4-6小時最快回補；24小時可完全回補</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">血糖維持</div><div class="sb"><50% VO₂max血糖相對穩定；>90分鐘後可能下降；<2.5 mmol/L可能低血糖反應</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">訓練對磷酸原影響</div><div class="sb">有氧訓練可提升靜息磷酸原濃度；阻力訓練5週後triceps brachii磷酸原濃度增加</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">兒童vs成人CP</div><div class="sb">兒童氧化能力更強→CP耗竭較少、回補較快、運動後pH較高；更依賴有氧代謝</div></div>
+  </div>
+</div>
+
+<!-- S8: 攝氧量與EPOC -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">🏃 攝氧量與EPOC</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">氧虧 Oxygen Deficit</div><div class="sb">運動初期有氧系統反應慢→需無氧補充的能量量；強度越高氧虧越大</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">穩態 Steady State</div><div class="sb">低強度持續運動數分鐘後，攝氧量等於需氧量；高強度運動無法達到穩態</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">EPOC定義</div><div class="sb">運動後超過靜息水準的額外攝氧量；用於使身體恢復至運動前狀態</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">EPOC影響因素</div><div class="sb">強度>持續時間；>50-60% VO₂max且>40分鐘時EPOC最大；超極量間歇可最大化EPOC</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">攝氧量<br>EPOC</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">EPOC生理機制</div><div class="sb">血液/肌肉O₂補充、ATP/CP再合成、體溫↑、三酸甘油酯-脂肪酸循環、蛋白質更新</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">無氧vs有氧貢獻</div><div class="sb">0-5秒：96%無氧；30秒：75%無氧；60秒：50/50；90秒：35%無氧；逐漸轉向有氧</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">阻力訓練EPOC</div><div class="sb">大重量（80-90%1RM，3組）EPOC > 循環訓練（50%1RM）；阻力訓練也具強度依賴性</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">高強度EPOC特性</div><div class="sb">超過VO₂max的高強度運動：整個運動期間持續存在氧虧；無法達穩態</div></div>
+  </div>
+</div>
+
+<!-- S9: 訓練代謝專一性 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">🎯 訓練代謝專一性</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">代謝專一性原則</div><div class="sb">運動強度與休息間隔可「選擇」特定能量系統；訓練設計需符合運動代謝需求</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">間歇訓練原理</div><div class="sb">預設功休比允許更高強度完成更多訓練量；同強度下比連續訓練疲勞更少</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">功休比指引</div><div class="sb">90-100%max：1:12-1:20（磷酸原）；75-90%：1:3-1:5（快速糖解）；>3min：1:1-1:3（氧化）</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">HIIT定義與效益</div><div class="sb">短暫高強度+間歇恢復；改善VO₂max、緩衝能力、糖原含量、無氧閾值；時間效率高</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">代謝<br>專一訓練</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">HIIT 9大變數</div><div class="sb">工作強度/持續時間、恢復強度/持續時間、每組重複次數、組數、組間休息、恢復強度、訓練模式</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">HIIT最佳化</div><div class="sb">累積時間於>90% VO₂max；同時徵召大運動單位＋近最大心輸出量→氧化纖維+心肌適應</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">組合訓練風險</div><div class="sb">有氧訓練可能降低無氧能力；同時訓練可能抑制最大肌力增益（第7週後停滯甚至下降）</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">組合訓練注意</div><div class="sb">無氧訓練本身可提升有氧功率與恢復；大量有氧耐力訓練對無氧運動員可能適得其反</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  window.scrollTo(0,0);
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
