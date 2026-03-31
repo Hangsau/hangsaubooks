@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.12 · 測驗選擇與施測原則</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.12</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 12 <span>測驗選擇與施測原則</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">🎯</div>
+      <div class="ct">測驗目的</div>
+      <div class="cs">才能評估·能力識別·目標設定·進度追蹤</div>
+      <div class="tag">Why Test</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">📖</div>
+      <div class="ct">測驗術語</div>
+      <div class="cs">test·field test·measurement·evaluation·pretest·midtest·posttest</div>
+      <div class="tag">Terminology</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">✅</div>
+      <div class="ct">效度 Validity</div>
+      <div class="cs">construct·face·content·criterion-referenced</div>
+      <div class="tag">Test Quality</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🔁</div>
+      <div class="ct">信度 Reliability</div>
+      <div class="cs">intrasubject·interrater·intrarater·test-retest·TE</div>
+      <div class="tag">Test Quality</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.12</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">Test Selection<br>& Admin</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">⚙️</div>
+      <div class="ct">測驗選擇因素</div>
+      <div class="cs">能量系統·動作模式·經驗·年齡性別·環境</div>
+      <div class="tag">Selection</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">🏥</div>
+      <div class="ct">健康安全</div>
+      <div class="cs">醫療轉介·熱傷害·心臟問題·低血鈉症·症狀辨識</div>
+      <div class="tag">Safety</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">👨‍🏫</div>
+      <div class="ct">施測者訓練</div>
+      <div class="cs">選擇·訓練·記錄表單·測驗格式·準備運動員</div>
+      <div class="tag">Administration</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">📋</div>
+      <div class="ct">測驗順序</div>
+      <div class="cs">非疲勞→敏捷→最大肌力→衝刺→肌耐力→無氧→有氧</div>
+      <div class="tag">Sequence</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- s1 測驗目的 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">🎯 測驗目的</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">才能評估</div><div class="sb">判斷候選人是否具備參加特定競技水準的身體潛能</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">識別弱點</div><div class="sb">找出哪些身體素質可透過訓練計畫改善</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">目標設定</div><div class="sb">以基準測驗結果設定具體、可達成的個人目標</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">進度追蹤</div><div class="sb">定期測驗確認訓練計畫是否有效達成目標</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">測驗目的<br>Why Test</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">團隊目標</div><div class="sb">個別運動員目標加總有助達成團隊整體目標</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Field Test</div><div class="sb">在實驗室外執行、不需昂貴設備的能力評估工具</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Formative Eval</div><div class="sb">訓練期間定期再評估，讓計畫保持新鮮、避免停滯</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Baseline</div><div class="sb">測驗前基準值，用來比較訓練後進步幅度</div></div>
+  </div>
+</div>
+
+<!-- s2 測驗術語 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">📖 測驗術語</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">Test 測驗</div><div class="sb">評估特定能力的程序</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Measurement 測量</div><div class="sb">收集測驗數據的過程</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Evaluation 評估</div><div class="sb">分析測驗結果以做決策（如調整訓練計畫）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Pretest 前測</div><div class="sb">訓練開始前，確定初始能力水準，用以設計訓練計畫</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">測驗術語<br>Terminology</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Midtest 中測</div><div class="sb">訓練期間評估進度並視需要修改計畫</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Posttest 後測</div><div class="sb">訓練結束後評估計畫成功與否</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Formative Eval</div><div class="sb">依中測定期重新評估，監控進度並個別化調整</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">Field Test</div><div class="sb">在實驗室外執行、不需廣泛訓練或昂貴設備</div></div>
+  </div>
+</div>
+
+<!-- s3 效度 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">✅ 效度 Validity</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">Construct Validity</div><div class="sb">測驗整體上確實測量其設計要測的構念（最核心）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Face Validity</div><div class="sb">在運動員眼中「看起來」有意義；非正式、非量化評估</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Content Validity</div><div class="sb">專家確認測驗涵蓋所有相關子能力且比例適當</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Concurrent Validity</div><div class="sb">與其他已被接受的同類測驗分數高度相關</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">效度<br>Validity</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Convergent Validity</div><div class="sb">與黃金標準高度正相關；Field test 應具備此效度</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Predictive Validity</div><div class="sb">測驗分數能預測未來運動表現（如用測驗預測賽季成績）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">Discriminant Validity</div><div class="sb">與不同構念測驗低相關，避免重複浪費資源</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">有效性條件</div><div class="sb">可重複、一次測一人、難度適中、能區辨能力高低</div></div>
+  </div>
+</div>
+
+<!-- s4 信度 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🔁 信度 Reliability</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">Reliability 定義</div><div class="sb">測驗一致性/重複性；有信度才有效度，反之不然</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Test-Retest</div><div class="sb">同組施測兩次，用相關係數估計信度；分數差異＝測量誤差</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Typical Error (TE)</div><div class="sb">包含設備誤差與生物變異；可量化測量不穩定性</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Intrasubject Var.</div><div class="sb">受試者自身表現不一致（技術不熟、狀態起伏）</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">信度<br>Reliability</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Interrater Rel.</div><div class="sb">不同評分者之間一致性；同一受試應由同一人前後測</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Intrarater Var.</div><div class="sb">同一評分者不一致（前測嚴、後測鬆）；需標準化程序</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">影響信度因素</div><div class="sb">校準設備、激勵方式、技術熟練度、程序標準化</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">信度 vs 效度</div><div class="sb">有信度不代表有效度；60m衝刺信度高但非有氧測驗</div></div>
+  </div>
+</div>
+
+<!-- s6 測驗選擇因素 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">⚙️ 測驗選擇因素</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">能量系統特異性</div><div class="sb">磷酸原／醣解／氧化系統；測驗須模擬該運動的能量需求</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">動作模式特異性</div><div class="sb">測驗動作越接近運動動作越好；垂直跳適合籃球≠曲棍球</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">經驗與訓練狀態</div><div class="sb">技術型測驗僅適合熟練者；新手技術不穩影響結果</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">年齡因素</div><div class="sb">1.5哩跑適合大學生但不適合青春期前；應考量成熟度</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">測驗<br>選擇</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">性別因素</div><div class="sb">引體向上適合男性摔角手，女性上肢拉力較差需改良版</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">溫度/濕度</div><div class="sb">≥80°F尤其濕度>50%會損害耐力表現；需調整或室內測</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">海拔高度</div><div class="sb">>1900ft影響有氧；每升3000ft VO₂max約降5%；需10天適應</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">位置特異性</div><div class="sb">美足線衛需臥推+10碼衝刺；外接手需30-100碼衝刺</div></div>
+  </div>
+</div>
+
+<!-- s7 健康安全 -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">🏥 健康安全</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">醫療轉介症狀</div><div class="sb">胸痛、頭暈、混亂、不規則脈搏、噁心、意識喪失→立即就醫</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">熱傷害風險</div><div class="sb">高溫+高濕度下大量運動；需輕便透氣衣物＋自由飲水</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">熱衰竭/熱中暑</div><div class="sb">抽筋、頭暈、步態不穩、皮膚潮紅或蒼白、起雞皮疙瘩</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">低血鈉症</div><div class="sb">過度補水導致血鈉降低；極度稀釋尿液+意識改變→禁止再補液</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">健康安全<br>Safety</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">心臟風險</div><div class="sb">1RM或最大跑步測驗可能引發潛在心臟問題；需事前醫療篩查</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">熱環境補水</div><div class="sb">測前24小時充足水分；運動中補充；&lt;1hr用水、>1hr補電解質</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">溫度上限圖</div><div class="sb">濕度0%→95°F；21-50%→85°F；51-90%→80°F；91-100%→75°F</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">熱適應</div><div class="sb">涼爽地區來的運動員需至少1週熱適應再進行高強度測驗</div></div>
+  </div>
+</div>
+
+<!-- s8 施測者訓練 -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">👨‍🏫 施測者訓練與施測格式</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">施測者選拔</div><div class="sb">需完全了解所有程序；練習到分數與有經驗者高度相關</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">一致性原則</div><div class="sb">不同組別應由同一人測同一項目；避免激勵程度差異</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">記錄表單</div><div class="sb">測前設計好表單：記錄結果、環境條件、器材設定細節</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">準備運動員</div><div class="sb">提前公告日期、目的、流程；1-3天前辦熟悉練習課</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">施測<br>Administration</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">熱身</div><div class="sb">一般熱身→專項熱身；2-3次活動特定暖身試做→正式計分</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">指導說明</div><div class="sb">清楚說明目的、動作、暖身、試做次數、計分標準</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">休息時間</div><div class="sb">接近最大強度組間≥3min；非最大≥2min；測驗電池間≥5min</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">緩和運動</div><div class="sb">劇烈測驗後進行監督緩和；不可立即坐下或躺下</div></div>
+  </div>
+</div>
+
+<!-- s9 測驗順序 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">📋 測驗順序</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">原則</div><div class="sb">前一項測驗不能影響後一項表現；確保每項最佳發揮</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">①非疲勞測驗</div><div class="sb">身高、體重、柔軟度、皮下脂肪、圍度、垂直跳</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">②敏捷測驗</div><div class="sb">T-test、Pro agility test；需高技術、疲勞影響大</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">③最大肌力/爆發力</div><div class="sb">1RM Power Clean、1RM Squat；磷酸原系統需3-5min恢復</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">測驗<br>順序</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">④衝刺測驗</div><div class="sb">40m衝刺含10m/20m分段計時</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">⑤局部肌耐力</div><div class="sb">伏地挺身測驗；醣解系統需≥1hr完全恢復</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">⑥無氧容量</div><div class="sb">300碼折返跑；高度疲勞→建議另日施測或排最後</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">⑦有氧容量</div><div class="sb">1.5哩跑或Yo-Yo間歇恢復測驗；必須排最後或另日</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
