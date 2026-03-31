@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.11 · 增強表現物質與方法</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.11</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 11 <span>增強表現物質與方法</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+
+    <!-- 格子1：合成代謝類固醇 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">💉</div>
+      <div class="ct">合成代謝類固醇</div>
+      <div class="cs">Anabolic Steroids · 劑量 · 堆疊 · 副作用</div>
+      <div class="tag">禁藥 / 激素類</div>
+    </div>
+
+    <!-- 格子2：前驅激素 & HCG -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">⚗️</div>
+      <div class="ct">前驅激素 & HCG</div>
+      <div class="cs">Prohormones · DHEA · 雄烯二酮 · HCG</div>
+      <div class="tag">禁藥 / 激素前驅</div>
+    </div>
+
+    <!-- 格子3：胰島素 & 生長激素 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">🧬</div>
+      <div class="ct">胰島素 & 生長激素</div>
+      <div class="cs">Insulin · HGH · IGF-1 · 肢端肥大症</div>
+      <div class="tag">禁藥 / 合成激素</div>
+    </div>
+
+    <!-- 格子4：EPO & 血液興奮劑 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🩸</div>
+      <div class="ct">EPO & 血液興奮劑</div>
+      <div class="cs">Erythropoietin · 血液輸注 · 血容比 · 耐力</div>
+      <div class="tag">禁藥 / 血液類</div>
+    </div>
+
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.11</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">增強表現<br>物質與方法</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+
+    <!-- 格子6：β-促效劑 & 腎上腺素類 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">🌡️</div>
+      <div class="ct">β-促效劑 & 興奮劑</div>
+      <div class="cs">Clenbuterol · Ephedrine · β-Blockers · 生熱</div>
+      <div class="tag">部分禁 / 激素相關</div>
+    </div>
+
+    <!-- 格子7：肌肉緩衝補充品 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">⚡</div>
+      <div class="ct">肌肉緩衝補充品</div>
+      <div class="cs">β-Alanine · NaHCO₃ · 檸檬酸鈉 · MBC</div>
+      <div class="tag">合法 / 無氧表現</div>
+    </div>
+
+    <!-- 格子8：合成代謝補充品 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">💪</div>
+      <div class="ct">合成代謝補充品</div>
+      <div class="cs">Creatine · HMB · EAAs · BCAAs · Leucine</div>
+      <div class="tag">合法 / 肌力增長</div>
+    </div>
+
+    <!-- 格子9：咖啡因 & 能量飲 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">☕</div>
+      <div class="ct">咖啡因 & 能量飲</div>
+      <div class="cs">Caffeine · 能量飲 · CNS刺激 · 耐力/肌力</div>
+      <div class="tag">合法 / 刺激劑</div>
+    </div>
+
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- ===== 子九宮格：合成代謝類固醇 ===== -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">💉 合成代謝類固醇 (Anabolic Steroids)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">定義與來源</div><div class="sb">睾固酮 (testosterone) 的合成衍生物；主要在睪丸 Leydig 細胞分泌；口服或注射兩大類型</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">堆疊用法 (Stacking)</div><div class="sb">同時使用多種藥物以加乘效果；常見週期 5–10 週；劑量為生理替代量的 5–29 倍</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">金字塔用法 (Pyramid)</div><div class="sb">劑量逐週遞增後再遞減；末期加用促內生睪固酮藥物（如 HCG）以避免睪固酮崩落</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">肌肉／肌力效果</div><div class="sb">增加蛋白質合成 → 增加淨體重；訓練有素運動員肌力增幅可達未使用者的 2–3 倍</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">合成代謝<br>類固醇</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">心理效果</div><div class="sb">60% 使用者出現攻擊性與易怒；可能提升激勵感與自信；但有情緒波動與精神病發作風險</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">心血管副作用</div><div class="sb">HDL↓（心臟病風險↑）；血壓升高；心肌功能下降；脂質異常</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">生殖系統副作用</div><div class="sb">男：睪丸萎縮、精子數↓、不孕；女：月經不規則、陰蒂肥大、聲音低沉、男性化</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">法律地位</div><div class="sb">美國第三級管制物質 (Schedule III)；首次違規最高 1 年監禁＋$1,000 罰款；販運最高 5 年＋$250,000</div></div>
+  </div>
+</div>
+
+<!-- ===== 子九宮格：前驅激素 & HCG ===== -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">⚗️ 前驅激素 & HCG (Prohormones & HCG)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">前驅激素定義</div><div class="sb">為其他激素合成的前驅物；主要代表：雄烯二酮 (androstenedione)、DHEA；生物活性僅有睪固酮的 1/5 至 1/10</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">研究功效</div><div class="sb">多數研究顯示：補充 DHEA / 雄烯二酮（100–300 mg）對肌力、體組成、睪固酮濃度均無顯著影響</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">前驅激素副作用</div><div class="sb">雌激素相關化合物↑（女性化）；HDL↓（心臟病風險）；內生睪固酮合成下調；列於 2004 年《合成代謝類固醇控制法》</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">HCG 定義</div><div class="sb">人類絨毛膜促性腺激素 (Human Chorionic Gonadotropin)；取自孕婦胎盤；結構功能近似 LH（促黃體素）</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">前驅激素<br>& HCG</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">HCG 使用情境</div><div class="sb">類固醇週期末期：內生睪固酮受抑制 → 注射 HCG 模擬 LH → 刺激 Leydig 細胞重新分泌睪固酮；4 天內睪固酮可接近翻倍</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">HCG 對女性</div><div class="sb">無表現增強效果；研究顯示與低熱量飲食搭配減重時，HCG 本身對減重無貢獻，主要靠熱量限制</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">HCG 副作用</div><div class="sb">注射部位疼痛、腫脹、壓痛；全身副作用研究極少；屬 NCAA / WADA 禁用物質</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">法規現況</div><div class="sb">雄烯二酮、DHEA 等前驅激素自 2004 年起列為管制物質，需醫師處方；HCG 為 WADA 禁用肽激素</div></div>
+  </div>
+</div>
+
+<!-- ===== 子九宮格：胰島素 & 生長激素 ===== -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">🧬 胰島素 & 生長激素 (Insulin & HGH)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">胰島素機制</div><div class="sb">胰臟分泌；促進葡萄糖與胺基酸進入細胞；增加蛋白質合成 → 合成代謝激素；訓練後碳水化合物攝入可透過胰島素抑制肌肉蛋白分解</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">胰島素濫用風險</div><div class="sb">部分健美選手注射胰島素以增肌；風險極高：可能立即死亡、昏迷或發展為胰島素依賴型糖尿病</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">HGH 來源與機制</div><div class="sb">前腦垂體 (anterior pituitary) 分泌的蛋白質激素；促進骨骼與肌肉生長（合成代謝）；維持血糖、促進脂肪分解；現以重組 DNA 技術合成</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">HGH 體組成效果</div><div class="sb">缺乏症成人：6 個月注射後淨體重+5.4 kg、體脂-5.4 kg；但運動員族群研究有倫理限制，缺乏直接證據</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">胰島素<br>& HGH</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">IGF-1 關聯</div><div class="sb">HGH 的許多作用透過胰島素樣生長因子-1 (IGF-1) 介導；由肝臟回應 HGH 刺激分泌；重組 IGF-1 已可商業製造</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">HGH 副作用</div><div class="sb">童年期過多：巨人症 (gigantism)；成人期過多：肢端肥大症 (acromegaly)——骨骼變寬、關節炎、器官肥大；高劑量風險：糖尿病、高血壓、心血管功能異常</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">HGH 偵測</div><div class="sb">尿液無法偵測；2004 年雅典奧運首次引入血液檢測；運動員使用 HGH 的劑量遠超醫療替代量，風險更高</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">法規與費用</div><div class="sb">WADA / NCAA 禁用；黑市每月數百至數千美元；醫療替代用途（矮小兒童、成人缺乏症）合法；運動員使用屬濫用</div></div>
+  </div>
+</div>
+
+<!-- ===== 子九宮格：EPO & 血液興奮劑 ===== -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🩸 EPO & 血液興奮劑 (EPO & Blood Doping)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">EPO 定義</div><div class="sb">紅血球生成素 (Erythropoietin)；由腎臟分泌；刺激紅血球新生；可用重組 DNA 技術製造 (rEPO)</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">EPO 功效數據</div><div class="sb">6 週治療後：血容比 (hematocrit) 44.5% → 50%；血紅素↑10%；最大攝氧量↑6–8%；力竭時間↑17%</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">血液輸注類型</div><div class="sb">自體 (autologous)：輸自己預存血；異體 (homologous)：輸相同血型他人血液；1980 年代後 EPO 漸取代輸血</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">適用運動類型</div><div class="sb">耐力型運動員（自行車、長跑、鐵人三項）最大受益；EPO 提升攜氧能力 → 延遲疲勞</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">EPO &<br>血液興奮劑</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">EPO 主要風險</div><div class="sb">紅血球數↑ → 血液黏稠度↑ → 血栓風險↑、收縮壓↑、中風、肺/腦栓塞；脫水時風險更高；不可預測性是最大危險</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">不可預測性問題</div><div class="sb">注射 EPO 後紅血球生成不再受身體控制（不像輸血可量化）→ 過量不可逆 → 已有多名職業自行車選手死亡</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">偵測與禁用</div><div class="sb">WADA 禁用；血液與尿液均可偵測；Lance Armstrong 承認整個職業生涯使用 EPO；屬 NCAA F 類（肽激素）禁藥</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">合法應用</div><div class="sb">腎臟病患者貧血的醫療治療；腎臟無法充分製造 EPO 的患者使用可改善生活品質</div></div>
+  </div>
+</div>
+
+<!-- ===== 子九宮格：β-促效劑 & 興奮劑 ===== -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">🌡️ β-促效劑 & 興奮劑 (β-Agonists & Stimulants)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">β-促效劑機制</div><div class="sb">化學上與腎上腺素 (epinephrine) 相關；調節脂肪分解 (lipolysis) 與產熱 (thermogenesis)；原為氣喘治療藥物；部分具分配劑效果（增肌減脂）</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Clenbuterol</div><div class="sb">β₂-促效劑；支氣管擴張劑；運動員用於增加淨肌肉量、減少皮下脂肪；週期：3週開/3週關，開期採2天開/2天關；避免 β₂-受體下調</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Clenbuterol 副作用</div><div class="sb">心跳過速 (tachycardia)、高熱 (hyperthermia)、震顫、頭暈、心悸、失眠；多數文獻僅限動物模型，人體數據有限</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Ephedrine 機制</div><div class="sb">另一 β-促效劑；強效生熱作用；常與咖啡因堆疊使用；單獨使用效果不佳，需搭配咖啡因才顯著改善耐力</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">β-促效劑<br>& 興奮劑</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">Ephedrine 禁用史</div><div class="sb">2004 年 FDA 禁止所有含麻黃素 (ephedra/ma huang) 產品；Rand 研究所報告 16,000 起不良事件；IOC、大多數運動組織禁用</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">β-阻斷劑機制</div><div class="sb">阻斷 β-腎上腺素受體 → 阻止兒茶酚胺結合；降低心率與焦慮；適合精準型運動（射擊、射箭）；NCAA 僅限步槍項目禁用</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">β-阻斷劑功效</div><div class="sb">研究顯示可改善慢速與快速射擊精準度；80 mg 效果優於 40 mg；但對需要心血管輸出的耐力運動有負面影響（ergolytic）</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">β-阻斷劑副作用</div><div class="sb">支氣管痙攣、心臟衰竭、低血糖延長、心搏過緩 (bradycardia)、心臟傳導阻滯、間歇性跛行；降低 VO2max 與 10km 賽跑表現</div></div>
+  </div>
+</div>
+
+<!-- ===== 子九宮格：肌肉緩衝補充品 ===== -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">⚡ 肌肉緩衝補充品 (Muscle Buffering Supplements)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">肌肉緩衝容量 MBC</div><div class="sb">高強度無氧運動 → H⁺ 大量累積 → pH↓ → 影響表現；肌肉緩衝容量 (Muscle Buffering Capacity) 可透過訓練或補充品提升；與反覆衝刺、無氧閾值等呈正相關</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">β-丙胺酸機制</div><div class="sb">β-Alanine 為肌肽 (carnosine) 合成的速率限制底物；4–6 g/day × 4 週 → 骨骼肌 β-丙胺酸↑64%；肌肽主要在 Type II（快縮）肌纖維，貢獻最多 40% 的 H⁺ 緩衝</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">β-丙胺酸功效</div><div class="sb">不改善最大肌力或有氧功率；但改善無氧閾值；適用於超過 60 秒的多組高強度間歇（如 400m 衝刺、格鬥運動）；第 10 週總功增加 16%</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">β-丙胺酸副作用</div><div class="sb">唯一已知副作用：皮膚刺麻感 (paresthesia)；單次劑量過高觸發；約 1 小時消退；建議分 2–4 次服用以避免；目前無禁藥爭議</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">肌肉緩衝<br>補充品</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">碳酸氫鈉機制</div><div class="sb">小蘇打 (NaHCO₃)；鹼化劑；提升血液 pH → 肌肉細胞內外 pH 差 → 加速 H⁺ 移出細胞 → 緩解酸中毒；建議劑量 0.3 g/kg，運動前 60–90 分鐘服用</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">碳酸氫鈉功效</div><div class="sb">改善 60 秒–6 分鐘高強度運動的總功量、峰值功率、峰值扭矩；2000m 划船末段 500m 分段成績改善；耐力型尾段衝刺特別有效</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">碳酸氫鈉副作用</div><div class="sb">常見腹瀉、痙攣、噁心、嘔吐；低劑量 (0.2 g/kg) 可減少副作用但無功效；建議賽前在訓練中先行測試</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">檸檬酸鈉 (Sodium Citrate)</div><div class="sb">進入血液後分解為碳酸氫根 → 提升細胞外 pH；與碳酸氫鈉機制相似但腸胃副作用較少；0.44 g/kg 腿部肌耐力↑20%；但整體研究結果不一致，尚不建議常規使用</div></div>
+  </div>
+</div>
+
+<!-- ===== 子九宮格：合成代謝補充品 ===== -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">💪 合成代謝補充品 (Anabolic Supplements)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">肌酸機制 (Creatine)</div><div class="sb">磷酸肌酸 (PCr) 為 ATP 再合成底物；短時高強度運動的主要能量來源；6 秒衝刺 PCr 減少 35–57%；30 秒減少 64–80%；補充可提升肌肉肌酸含量 ~20%</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">肌酸劑量方案</div><div class="sb">負荷期：20–25 g/day × 5 天（或 0.3 g/kg）；維持期：2 g/day (0.03 g/kg)；不負荷：約 30 天達相同肌酸量；停用後約 4 週回到基線</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">肌酸功效</div><div class="sb">訓練有素運動員臥推、深蹲、爆發上舉肌力增幅可達未補充者的 2–3 倍；增加淨體重 0.5–2 kg；以訓練補充品效果優於單次表現增強</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">EAAs & BCAAs</div><div class="sb">必需胺基酸 (EAAs) 才足以刺激肌肉蛋白合成（非必需胺基酸非必要）；支鏈胺基酸 (BCAAs) 中白胺酸 (leucine) 是關鍵——透過 Akt/mTOR 路徑啟動蛋白合成；訓練前 6g EAA 反應比訓練後高 158%</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">合成代謝<br>補充品</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">HMB 機制</div><div class="sb">β-羥基-β-甲基丁酸 (HMB) 為白胺酸代謝物；刺激蛋白合成＋抑制蛋白分解（ubiquitin-proteasome 路徑）；抗分解代謝效果在高訓練刺激時最顯著</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">HMB 功效</div><div class="sb">未訓練者：顯著增加肌力與淨體重；床位休息 10 天：HMB 3g 組只失去 0.17 kg vs 安慰劑 2.05 kg；訓練有素者需高強度週期化訓練才有效果</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Arginine（精胺酸）</div><div class="sb">條件必需胺基酸；一氧化氮 (NO) 的前驅物；常見宣稱：增加 NO、肌肉血流、改善表現；但研究顯示在健康人身上以上功效均無顯著支持；不建議健康運動員使用</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">L-肉鹼 (L-Carnitine)</div><div class="sb">由離胺酸＋甲硫胺酸合成；負責將脂肪酸運進線粒體氧化；不直接增強脂肪利用；但可能改善高強度訓練後的恢復（2g/day × 3週）；上調雄激素受體並保存 IGF-1</div></div>
+  </div>
+</div>
+
+<!-- ===== 子九宮格：咖啡因 & 能量飲 ===== -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">☕ 咖啡因 & 能量飲 (Caffeine & Energy Drinks)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">咖啡因機制</div><div class="sb">中樞神經刺激劑；耐力機制：促進游離脂肪酸動員 → 節省肝醣、延遲疲勞；高強度機制：增強興奮收縮耦合、神經肌肉傳導、SR 鈣離子釋放、磷酸化酶活性</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">咖啡因耐力功效</div><div class="sb">3–9 mg/kg，運動前 ~60 分鐘服用；初始研究：80% VO2max 騎車至力竭時間從 75 → 96 分鐘（+21 min）；有氧耐力增益 28–43%（純錠劑形式）；咖啡中可能有拮抗成分</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">咖啡因爆發功效</div><div class="sb">對衝刺／爆發力效果較不確定；精英柔道選手（5 mg/kg）峰值功率顯著改善；競技游泳（250 mg）100m 重複衝刺改善 3%；效果可能只在訓練有素運動員出現</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">咖啡因副作用</div><div class="sb">焦慮、腸胃不適、失眠、震顫、心律不整；具生理成癮性，戒斷症狀：頭痛、疲勞、情緒低落；致死劑量 >5g（約 42 杯咖啡）；≥9 mg/kg 副作用風險顯著上升</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">咖啡因<br>& 能量飲</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">能量飲成分</div><div class="sb">主要成分：咖啡因＋碳水化合物（主要麥角原）；其他常見：B 群維生素、酪胺酸 (tyrosine)、銀杏 (ginkgo biloba)；協同作用可能解釋為何 2 mg/kg（低於建議量）仍有效</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">能量飲功效</div><div class="sb">運動前 60 分鐘攝入 2 mg/kg 咖啡因：顯著增加臥推總量；改善上下肢訓練總量；改善騎車與跑步耐力；但 Wingate 無氧測試與速度敏捷性無顯著改善</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">能量飲安全疑慮</div><div class="sb">與酒精混合使用風險高（掩蓋醉意）；大量攝入仍可能咖啡因過量；多數含 <300 mg 咖啡因（屬中等量）；其他刺激劑的加乘效應尚待研究</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Citrus Aurantium（苦橙）</div><div class="sb">含辛弗林 (synephrine)；適度興奮劑；抑制食慾、增加代謝率與脂肪分解；單獨效果不足；與咖啡因＋草本混合可改善耐疲勞時間；NCAA 禁用（列於刺激劑類）；可能升高收縮壓</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
