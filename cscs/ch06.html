@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.6 · 有氧耐力訓練的適應</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.6</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 6 <span>有氧耐力訓練的適應</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">❤️</div>
+      <div class="ct">急性心血管反應</div>
+      <div class="cs">心輸出量·心跳率·搏出量·血壓</div>
+      <div class="tag">急性反應</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">🫁</div>
+      <div class="ct">急性呼吸反應</div>
+      <div class="cs">換氣量·潮氣容積·氣體交換·OBLA</div>
+      <div class="tag">急性反應</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">🏃</div>
+      <div class="ct">慢性心血管適應</div>
+      <div class="cs">最大心輸出量·心臟肥大·微血管密度</div>
+      <div class="tag">慢性適應</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">💪</div>
+      <div class="ct">慢性肌肉適應</div>
+      <div class="cs">粒線體·肌紅素·Type I纖維·OBLA上升</div>
+      <div class="tag">慢性適應</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.6</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">有氧耐力<br>訓練適應</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">🦴</div>
+      <div class="ct">骨骼結締組織 &amp; 內分泌</div>
+      <div class="cs">骨密度·韌帶·肌腱·荷爾蒙反應</div>
+      <div class="tag">慢性適應</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">⛰️</div>
+      <div class="ct">外部因素影響</div>
+      <div class="cs">高海拔·高氧呼吸·吸菸·血液禁藥</div>
+      <div class="tag">外部因素</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">📉</div>
+      <div class="ct">過度訓練症候群</div>
+      <div class="cs">OTS·NFOR·功能性過度·預防策略</div>
+      <div class="tag">OTS</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">🔄</div>
+      <div class="ct">去訓練 &amp; 表現提升</div>
+      <div class="cs">VO2max·乳酸閾值·跑步經濟性·可逆性</div>
+      <div class="tag">去訓練</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- s1: 急性心血管反應 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">❤️ 急性心血管反應</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">心輸出量 (Q̇)</div><div class="sb">Q̇ = 搏出量 × 心跳率；最大時可達靜止的4倍（約20-22 L/min）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">搏出量 (SV)</div><div class="sb">Frank-Starling機制：靜脈回流↑→心室末期舒張容積↑→收縮力↑；VO2 40-50%時SV達到高原</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">心跳率 (HR)</div><div class="sb">與強度線性上升；最大心跳估算：220－年齡 或 208－(0.7×年齡)</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">攝氧量 (VO2)</div><div class="sb">Fick方程式：VO2 = Q̇ × a-vO2 difference；靜止≈3.5 ml/kg/min（1 MET）</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">急性<br>心血管<br>反應</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">靜脈回流機制</div><div class="sb">靜脈收縮＋骨骼肌幫浦＋呼吸幫浦→靜脈回流增加→搏出量增加</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">收縮壓 (SBP)</div><div class="sb">最大有氧運動可升至220-260 mmHg；Rate-Pressure Product = HR × SBP</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">舒張壓 (DBP)</div><div class="sb">有氧運動時因血管擴張而維持不變或略降；平均動脈壓 = (SBP-DBP)/3 + DBP</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">局部血流調節</div><div class="sb">活動肌肉微動脈擴張；靜止時15-20%心輸出量→運動時可達90%流向骨骼肌</div></div>
+  </div>
+</div>
+
+<!-- s2: 急性呼吸反應 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🫁 急性呼吸反應</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">每分鐘換氣量 (VE)</div><div class="sb">靜止→最大運動可增加15-25倍，達90-150 L/min；= 潮氣容積 × 呼吸頻率</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">潮氣容積 (TV)</div><div class="sb">靜止0.4-1 L → 最大可達3 L+；深呼吸比加快頻率更有效率</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">呼吸頻率</div><div class="sb">靜止12-15次/min → 劇烈運動35-45次/min；高強度時比例更大</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">解剖死腔</div><div class="sb">鼻/口/氣管等非氣體交換區域≈150 ml；深呼吸時死腔增加但比例小於TV增加</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">急性<br>呼吸<br>反應</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">換氣當量</div><div class="sb">低中強度時VE/VO2≈20-25 L/L；高強度時可升至35-40 L/L（乳酸急劇上升時）</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">氣體擴散</div><div class="sb">運動時O2在組織的分壓從100降至≈3 mmHg；CO2從46升至≈90 mmHg，促進擴散</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">血液攜氧</div><div class="sb">血漿僅攜帶3 ml/L；大部分由血紅素攜帶；男性≈20 ml O2/100 ml血液</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">乳酸代謝 (OBLA)</div><div class="sb">低中強度時乳酸產生=移除；高強度時乳酸開始累積（OBLA）；Cori cycle將乳酸運至肝臟</div></div>
+  </div>
+</div>
+
+<!-- s3: 慢性心血管適應 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">🏃 慢性心血管適應</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">最大心輸出量↑</div><div class="sb">長期訓練(6-12個月)最顯著改變；主要來自搏出量增加，非心跳率</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">搏出量↑</div><div class="sb">左心室腔室容積↑、壁厚↑、收縮力↑；訓練後男性可達150-160 ml/beat</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">靜止心跳率↓</div><div class="sb">副交感神經張力↑；訓練有素的耐力選手靜止HR常為40-60次/min（心搏過緩）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">次最大HR↓</div><div class="sb">相同次最大運動強度下HR更低；有訓練的選手HR上升速度更慢</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">慢性<br>心血管<br>適應</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">最大HR</div><div class="sb">最大HR可能略微下降（副交感張力↑）；不影響最大搏出量增加的效益</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">微血管密度↑</div><div class="sb">毛細血管網絡增加→擴散距離縮短→O2與代謝基質輸送效率提升</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">呼吸系統適應</div><div class="sb">次最大運動時TV↑、呼吸頻率↓；最大運動時TV與頻率皆↑；通氣不是有氧運動的限制因素</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">神經系統適應</div><div class="sb">訓練初期：動作效率↑、疲勞延後；協同肌輪流活化→維持低強度收縮的能量消耗降低</div></div>
+  </div>
+</div>
+
+<!-- s4: 慢性肌肉適應 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">💪 慢性肌肉適應</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">粒線體↑</div><div class="sb">粒線體數量與體積均增加（增加有氧ATP生產能力）；配合肌紅素↑更有效利用O2</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">肌紅素 (myoglobin)↑</div><div class="sb">細胞內O2運輸蛋白；量增加→細胞攝取並利用O2能力↑</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Type I 纖維肥大</div><div class="sb">選擇性肥大但截面積不如Type II明顯；氧化能力提升（粒線體密度↑）</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Type IIx→IIa 轉變</div><div class="sb">Type II纖維之間可轉換；IIa氧化能力優於IIx，功能特性更接近Type I</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">慢性<br>肌肉<br>適應</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">OBLA上升</div><div class="sb">訓練後OBLA可達VO2max的80-90%；因脂肪利用↑、乳酸生成↓、移除↑、糖原節省</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">酶活性↑</div><div class="sb">檸檬酸合酶、琥珀酸脫氫酶等有氧酶↑；糖解酶（如LDH）可能不變或↓</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">能源儲存↑</div><div class="sb">肌肉glycogen↑、三酸甘油酯↑；ATP及磷酸肌酸儲量略增</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">Type I vs II 比較</div><div class="sb">有氧訓練對Type I和Type II的有氧潛力相對增加幅度相似；但Type I起點更高</div></div>
+  </div>
+</div>
+
+<!-- s6: 骨骼結締組織 & 內分泌 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">🦴 骨骼結締組織 &amp; 內分泌適應</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">骨密度</div><div class="sb">跑步/高強度有氧最有效；強度須超過最低閾值且週期性負荷；不變或略增</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">韌帶與肌腱</div><div class="sb">強度與運動刺激成正比（尤其負重活動）；訓練強度需持續超過日常活動負荷</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">軟骨</div><div class="sb">負重表面較非負重表面厚；適度跑步（1小時/天×5天×15週）可增加軟骨厚度</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">荷爾蒙 — 次最大</div><div class="sb">訓練後次最大運動時荷爾蒙反應降低；相同相對強度時與未訓練者相當</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">骨骼結締組織<br>&amp;<br>內分泌</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">荷爾蒙 — 最大運動</div><div class="sb">高強度訓練↑最大運動時荷爾蒙分泌（增強耐受高強度能力）</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">皮質醇 (cortisol)</div><div class="sb">跑步訓練相關蛋白質分解↑；身體嘗試以睪固酮和IGF-1抵消分解效果</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">睪固酮 / IGF-1</div><div class="sb">訓練後有氧選手肌肉確實有淨蛋白合成（多為粒線體蛋白，非收縮蛋白）</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">體組成</div><div class="sb">體脂率↓；去脂體重不變；長期訓練效果更顯著；過度訓練會使合成/分解失衡</div></div>
+  </div>
+</div>
+
+<!-- s7: 外部因素 -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">⛰️ 外部因素影響</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">高海拔 — 急性反應</div><div class="sb">&gt;1200 m時開始：過度換氣（呼吸頻率↑）；次最大HR與心輸出量↑30-50%；動脈O2飽和度↓</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">高海拔 — 慢性適應</div><div class="sb">RBC增加30-50%；血紅素↑5-15%；微血管密度↑；粒線體↑；適應後VO2max可接近海平面</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">高海拔注意事項</div><div class="sb">適應需至少3-6週（中海拔2200-3000 m）；回到海平面後1個月恢復；高度愈高效益愈小</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">高氧呼吸</div><div class="sb">爭議性做法；海平面健康者Hb已95-98%飽和；對運動表現的效益尚未明確</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">外部<br>因素<br>影響</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">吸菸影響</div><div class="sb">氣道阻力↑；纖毛麻痺；CO與Hb結合（碳氧血紅素）→攜氧能力↓；最大運動能力↓</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">血液禁藥 (EPO/輸血)</div><div class="sb">增加RBC質量→VO2max可↑11%；次最大運動時HR↓、血乳酸↓；高hematocrit增加血栓風險</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">遺傳潛能</div><div class="sb">決定適應上限；越接近上限，每次訓練的邊際增益越小；精英選手程式設計更重要</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">年齡與性別</div><div class="sb">最大有氧功率隨年齡↓（肌肉量↓、體脂↑）；女性為男性73-85%（體脂%↑、Hb↓、心臟較小）；訓練反應相似</div></div>
+  </div>
+</div>
+
+<!-- s8: 過度訓練症候群 -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">📉 過度訓練症候群 (OTS)</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">定義連續體</div><div class="sb">功能性過度負荷(FOR)→非功能性過度負荷(NFOR，需數週/月恢復)→OTS（需數月恢復）</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">主要原因</div><div class="sb">高強度訓練 + 恢復不足；其他因素：睡眠不足、環境壓力、人際問題、旅行</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">盛行率</div><div class="sb">約10%（7-21%）大學游泳選手和有氧耐力運動員曾經歷NFOR或OTS</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">心血管指標</div><div class="sb">靜止HR可增或減；最大HR↓；次最大HR↓；心率變異性↓；訓練量↑不影響靜止血壓</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">過度訓練<br>症候群<br>OTS</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">生化指標</div><div class="sb">CK↑（肌肉損傷）；血乳酸↓或不變；肌糖原↓（可能因飲食因素）；血脂不受影響</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">內分泌指標</div><div class="sb">睪固酮↓；皮質醇↑；睪固酮/皮質醇比值↓≥30%可能是OTS標記；生長激素分泌↓</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">兒茶酚胺指標</div><div class="sb">腎上腺素、去甲腎上腺素、多巴胺變化顯著；嚴重OTS呈現副交感型（對兒茶酚胺敏感性↓）</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">預防策略</div><div class="sb">監控訓練記錄；良好營養與睡眠；訓練量/強度多樣化；多學科健康團隊（教練/醫師/營養師/心理師）</div></div>
+  </div>
+</div>
+
+<!-- s9: 去訓練 & 表現提升 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">🔄 去訓練 &amp; 有氧表現提升</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">去訓練定義</div><div class="sb">訓練刺激不足導致訓練適應部分或完全喪失；遵循訓練可逆性原則</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">短期去訓練 (&lt;4週)</div><div class="sb">精英選手VO2max↓4-14%；主因：血量↓、搏出量↓、最大心輸出量↓、次最大HR↑</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">長期去訓練 (&gt;4週)</div><div class="sb">VO2max↓6-20%；有氧酶活性對停訓最敏感（酶基礎的細胞機制）</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">VO2max 提升</div><div class="sb">有氧訓練可提升5-30%（取決於起始體能）；6-12個月內達大部分最大攝氧量提升</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">去訓練<br>&amp;<br>表現提升</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">乳酸閾值 (LT)</div><div class="sb">訓練後OBLA提升（可至80-90% VO2max）；相同VO2max的選手，LT較高者表現更佳</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">跑步經濟性</div><div class="sb">6-12個月後VO2max增益趨緩，之後改善主要來自跑步效率↑和LT↑；精英選手更明顯</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">間歇訓練效益</div><div class="sb">短休息間歇訓練可提升VO2max；長休息改善衝刺速度而非有氧能力；恢復期長短關鍵</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">Tapering vs 去訓練</div><div class="sb">Tapering：賽前計畫性降低訓練量（維持強度）→提升表現；去訓練：無計畫停訓→適應喪失</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
