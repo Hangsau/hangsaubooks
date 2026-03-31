@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.1 九宮格複習</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.topbar a{font-size:11px;color:#444;text-decoration:none;letter-spacing:.1em;}
+.topbar a:hover{color:#7c6af7;}
+.topbar span{color:#333;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.6;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span style="color:#7c6af7">Ch.1</span>
+</div>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 1 <span>Structure and Function of Body Systems</span></h2>
+
+<div id="main-view">
+  <div class="mandala">
+
+    <!-- 1: 骨骼系統 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">🦴</div>
+      <div class="ct">骨骼系統</div>
+      <div class="cs">軸心骨骼 · 附肢骨骼 · 關節分類 · 脊椎區段</div>
+      <div class="tag">Skeleton</div>
+    </div>
+
+    <!-- 2: 肌肉巨觀/微觀 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">💪</div>
+      <div class="ct">肌肉結構</div>
+      <div class="cs">Epimysium · Perimysium · Endomysium · 肌節</div>
+      <div class="tag">Muscle Structure</div>
+    </div>
+
+    <!-- 3: 滑動絲理論 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">⚡</div>
+      <div class="ct">滑動絲理論</div>
+      <div class="cs">Actin · Myosin · 橫橋循環 · ATP · Ca²⁺</div>
+      <div class="tag">Sliding Filament</div>
+    </div>
+
+    <!-- 4: 神經肌肉系統 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🧠</div>
+      <div class="ct">神經肌肉系統</div>
+      <div class="cs">運動單位 · All-or-None · Twitch · Tetanus</div>
+      <div class="tag">Neuromuscular</div>
+    </div>
+
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.1</div>
+      <div style="font-size:13px;font-weight:700;color:#7c6af7">Body Systems</div>
+      <div class="cs">點擊各格展開</div>
+      <div class="score">4 大系統</div>
+    </div>
+
+    <!-- 6: 肌纖維類型 -->
+    <div class="cell c2" onclick="showSub('s6')">
+      <div class="ci">🏃</div>
+      <div class="ct">肌纖維類型</div>
+      <div class="cs">Type I · Type IIa · Type IIx · 運動招募</div>
+      <div class="tag">Fiber Types</div>
+    </div>
+
+    <!-- 7: 本體感覺 -->
+    <div class="cell c5" onclick="showSub('s7')">
+      <div class="ci">🔮</div>
+      <div class="ct">本體感覺器</div>
+      <div class="cs">Muscle Spindle · GTO · 牽張反射 · 抑制</div>
+      <div class="tag">Proprioception</div>
+    </div>
+
+    <!-- 8: 心血管系統 -->
+    <div class="cell c1" onclick="showSub('s8')">
+      <div class="ci">❤️</div>
+      <div class="ct">心血管系統</div>
+      <div class="cs">心臟腔室 · 傳導系統 · 血管 · ECG</div>
+      <div class="tag">Cardiovascular</div>
+    </div>
+
+    <!-- 9: 呼吸系統 -->
+    <div class="cell c3" onclick="showSub('s9')">
+      <div class="ci">🫁</div>
+      <div class="ct">呼吸系統</div>
+      <div class="cs">換氣機制 · 氣體交換 · 呼吸肌 · 肺泡</div>
+      <div class="tag">Respiratory</div>
+    </div>
+
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- S1: 骨骼系統 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">🦴 骨骼系統</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">軸心骨骼</div>
+      <div class="sb">頭顱、脊椎（C1-尾骨）、肋骨、胸骨</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">附肢骨骼</div>
+      <div class="sb">肩帶（肩胛、鎖骨）、上肢、骨盆帶、下肢</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">纖維關節</div>
+      <div class="sb">幾乎不動，如顱縫（sutures）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">軟骨關節</div>
+      <div class="sb">有限度活動，如椎間盤</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#7c6af7">骨骼系統<br>Skeleton</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">滑液關節</div>
+      <div class="sb">活動最大，如肘（單軸）、踝/腕（雙軸）、肩/髖（多軸）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">脊椎區段</div>
+      <div class="sb">頸7、胸12、腰5、薦5（融合）、尾3-5</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">骨骼功能</div>
+      <div class="sb">槓桿、支撐、保護。肌肉只能拉不能推</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">骨骼生長</div>
+      <div class="sb">重訓/爆發力→骨密度↑；適應期比肌肉慢，需變化頻率/強度</div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: 肌肉結構 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">💪 肌肉結構（巨觀→微觀）</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Epimysium</div>
+      <div class="sb">最外層纖維結締組織，包覆整塊肌肉，與肌腱連續</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Perimysium</div>
+      <div class="sb">包覆肌束（fasciculi），每束最多150條肌纖維</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Endomysium</div>
+      <div class="sb">包覆單條肌纖維，與肌膜（sarcolemma）連續</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">肌纖維</div>
+      <div class="sb">直徑50-100μm，多核，橫紋外觀；肌漿（sarcoplasm）含肌原纖維、粒線體</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#3fc87c">肌肉結構<br>Macro/Micro</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">肌節 Sarcomere</div>
+      <div class="sb">最小收縮單位，靜息約2.5μm。Z線為邊界；A帶=myosin；I帶=只有actin；H帶=只有myosin</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Myosin（粗絲）</div>
+      <div class="sb">16nm，含球形頭（可形成橫橋）、鉸鏈點、纖維尾</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Actin（細絲）</div>
+      <div class="sb">6nm，雙螺旋；含Troponin（結合Ca²⁺）與Tropomyosin（遮蓋結合位點）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">T管 & SR</div>
+      <div class="sb">T-tubule傳遞動作電位至深層；SR儲存Ca²⁺，收縮時釋放</div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: 滑動絲理論 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">⚡ 滑動絲理論 · 收縮步驟</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#f0a030">① ATP分解</div>
+      <div class="sb">Myosin ATPase 分解ATP→ADP+Pi，myosin頭「充能」就位</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">② 橫橋形成</div>
+      <div class="sb">Ca²⁺與Troponin結合→Tropomyosin位移→暴露actin結合位點</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">③ Power Stroke</div>
+      <div class="sb">釋放Pi→myosin頭彎曲拉動actin向肌節中心→釋放ADP</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">④ 解離</div>
+      <div class="sb">新ATP結合myosin頭→與actin解離，頭回復原位</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#f0a030">滑動絲理論<br>Sliding Filament</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">力量決定因素</div>
+      <div class="sb">任一瞬間與actin結合的橫橋數量 = 產生的力量</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">放鬆條件</div>
+      <div class="sb">運動神經停止 → Ca²⁺泵回SR → Tropomyosin遮蓋結合位點</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">收縮需要</div>
+      <div class="sb">Ca²⁺（觸發）+ ATP（動力與解離）+ ATPase（催化）缺一不可</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">形態變化</div>
+      <div class="sb">收縮時：H帶↓、I帶↓、Z線靠近；A帶長度不變</div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: 神經肌肉系統 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🧠 神經肌肉系統</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#e05252">運動單位</div>
+      <div class="sb">一個運動神經元＋其所支配的所有肌纖維；同一單位內纖維類型相同</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">神經肌肉接合</div>
+      <div class="sb">乙醯膽鹼（ACh）跨突觸擴散→激發肌膜產生動作電位</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">All-or-None原則</div>
+      <div class="sb">運動單位要嘛完全收縮，要嘛不收縮；更強的刺激不產生更強的單次收縮</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">Twitch（單收縮）</div>
+      <div class="sb">單一動作電位→短暫力量峰值；Ca²⁺在達峰前即被泵回</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#e05252">神經肌肉<br>Neuromuscular</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">Tetanus（強直）</div>
+      <div class="sb">高頻率刺激→twitches疊加→Unfused tetanus→Fused tetanus（最大力量）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">力量分級①</div>
+      <div class="sb">頻率調節：提高同一運動單位的激發頻率（小肌肉為主）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">力量分級②</div>
+      <div class="sb">招募：啟動更多運動單位（大肌肉為主，如股四頭肌）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">精確度 vs 力量</div>
+      <div class="sb">眼肌：1條纖維/神經元（高精確）；股四頭肌：數百條纖維/神經元</div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: 肌纖維類型 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🏃 肌纖維類型</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Type I（慢縮）</div>
+      <div class="sb">小運動神經元、低閾值、慢速、抗疲勞高、有氧酶↑、微血管密度↑、紅色</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Type IIa（快縮a）</div>
+      <div class="sb">中間型；有氧代謝>IIx；抗疲勞中等；適合混合運動如拳擊/摔角</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">Type IIx（快縮x）</div>
+      <div class="sb">大運動神經元、高閾值、快速、易疲勞、無氧酶↑、白色；爆發力最強</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">招募順序</div>
+      <div class="sb">低強度→I型；中強度→IIa；高強度/爆發→IIx（依需求遞增）</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#3fc87c">肌纖維類型<br>Fiber Types</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">運動分布範例</div>
+      <div class="sb">100m衝刺=高II型；馬拉松=高I型；足球/籃球=I+II均高</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">姿勢肌 vs 動作肌</div>
+      <div class="sb">比目魚肌（姿勢）=高I型；股四頭肌（動力）=I+II混合</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">分類方法</div>
+      <div class="sb">Myosin ATPase染色（常用）或定量肌球蛋白重鏈（MHC）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">提升力量產出</div>
+      <div class="sb">①重負荷訓練優化神經招募 ②增大肌肉截面積 ③多關節爆發性動作</div>
+    </div>
+  </div>
+</div>
+
+<!-- S7: 本體感覺 -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">🔮 本體感覺器</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">本體感覺器</div>
+      <div class="sb">位於關節、肌肉、肌腱，感應壓力與張力，傳遞動覺資訊至CNS</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">肌梭 Muscle Spindle</div>
+      <div class="sb">平行於梭外纖維；偵測肌肉長度與長度變化速率</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">牽張反射</div>
+      <div class="sb">肌肉拉長→肌梭激活→脊髓→運動神經元→肌肉收縮（如膝跳反射）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">GTO 位置</div>
+      <div class="sb">位於肌腱近肌腱接合處（myotendinous junction），與梭外纖維串聯</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#3b8bd4">本體感覺<br>Proprioception</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">GTO 功能</div>
+      <div class="sb">張力↑→GTO激活→抑制性中間神經元→運動神經元被抑制→肌肉放鬆</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">Spindle vs GTO</div>
+      <div class="sb">Spindle = 促進收縮；GTO = 抑制收縮（保護機制）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">訓練適應</div>
+      <div class="sb">重訓可訓練大腦皮質抑制GTO的能力，為基本神經適應之一</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">梭內纖維</div>
+      <div class="sb">Intrafusal fibers = 肌梭內改良的肌纖維；梭外纖維 = 一般肌纖維</div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: 心血管系統 -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">❤️ 心血管系統</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">心臟結構</div>
+      <div class="sb">兩個泵：右→肺循環；左→體循環。各有心房（atrium）+心室（ventricle）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">心臟瓣膜</div>
+      <div class="sb">AV瓣（三尖/二尖）防止血液從心室逆流回心房；半月瓣（主動脈/肺動脈）防止心室放鬆時逆流</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">傳導系統</div>
+      <div class="sb">SA node（起搏器）→心房→AV node（延遲）→AV束→束支→Purkinje纖維→心室</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">心率調節</div>
+      <div class="sb">交感→心率↑；副交感→心率↓。正常60-100bpm；&lt;60=心搏徐緩；&gt;100=心搏過速</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#7c6af7">心血管系統<br>Cardiovascular</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">ECG波形</div>
+      <div class="sb">P波=心房去極化；QRS複合波=心室去極化；T波=心室再極化</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">血管類型</div>
+      <div class="sb">動脈（離心）→小動脈（調節流量）→微血管（交換）→小靜脈→靜脈（回心）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">血液功能</div>
+      <div class="sb">O₂由血紅素運至組織；CO₂帶回肺部；紅血球含碳酸酐酶協助CO₂排除</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">骨骼肌幫浦</div>
+      <div class="sb">收縮肌肉壓縮靜脈→單向瓣膜推血回心；運動後持續活動避免血液積聚</div>
+    </div>
+  </div>
+</div>
+
+<!-- S9: 呼吸系統 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">🫁 呼吸系統</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#f0a030">解剖路徑</div>
+      <div class="sb">鼻腔（暖化/濕化/淨化）→氣管→支氣管→細支氣管（23代）→肺泡</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">吸氣機制</div>
+      <div class="sb">橫膈膜收縮→胸腔負壓→空氣進入；助吸肌：外肋間肌、胸鎖乳突肌、前鋸肌、斜角肌</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">呼氣機制</div>
+      <div class="sb">安靜時橫膈膜放鬆+肺彈力回縮；用力時腹肌+內肋間肌主動收縮</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">氣體交換</div>
+      <div class="sb">擴散原理：O₂從肺泡（高）→微血管（低）；CO₂反向；肺泡O₂分壓高於肺微血管約60mmHg</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#f0a030">呼吸系統<br>Respiratory</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">能量消耗</div>
+      <div class="sb">安靜時呼吸耗能3-5%；劇烈運動可達8-15%（尤其有氣道阻力者）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">肺泡壓</div>
+      <div class="sb">吸氣時低於大氣壓→氣流入肺；呼氣時高於大氣壓→氣流出肺</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">肋膜壓</div>
+      <div class="sb">胸膜與肺膜之間，正常為負壓，協助維持肺擴張</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">訓練呼吸肌</div>
+      <div class="sb">耐力訓練＋重訓均訓練呼吸肌；一般不需特別訓練，除非術後或長期臥床</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  window.scrollTo(0,0);
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
