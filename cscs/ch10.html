@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.10 · Nutrition Strategies for Maximizing Performance</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.10</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 10 <span>Nutrition Strategies for Maximizing Performance</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">🍽️</div>
+      <div class="ct">賽前營養</div>
+      <div class="cs">時機·碳水·蛋白質·GI·腸胃不適預防</div>
+      <div class="tag">Precompetition</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">🔋</div>
+      <div class="ct">碳水化合物補充法</div>
+      <div class="cs">肝醣超補·男女差異·劑量·時機·適用運動</div>
+      <div class="tag">Carb Loading</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">⚡</div>
+      <div class="ct">賽中營養</div>
+      <div class="cs">水分·電解質·多種碳水·蛋白質添加</div>
+      <div class="tag">During-Event</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🔄</div>
+      <div class="ct">賽後營養</div>
+      <div class="cs">肝醣再合成·蛋白質·時機·不同運動別</div>
+      <div class="tag">Postcompetition</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.10</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">Nutrition<br>Strategies</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">📈</div>
+      <div class="ct">體重增加策略</div>
+      <div class="cs">熱量盈餘·蛋白質·肌酸·諮詢</div>
+      <div class="tag">Weight Gain</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">📉</div>
+      <div class="ct">體重(脂肪)減少</div>
+      <div class="cs">熱量赤字·蛋白質保肌·低碳飲食·快速減重風險</div>
+      <div class="tag">Weight Loss</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">⚖️</div>
+      <div class="ct">過重與肥胖評估</div>
+      <div class="cs">BMI·腰圍·能量消耗·RMR·Cunningham</div>
+      <div class="tag">Obesity</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">🚨</div>
+      <div class="ct">飲食失調</div>
+      <div class="cs">厭食症·暴食症·BED·辨識·轉介</div>
+      <div class="tag">Eating Disorders</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- s1: 賽前營養 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">🍽️ 賽前營養</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">主要目的</div>
+      <div class="sb">補充水分維持水合狀態；最大化血糖與肝醣儲存；避免飢餓感</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">4小時前 ≥4h</div>
+      <div class="sb">碳水 1–4 g/kg BW<br>蛋白質 0.15–0.25 g/kg BW<br>水分 5–7 ml/kg BW</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">2小時前</div>
+      <div class="sb">碳水 ≈1 g/kg BW<br>若未達水合：3–5 ml/kg BW</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">1小時前 / &lt;1h</div>
+      <div class="sb">碳水 0.5 g/kg BW<br>液態碳水 / 果凍 / gel 較佳（排空快）</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#7c6af7">賽前營養</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">GI 高低選擇</div>
+      <div class="sb">高GI或低GI皆可；血糖初期下降於運動開始20分鐘後通常恢復，不影響表現</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">食物原則</div>
+      <div class="sb">低脂低纖（排空快）；中等蛋白質（增加飽足感）；熟悉食物（練習時先試）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">腸胃不適預防</div>
+      <div class="sb">避免高脂高纖；避免山梨醇/甘露醇（sugar alcohols）；液態碳水在1h前更好</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#7c6af7">水合指標</div>
+      <div class="sb">賽前尿液比重 USG &lt;1.020 = 適當水合</div>
+    </div>
+  </div>
+</div>
+
+<!-- s2: 碳水化合物補充法 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🔋 碳水化合物補充法 (Carb Loading)</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">目的</div>
+      <div class="sb">最大化肌肉與肝臟肝醣儲存，延遲長時間有氧運動的疲勞</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">標準方案</div>
+      <div class="sb">賽前3天高碳水 + 減量訓練；賽前一天完全休息<br>劑量：8–10 g/kg BW/day → 肝醣↑20–40%</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">馬拉松特例</div>
+      <div class="sb">賽前36–48h可增至 10–12 g/kg BW/day</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">男女差異</div>
+      <div class="sb">女性需更高總熱量才能有效補充肝醣（&gt;2400 kcal/day）；在熱量充足條件下，兩性肝醣儲存能力無差異</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#3fc87c">Carb<br>Loading</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">女性關鍵</div>
+      <div class="sb">習慣每日&lt;2400 kcal的女運動員需先提高總熱量才能達到有效肝醣超補</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">適用運動</div>
+      <div class="sb">長跑、公路自行車、越野滑雪等 &gt;2h 的有氧耐力項目；間歇性高強度運動效果有限</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">副作用</div>
+      <div class="sb">暫時性體重增加（肝醣存水 3–4倍）；腸脹氣（避免豆類/菊糖oligosaccharides）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3fc87c">考試重點</div>
+      <div class="sb">有效超補最低劑量 = 8 g/kg BW；女性失敗主因 = 總碳水攝取不足而非性別差異</div>
+    </div>
+  </div>
+</div>
+
+<!-- s3: 賽中營養 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">⚡ 賽中營養</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#f0a030">水分補充原則</div>
+      <div class="sb">預防體重流失超過 2% BW；個別化補水計畫（賽前後體重差）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">運動飲料成分</div>
+      <div class="sb">Na 20–30 mEq/L（460–690 mg）<br>K 2–5 mEq/L（78–195 mg）<br>碳水濃度 5–10%（理想 6–8%）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">兒童補水</div>
+      <div class="sb">40 kg兒童：148 ml / 每20分鐘<br>60 kg青少年：256 ml / 每20分鐘（即使不渴）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">有氧耐力碳水攝取</div>
+      <div class="sb">28–144 g/h；多種碳水組合（葡萄糖+果糖+麥芽糊精）可提高氧化速率至 &gt;1 g/min</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#f0a030">賽中<br>營養</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">多種碳水優勢</div>
+      <div class="sb">不同腸道轉運蛋白→轉運飽和後可繼續吸收；葡萄糖+果糖比單獨葡萄糖改善計時賽表現</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">間歇性高強度運動</div>
+      <div class="sb">碳水電解質飲料改善技術表現（網球揮拍精準度、足球運球）；在肝醣耗竭狀態效果更顯著</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">力量/爆發力運動</div>
+      <div class="sb">阻力訓練需消耗大量肌肉肝醣；賽前與賽中補充碳水可維持肝醣、減少肌肉分解</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f0a030">口腔漱口效應</div>
+      <div class="sb">碳水漱口（不吞嚥）可透過中樞神經系統改善約1小時運動表現 2–3%</div>
+    </div>
+  </div>
+</div>
+
+<!-- s4: 賽後營養 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🔄 賽後營養</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#e05252">肝醣再合成 Phase 1</div>
+      <div class="sb">運動後30–60分鐘；胰島素非依賴性；速率最快<br>→ 1.0–1.85 g/kg BW/h 碳水，每15–60分鐘一次，持續5小時</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">肝醣再合成 Phase 2</div>
+      <div class="sb">數小時後；胰島素依賴性；速率較慢<br>→ 若恢復時間 &gt;24h，可在整日分次補充碳水即可</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">碳水攝取時機</div>
+      <div class="sb">&lt;24h 需再次比賽/訓練→立即補充；&gt;24h 可等待約2h後才進食，24h內補足即可</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">賽後蛋白質</div>
+      <div class="sb">有氧耐力：至少10 g / 運動後3h內<br>阻力訓練：年輕人 20–25 g（含EAA 8.5–10 g）；老年人 ≥40 g<br>含亮氨酸 2–3 g 或 0.05 g/kg BW</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#e05252">賽後<br>營養</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">力量/爆發力運動後碳水</div>
+      <div class="sb">運動後立即 1.5 g/kg BW + 1小時後再補一次 → 可使肝醣恢復至賽前91%（6h內）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">蛋白質的碳水節省效果</div>
+      <div class="sb">碳水攝取 &lt;1.2 g/kg BW/h 時，加入蛋白質可提高肝醣合成速率（補救作用）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">每餐蛋白質分配</div>
+      <div class="sb">成人每餐至少 20–30 g 高亮氨酸蛋白質；每3–4小時進食一次（阻力訓練後肌肉對氨基酸敏感性持續24–48h）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#e05252">同期訓練 (Concurrent)</div>
+      <div class="sb">有氧後+重訓前：補充碳水壓制分解；有氧後即補充蛋白質；或在重訓中補充蛋白質</div>
+    </div>
+  </div>
+</div>
+
+<!-- s6: 體重增加策略 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">📈 體重增加策略</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">熱量盈餘原則</div>
+      <div class="sb">每天額外攝取約 +500 kcal；避免短時間大量增加（易增脂肪）；在休賽季執行</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">蛋白質目標</div>
+      <div class="sb">1.5–2.0 g/kg BW/day 以最大化瘦體重增加<br>高蛋白飲食增加飽足感與產熱效應→執行較困難</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">高蛋白過食研究</div>
+      <div class="sb">正常蛋白（15%）& 高蛋白（25%）→ 約45%多餘熱量存為瘦體重；低蛋白（5%）→ 95%存為脂肪</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">策略：增加食物密度</div>
+      <div class="sb">增加份量大小；提高進食頻率；選擇高熱量食物（堅果、乾果、全脂乳品）</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#3b8bd4">體重<br>增加</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">肌酸補充</div>
+      <div class="sb">肌酸一水化物（Creatine Monohydrate）安全且有效地增加瘦體重（CSCS必考補充品）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">營養諮詢效益</div>
+      <div class="sb">接受運動營養師諮詢的運動員，在介入期間及12個月後仍有更大的總體重與瘦體重增加</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">每日熱量估算</div>
+      <div class="sb">男性重度訓練：50 kcal/kg/day<br>女性重度訓練：44 kcal/kg/day<br>（Cunningham方程式更精確：RMR = 500 + 22×LBM kg）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#3b8bd4">考試提示</div>
+      <div class="sb">BMR是最大熱量貢獻（約65–70%）；體力活動20–30%；食物產熱效應約10–15%</div>
+    </div>
+  </div>
+</div>
+
+<!-- s7: 體重(脂肪)減少 -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">📉 體重（脂肪）減少策略</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">核心原則</div>
+      <div class="sb">無論低碳或低脂，減重關鍵 = 熱量赤字；飲食依從性（長期堅持）比飲食種類更重要</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">保肌蛋白質需求</div>
+      <div class="sb">減脂期間：1.8–2.7 g/kg BW/day（或 2.3–3.1 g/kg 瘦體重/day）+ 適度熱量赤字約 500 kcal/day</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">低碳飲食機制</div>
+      <div class="sb">初期水重下降（肝醣儲水）；長期靠高蛋白增加飽足感、產熱效應、保留肌肉；適合胰島素阻抗/第二型糖尿病</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">快速減重定義</div>
+      <div class="sb">超過正常飲食+運動可達到的速度；常見於量級運動員（摔角、拳擊、MMA）</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#d46eb5">體重<br>減少</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">快速減重危險手段</div>
+      <div class="sb">禁食、主動脫水（利尿劑/三溫暖）、自我催吐、瀉藥、多穿衣物流汗、過度吐口水</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">快速減重危害</div>
+      <div class="sb">脫水、熱病、電解質失衡、免疫抑制、腎衰竭（利尿劑）、心律不整、昏厥、死亡（極端）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">SC專業職責</div>
+      <div class="sb">辨識快速減重跡象→轉介醫師/RD；記錄處置步驟（法律保護）；與醫師共同設定合理體重目標</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#d46eb5">個別化飲食要素</div>
+      <div class="sb">安全性、足夠蛋白質、符合生活型態、考慮病史（糖尿病/胰島素阻抗）、長期行為療法支持</div>
+    </div>
+  </div>
+</div>
+
+<!-- s8: 過重與肥胖評估 -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">⚖️ 過重與肥胖評估</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">BMI 分類</div>
+      <div class="sb">過重：25–29.9 kg/m²<br>肥胖I：30–34.9<br>肥胖II：35–39.9<br>極端肥胖III：≥40</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">BMI 公式</div>
+      <div class="sb">kg/m²；或 [lb/in²] × 703<br>⚠️ 運動員肌肉多→高估體脂；老年人→低估體脂；只作篩選工具，非診斷工具</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">腰圍疾病風險</div>
+      <div class="sb">男性 &gt;102 cm（40 in）→相對風險增加<br>女性 &gt;88 cm（35 in）→相對風險增加<br>即使BMI正常，腰圍超標仍代表風險</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">肥胖相關疾病</div>
+      <div class="sb">高血壓、高血脂、冠心病、第二型糖尿病、睡眠呼吸中止症、骨關節炎、多種癌症（子宮內膜、乳癌、前列腺、大腸）</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#4ecdc4">肥胖<br>評估</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">熱量消耗三大組成</div>
+      <div class="sb">BMR/RMR（65–70%）：最大；體力活動（20–30%）：最可變；食物產熱效應（10–15%）：最小</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">Cunningham方程式</div>
+      <div class="sb">RMR = 500 + 22 × LBM(kg)<br>比Harris-Benedict更適用於運動員（納入瘦體重）</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">兒童BMI</div>
+      <div class="sb">同計算式，但需按年齡性別百分位解讀：&lt;5th=過輕，5–85th=健康，85–95th=過重，≥95th=肥胖</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#4ecdc4">肥胖治療</div>
+      <div class="sb">飲食療法 + 運動 + 行為治療 + 藥物 + 手術（多合一）；初始目標：6個月內減少10%初始體重</div>
+    </div>
+  </div>
+</div>
+
+<!-- s9: 飲食失調 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">🚨 飲食失調 (Eating Disorders)</div>
+  <div class="sub-grid">
+    <div class="sc">
+      <div class="st" style="color:#f7c948">厭食症 Anorexia Nervosa</div>
+      <div class="sb">體像扭曲 + 強烈恐懼增重→極度限制熱量；平均發病19歲；女性終身盛行率0.9%；所有精神疾患中死亡率最高</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">厭食症症狀</div>
+      <div class="sb">骨質疏鬆、掉髮、皮膚乾燥黃化、lanugo（胎毛）、貧血、低血壓、心臟損傷、腦部損傷、多器官衰竭</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">暴食症 Bulimia Nervosa</div>
+      <div class="sb">反覆暴食後清除（催吐/瀉藥/過度運動）；≥1次/週 × 3個月；體重通常正常；發病平均20歲；盛行率0.6%</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">暴食症症狀</div>
+      <div class="sb">慢性喉嚨發炎、頸部腺體腫大、牙釉質受損（胃酸）、電解質失衡（低鈉/鉀/鈣→心臟病發）</div>
+    </div>
+    <div class="sc scc">
+      <div class="st" style="color:#f7c948">飲食<br>失調</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">暴食症 BED</div>
+      <div class="sb">反覆無控制暴食，無清除行為；≥1次/週 × 3週；女性3.5%、男性2.0%；常見過重或肥胖；發病平均25歲</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">高風險運動類型</div>
+      <div class="sb">量級運動（摔角）→節食；強調瘦度（越野跑）；審美性運動（體操、花式溜冰）→飲食失調比例更高</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">SC的職責</div>
+      <div class="sb">辨識症狀→轉介合格醫療/心理/營養師團隊；SC不負責診斷或治療；建立轉介網絡是倫理義務</div>
+    </div>
+    <div class="sc">
+      <div class="st" style="color:#f7c948">ARFID / Pica / 反芻</div>
+      <div class="sb">ARFID：因感官/後果恐懼迴避食物；Pica：吞食非食物（泥土/頭髮）≥1月；反芻：反覆咀嚼反芻食物</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
