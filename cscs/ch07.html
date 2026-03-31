@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.7 · 年齡與性別差異</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+
+/* 麵包屑 */
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb a{color:#606080;text-decoration:none;}
+.breadcrumb a:hover{color:#f0f0f8;}
+.breadcrumb .current{color:#7c6af7;}
+
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+
+/* 外層九宮格 */
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+
+/* 顏色主題 */
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+
+/* 子九宮格區域 */
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+
+<nav class="breadcrumb">
+  <a href="../index.html">讀書庫</a>
+  <span>/</span>
+  <a href="index.html">CSCS</a>
+  <span>/</span>
+  <span class="current">Ch.7</span>
+</nav>
+
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 7 <span>年齡與性別差異及阻力訓練</span></h2>
+
+<!-- 主九宮格 -->
+<div id="main-view">
+  <div class="mandala">
+    <!-- 格子1 -->
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">🧒</div>
+      <div class="ct">兒童生長發育</div>
+      <div class="cs">生理年齡 vs 時序年齡·PHV·骨骼年齡·Tanner分期</div>
+      <div class="tag">Children</div>
+    </div>
+    <!-- 格子2 -->
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">💪</div>
+      <div class="ct">兒童肌力訓練反應</div>
+      <div class="cs">神經適應為主·無法增生·青春期前荷爾蒙不足</div>
+      <div class="tag">Neural Gains</div>
+    </div>
+    <!-- 格子3 -->
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">⚠️</div>
+      <div class="ct">兒童訓練風險</div>
+      <div class="cs">骨骺板骨折·過度使用傷害·去訓練效應</div>
+      <div class="tag">Risk</div>
+    </div>
+    <!-- 格子4 -->
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">👩</div>
+      <div class="ct">女性生理差異</div>
+      <div class="cs">體組成·絕對 vs 相對肌力·肌肉橫截面積相近</div>
+      <div class="tag">Female</div>
+    </div>
+    <!-- 中心格 -->
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.7</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">Age &amp; Sex<br>Differences</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS考試重點</div>
+    </div>
+    <!-- 格子6 -->
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">🦵</div>
+      <div class="ct">女性ACL傷害</div>
+      <div class="cs">發生率6倍·神經肌肉缺陷·動態膝外翻·預防策略</div>
+      <div class="tag">ACL Risk</div>
+    </div>
+    <!-- 格子7 -->
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">👴</div>
+      <div class="ct">老年人肌骨變化</div>
+      <div class="cs">肌少症·骨質疏鬆·Sarcopenia·跌倒風險</div>
+      <div class="tag">Aging</div>
+    </div>
+    <!-- 格子8 -->
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">🏋️</div>
+      <div class="ct">老年人訓練反應</div>
+      <div class="cs">顯著肌力增加·高速度訓練·骨密度改善·功能提升</div>
+      <div class="tag">Older Adults</div>
+    </div>
+    <!-- 格子9 -->
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">📋</div>
+      <div class="ct">各族群設計原則</div>
+      <div class="cs">兒童·女性·老年人 各自的處方注意事項整合</div>
+      <div class="tag">Program Design</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- s1：兒童生長發育 -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">🧒 兒童生長發育</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">時序年齡 vs 生理年齡</div><div class="sb">同齡兒童身高差可達23cm、體重差達18kg。生理年齡更能反映發展程度，不應只用時序年齡分組</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">骨骼年齡（Gold Standard）</div><div class="sb">X光比對左腕骨化程度，最精確但耗時耗費，一般執行者難以使用</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">Tanner分期（限臨床）</div><div class="sb">分5期評估第二性徵。具侵入性，不應由肌力教練使用，僅限合格臨床人員</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">PHV（峰值身高速度）</div><div class="sb">青春期最大生長速率的年齡。女：約12歲；男：約14歲。PHV期間受傷風險升高</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">兒童生長<br>發育</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">訓練年齡（Training Age）</div><div class="sb">正式參與有監督訓練的時間長度。影響訓練適應幅度，與時序年齡不同</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">肌肉與骨骼生長</div><div class="sb">出生時肌肉佔體重約25%，成人升至40%。增加來自肌纖維肥大，非增生（hyperplasia）</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">骨骺板（生長板）</div><div class="sb">位於骨骺板、關節面、肌腱附著點。完全骨化後長骨停止生長；女性比男性早2~3年完成</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">生長軟骨受傷風險</div><div class="sb">PHV期間骨骺板骨折發生率最高。成人造成韌帶撕裂的力道可在兒童造成骨骺板骨折</div></div>
+  </div>
+</div>
+
+<!-- s2：兒童肌力訓練反應 -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">💪 兒童肌力訓練反應</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">神經適應為主要機制</div><div class="sb">青春期前主要透過運動單位活化與同步、招募頻率提升來增加肌力，而非肌肥大</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">荷爾蒙限制肌肥大</div><div class="sb">青春期前睪固酮僅20–60 ng/100ml；青春期男性升至600 ng/100ml。荷爾蒙不足限制肌肥大</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">肌力增幅範圍</div><div class="sb">短期（8–20週）訓練後未訓練青春期前兒童通常可增加約30%–40%肌力，文獻報告範圍10%–90%</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">青少年 vs 兒童</div><div class="sb">meta分析顯示青少年肌力增幅比兒童高約50%，因青春期後荷爾蒙更充足、肌肥大可貢獻更多</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">兒童肌力<br>訓練反應</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">去訓練效應（Detraining）</div><div class="sb">訓練誘導的肌力增益不持久，停練後趨向回到未訓練對照組水準。體育課與運動無法維持訓練增益</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">訓練頻率影響</div><div class="sb">每週2次訓練者肌力增益約為每週1次的1.5倍。但需考量學業、競賽等多重承諾</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">神經系統發展</div><div class="sb">髓鞘化未完成前無法執行高技術動作。性成熟前兒童不應被期望達到成人表現水準</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">早熟 vs 晚熟影響</div><div class="sb">早熟兒童在絕對肌力佔優勢（肌肉量更多）。晚熟者通常偏ectomorphic體型，追趕需時間</div></div>
+  </div>
+</div>
+
+<!-- s3：兒童訓練風險 -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">⚠️ 兒童訓練風險與益處</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">骨骺板骨折風險</div><div class="sb">病例報告多發生在無監督情境下的重量過頭舉。有遵循訓練指引的前瞻研究中無此案例</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">傷害多為意外非固有風險</div><div class="sb">兒童在重訓室受傷多屬意外，且通常發生在監督不足、技術不當或負荷不適合的情況</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">過度使用傷害預防</div><div class="sb">每年美國超過50%的兒童過度使用傷害可透過教練教育、預備訓練、延後專項化來預防</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">1RM測試安全性</div><div class="sb">在適當暖身、負荷逐漸增加、嚴密監督下，1RM測試在兒童和青少年中已被證明是安全的</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">兒童風險<br>與益處</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">早期運動專項化風險</div><div class="sb">早期單一運動專項化增加肌肉失衡、過度使用傷害、過度訓練及倦怠風險。晚期專項化反而更有利長期運動表現</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">骨密度效益</div><div class="sb">規律訓練可提升兒童及青少年骨礦密度。青少年舉重選手骨密度顯著高於同齡對照組</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">肥胖兒童的特殊效益</div><div class="sb">阻力訓練對肥胖兒童可改善體脂、胰島素敏感性及心臟功能。因不需高有氧負荷，參與度較高</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">運動表現提升</div><div class="sb">8–20週訓練後，立定跳遠、垂直跳、30m衝刺及敏捷跑均有改善。運動表現提升具合理依據</div></div>
+  </div>
+</div>
+
+<!-- s4：女性生理差異 -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">👩 女性生理差異</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">絕對肌力差異</div><div class="sb">女性絕對肌力約為男性的2/3。下肢絕對肌力比上肢更接近男性數值，因體脂分布差異</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">相對肌力：體重標準化</div><div class="sb">以體重標準化時，下肢肌力男女相近；上肢仍有差距。以去脂體重標準化後差距幾乎消失</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">肌肉橫截面積品質相同</div><div class="sb">以肌肉橫截面積標準化後，肌力無顯著性別差異，代表肌肉品質（單位面積力量）並無性別差異</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">體組成差異</div><div class="sb">成年女性體脂較高、肌肉量與骨密度較低。腰上肌肉量分布較男性少（肩膀較窄）</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">女性生理<br>差異</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">爆發力輸出差異</div><div class="sb">抓舉/上搏動作中，女性相對體重的爆發力輸出約為男性63%。以去脂體重標準化後差距縮小</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">女運動員三聯症（Triad）</div><div class="sb">能量可用性↓ + 月經功能異常 + 骨密度↓。三者相互關聯，高訓練量+攝食不足易誘發</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">停經（Amenorrhea）</div><div class="sb">定義：月經中斷超過3個月。由腦垂體LH分泌頻率降低引起。可導致骨應力骨折與內分泌問題</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">女性訓練反應</div><div class="sb">女性肌力增幅比例（%）≥男性，或至少相同。短期（≤16週）肌肥大增幅與男性相似（CT測量）</div></div>
+  </div>
+</div>
+
+<!-- s6：女性ACL傷害 -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">🦵 女性ACL傷害</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">發生率：6倍風險</div><div class="sb">女性運動員ACL撕裂發生率為男性的6倍，在足球、籃球尤為顯著。每年預估超過15,000名大學女運動員受傷</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">最主要因素：神經肌肉缺陷</div><div class="sb">雖解剖與荷爾蒙因素有影響，但最重要的可改變因素是神經肌肉缺陷，導致動態膝外翻（dynamic knee valgus）</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">非接觸性受傷機制</div><div class="sb">大多數女性ACL傷害發生於非接觸情境：減速、側向旋轉或落地動作。可透過訓練改善</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">其他可能因素</div><div class="sb">關節鬆弛度、肢體排列、髁間窩尺寸、韌帶大小、荷爾蒙變化、鞋面交互作用、技術水準</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">女性<br>ACL傷害</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">青春期前介入最佳</div><div class="sb">證據顯示青春期前開始預備性訓練，可優化訓練適應效果，早期介入對預防計畫效果更佳</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">預防：多模式訓練</div><div class="sb">阻力訓練 + 增強式訓練 + 敏捷與平衡訓練 + 柔軟度訓練。全年度計畫，由合格專業人員設計</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">動作力學教育</div><div class="sb">確保女性學會並能反覆示範正確動作力學（跳躍、落地、扭轉、切入），並於訓練中給予增強回饋</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">營養支持</div><div class="sb">女性運動員需攝取足夠能量，並強調優質蛋白質與健康脂肪，以優化訓練適應並降低三聯症風險</div></div>
+  </div>
+</div>
+
+<!-- s7：老年人肌骨變化 -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">👴 老年人肌骨變化</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">肌少症（Sarcopenia）</div><div class="sb">老化相關的肌肉量與肌力流失。30歲後肌肉橫截面積開始下降，同時肌肉密度降低、肌內脂肪增加</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">肌力流失數據</div><div class="sb">55–64歲女性40%無法舉起4.5kg；65–74歲45%；75–84歲65%。肌力下降嚴重影響日常功能</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">爆發力衰退更快</div><div class="sb">爆發力比肌力衰退更快。爬樓梯、步行等日常活動需要一定爆發力，爆發力下降影響功能獨立性</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">骨質疏鬆症</div><div class="sb">骨礦密度低於年輕成人平均值2.5 SD以下。骨質減少症（Osteopenia）：-1至-2.5 SD之間</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">老年人<br>肌骨變化</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">跌倒風險因子</div><div class="sb">肌力與爆發力下降、反應時間延長、平衡與姿勢穩定性受損，均增加跌倒風險</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">共同收縮（Cocontraction）</div><div class="sb">老年人增加拮抗肌共同收縮作為代償機制，以穩定關節、減少姿勢搖擺，但會降低淨關節力矩</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">舉重能力下降率</div><div class="sb">競技舉重能力每年下降約1%–1.5%直至70歲，之後下降更明顯。不運動者衰退更快</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">老化變化彙整（Table 7.1）</div><div class="sb">老化使：肌力、爆發力、肌耐力、肌肉量、骨密度、代謝率均↓，體脂↑。阻力訓練可逆轉上述所有變化</div></div>
+  </div>
+</div>
+
+<!-- s8：老年人訓練反應 -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">🏋️ 老年人訓練反應與設計</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">顯著肌力增加（含高齡）</div><div class="sb">87–96歲受試者僅8週訓練後肌力即顯著提升。先前久坐老人12週後膝伸肌力增倍，膝屈肌力增為3倍</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">高速度訓練優勢</div><div class="sb">高速度爆發力訓練對爆發力的改善優於傳統低速訓練，且在肌力增幅上相似。劑量反應關係存在</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">骨密度效益</div><div class="sb">規律阻力訓練可維持或增加骨密度，降低骨質疏鬆骨折風險。惟停練後骨密度會回到訓練前水準</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">功能性改善</div><div class="sb">步行速度、爬樓梯能力、平衡感及自發性活動均與訓練誘導的肌力增益相關</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">老年人<br>訓練反應</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">訓練頻率建議</div><div class="sb">初期建議每週2次（恢復需較長時間）。初始強度40%–50% 1RM，漸進至60%–80% 1RM</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">爆發力訓練處方</div><div class="sb">健康老年人：1–3組/動作，40%–60% 1RM，每組6–10次，以高速度執行</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">Valsalva禁忌</div><div class="sb">老年人應避免Valsalva動作（閉氣用力），因其造成收縮壓與舒張壓急遽上升，心血管疾病患者尤甚</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">阻力訓練≠預防跌倒（單獨）</div><div class="sb">單獨阻力訓練無法預防跌倒。需結合平衡訓練與柔軟度訓練，才能有效降低跌倒風險</div></div>
+  </div>
+</div>
+
+<!-- s9：各族群設計原則 -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">📋 各族群處方設計整合</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">兒童：技術優先原則</div><div class="sb">從無負重（木棒/PVC管）開始學習動作。技術無法維持時必須降低阻力。強調品質而非負荷量</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">兒童：訓練量設計</div><div class="sb">1–3組，每組6–15次，多種單關節與多關節動作。每週2–3次非連續日。系統性週期化</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">女性：上肢強化重點</div><div class="sb">女性上肢絕對肌力相對弱，可增加1–2個上肢動作或組數。抓舉、上搏衍生動作轉移性佳</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">女性：訓練計畫原則</div><div class="sb">肌肉生理特性與男性相同，訓練計畫設計原則無需不同，主要差異在於使用的絕對阻力大小</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">各族群<br>設計原則</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">老年人：醫療史優先</div><div class="sb">開始訓練前完成病史與危險因子問卷。可能需要醫師許可（心臟復健、癌症倖存者等）</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">老年人：安全注意事項</div><div class="sb">暖身5–10分鐘；靜態伸展可前後均做；避免Valsalva；確保48–72小時恢復；無痛範圍內訓練</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">共同原則：技術不讓步</div><div class="sb">兒童、女性、老年人三族群均遵循同一核心：不可以增加強度或負荷為代價犧牲技術品質</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">營養配合訓練</div><div class="sb">老年人需足夠蛋白質促進肌肥大。女性需防三聯症：攝取足夠能量、鈣、維D、蛋白質</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
