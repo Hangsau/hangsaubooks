@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSCS Ch.21 · Periodization</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;padding:20px;background:#0d0d0f;color:#f0f0f8;}
+.breadcrumb{font-size:11px;color:#444;margin-bottom:16px;display:flex;align-items:center;gap:6px;}
+.breadcrumb .current{color:#7c6af7;}
+h1{font-size:11px;letter-spacing:.2em;color:#444;text-transform:uppercase;margin-bottom:4px;}
+h2{font-size:18px;font-weight:700;margin-bottom:20px;}
+h2 span{color:#7c6af7;}
+.mandala{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.cell{background:#16161a;border:1px solid #2a2a32;border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;min-height:110px;display:flex;flex-direction:column;gap:5px;}
+.cell:hover{border-color:#7c6af7;transform:scale(1.03);z-index:2;}
+.cell.center{cursor:default;transform:none!important;align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;}
+.ci{font-size:18px;}
+.ct{font-size:12px;font-weight:700;}
+.cs{font-size:10px;color:#606080;line-height:1.5;flex:1;}
+.tag{font-size:9px;padding:2px 6px;border-radius:4px;align-self:flex-start;}
+.score{font-size:11px;color:#f0a030;background:rgba(240,160,48,.10);padding:3px 8px;border-radius:20px;margin-top:4px;}
+.c1{border-top:2px solid #7c6af7;}.c1 .ct{color:#7c6af7;}.c1 .tag{background:rgba(124,106,247,.15);color:#7c6af7;}
+.c2{border-top:2px solid #3fc87c;}.c2 .ct{color:#3fc87c;}.c2 .tag{background:rgba(63,200,124,.15);color:#3fc87c;}
+.c3{border-top:2px solid #f0a030;}.c3 .ct{color:#f0a030;}.c3 .tag{background:rgba(240,160,48,.15);color:#f0a030;}
+.c4{border-top:2px solid #e05252;}.c4 .ct{color:#e05252;}.c4 .tag{background:rgba(224,82,82,.15);color:#e05252;}
+.c5{border-top:2px solid #3b8bd4;}.c5 .ct{color:#3b8bd4;}.c5 .tag{background:rgba(59,139,212,.15);color:#3b8bd4;}
+.c6{border-top:2px solid #d46eb5;}.c6 .ct{color:#d46eb5;}.c6 .tag{background:rgba(212,110,181,.15);color:#d46eb5;}
+.c7{border-top:2px solid #4ecdc4;}.c7 .ct{color:#4ecdc4;}.c7 .tag{background:rgba(78,205,196,.15);color:#4ecdc4;}
+.c8{border-top:2px solid #f7c948;}.c8 .ct{color:#f7c948;}.c8 .tag{background:rgba(247,201,72,.15);color:#f7c948;}
+.sub-area{display:none;margin-top:16px;border-top:1px solid #2a2a32;padding-top:16px;}
+.sub-area.show{display:block;}
+.sub-head{font-size:13px;font-weight:700;margin-bottom:10px;}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.sc{background:#0d0d0f;border:1px solid #2a2a32;border-radius:6px;padding:10px;min-height:80px;display:flex;flex-direction:column;gap:3px;}
+.sc.scc{align-items:center;justify-content:center;text-align:center;border-color:#7c6af7;background:#16161a;}
+.st{font-size:10px;font-weight:700;line-height:1.4;}
+.sb{font-size:9px;color:#606080;line-height:1.5;flex:1;}
+.back-btn{display:inline-block;margin-bottom:12px;font-size:11px;color:#606080;cursor:pointer;padding:4px 10px;border:1px solid #2a2a32;border-radius:6px;background:#16161a;}
+.back-btn:hover{color:#f0f0f8;border-color:#444;}
+.hint{font-size:10px;color:#333;text-align:center;margin-top:12px;}
+</style>
+</head>
+<body>
+<nav class="breadcrumb">
+  <span>讀書庫</span><span>/</span><span>CSCS</span><span>/</span>
+  <span class="current">Ch.21</span>
+</nav>
+<h1>CSCS 備考 · 九宮格複習</h1>
+<h2>Chapter 21 <span>Periodization 週期化訓練</span></h2>
+
+<div id="main-view">
+  <div class="mandala">
+    <div class="cell c1" onclick="showSub('s1')">
+      <div class="ci">⚡</div>
+      <div class="ct">GAS 一般適應症候群</div>
+      <div class="cs">警覺期·抵抗期·疲憊期·超補償</div>
+      <div class="tag">理論基礎</div>
+    </div>
+    <div class="cell c2" onclick="showSub('s2')">
+      <div class="ci">🔁</div>
+      <div class="ct">刺激-疲勞-恢復-適應理論</div>
+      <div class="cs">訓練量↑→疲勞↑→恢復延遲→超補償</div>
+      <div class="tag">SFRA理論</div>
+    </div>
+    <div class="cell c3" onclick="showSub('s3')">
+      <div class="ci">⚖️</div>
+      <div class="ct">Fitness–Fatigue 典範</div>
+      <div class="cs">適能+疲勞=準備狀態·疲勞消散快於適能</div>
+      <div class="tag">Zatsiorsky</div>
+    </div>
+    <div class="cell c4" onclick="showSub('s4')">
+      <div class="ci">🏗️</div>
+      <div class="ct">週期化層級結構</div>
+      <div class="cs">多年計畫→年計畫→大週期→中週期→小週期</div>
+      <div class="tag">Hierarchy</div>
+    </div>
+    <div class="cell center">
+      <div style="font-size:10px;color:#444;margin-bottom:4px">CH.21</div>
+      <div style="font-size:14px;font-weight:700;color:#7c6af7">Periodization<br>週期化訓練</div>
+      <div class="cs" style="margin-top:6px;">點擊各格展開</div>
+      <div class="score">8 主題 · CSCS核心章節</div>
+    </div>
+    <div class="cell c5" onclick="showSub('s6')">
+      <div class="ci">🏋️</div>
+      <div class="ct">備賽期 Preparatory</div>
+      <div class="cs">一般備賽相→特殊備賽相·肥大/基礎肌力</div>
+      <div class="tag">Off-Season</div>
+    </div>
+    <div class="cell c6" onclick="showSub('s7')">
+      <div class="ci">🚀</div>
+      <div class="ct">第一轉換期＆競賽期</div>
+      <div class="cs">肌力/爆發力相→巔峰/維持·強度↑量↓</div>
+      <div class="tag">Preseason→In</div>
+    </div>
+    <div class="cell c7" onclick="showSub('s8')">
+      <div class="ci">😴</div>
+      <div class="ct">第二轉換期（主動休息）</div>
+      <div class="cs">1-4週·復健·心理恢復·防止去適應</div>
+      <div class="tag">Postseason</div>
+    </div>
+    <div class="cell c8" onclick="showSub('s9')">
+      <div class="ci">📊</div>
+      <div class="ct">線性 vs 波動週期化</div>
+      <div class="cs">傳統模型≠線性·DUP每日波動負荷·各有優劣</div>
+      <div class="tag">模型比較</div>
+    </div>
+  </div>
+  <p class="hint">↑ 點擊任意格展開子九宮格</p>
+</div>
+
+<!-- S1: GAS -->
+<div class="sub-area" id="s1">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#7c6af7">⚡ GAS 一般適應症候群（Hans Selye, 1956）</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#7c6af7">警覺期 Alarm</div><div class="sb">接觸新/更強刺激時的初期反應；疲勞、酸痛、表現↓；可持續數小時至數週</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">抵抗期 Resistance</div><div class="sb">身體適應刺激，恢復正常功能；若訓練適當→超補償，表現超越基線</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">疲憊期 Exhaustion</div><div class="sb">壓力持續過久→無法適應；症狀類似警覺期；過度訓練（overtraining）前兆</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">超補償 Supercompensation</div><div class="sb">抵抗期後表現超越原基線的新高點；週期化的核心目標</div></div>
+    <div class="sc scc"><div class="st" style="color:#7c6af7">GAS<br>一般適應症候群</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">過度訓練風險</div><div class="sb">過度負荷、單調訓練、過度多樣化皆可引發疲憊期；非訓練壓力（睡眠、飲食、人際）亦影響整體壓力</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">應用於週期化</div><div class="sb">透過週期化管理訓練壓力，避免進入疲憊期；各週期的刺激強度需有系統地進退</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">個別差異</div><div class="sb">GAS曲線的斜率、幅度、時間點因人而異；需依運動員個別狀況調整</div></div>
+    <div class="sc"><div class="st" style="color:#7c6af7">歷史背景</div><div class="sb">Selye 1956年提出；原非針對運動訓練；後被Matveyev等人引入週期化理論作為基礎</div></div>
+  </div>
+</div>
+
+<!-- S2: SFRA -->
+<div class="sub-area" id="s2">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3fc87c">🔁 刺激-疲勞-恢復-適應理論（SFRA）</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3fc87c">訓練量與疲勞正相關</div><div class="sb">整體訓練量愈大→疲勞累積愈多→完全恢復與適應所需時間愈長</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">恢復後表現提升</div><div class="sb">疲勞消散後，準備狀態與表現提升；形成「刺激→疲勞→恢復→適應」循環</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">去適應（Involution）</div><div class="sb">若無新刺激介入，適應後的能力將衰退至基線以下，即detraining</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">不必完全恢復再訓練</div><div class="sb">新一輪訓練不需等到完全恢復；輕重交替可調節疲勞與恢復的節奏</div></div>
+    <div class="sc scc"><div class="st" style="color:#3fc87c">SFRA理論<br>GAS的延伸</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">輕重日交替</div><div class="sb">以輕日/重日或輕週/重週調控疲勞與恢復；是序列型週期化模型的操作基礎</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">基礎於序列週期化</div><div class="sb">此理論是序列週期化（sequential periodization）的概念基礎；不同訓練因子可分別操控</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">殘留訓練效果</div><div class="sb">前一訓練期的適應效果（residual effect）可延續至下一期；是規劃訓練順序的重要依據</div></div>
+    <div class="sc"><div class="st" style="color:#3fc87c">週期內普遍存在</div><div class="sb">此循環模式存在於訓練動作、單次課程、訓練日、中週期等各層級中</div></div>
+  </div>
+</div>
+
+<!-- S3: Fitness-Fatigue -->
+<div class="sub-area" id="s3">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f0a030">⚖️ Fitness–Fatigue 典範（Zatsiorsky）</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f0a030">兩大後效</div><div class="sb">每次訓練產生適能（fitness）與疲勞（fatigue）兩種後效；兩者加總決定準備狀態（preparedness）</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">高訓練量時</div><div class="sb">適能↑但疲勞同步↑；疲勞掩蓋適能→準備狀態↓；表現暫時下降是正常現象</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">低訓練量時</div><div class="sb">疲勞少、適能增加有限→準備狀態仍低；過度減量亦無法優化表現</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">疲勞消散快於適能</div><div class="sb">關鍵特性：fatigue dissipates faster than fitness；因此減量後準備狀態可升高，即tapering原理</div></div>
+    <div class="sc scc"><div class="st" style="color:#f0a030">Fitness–Fatigue<br>Paradigm</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">訓練負荷排序的重要性</div><div class="sb">訓練負荷的排列順序（sequencing）影響準備狀態；系統性變化量是週期化的核心操作</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">個別因子各有曲線</div><div class="sb">各訓練因子（肌力、爆發、耐力）各有自己的fitness/fatigue/preparedness曲線，非單一條曲線</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">殘留效果的應用</div><div class="sb">前期訓練的殘留適能（residual effects）可被後期利用；序列週期化的理論基礎之一</div></div>
+    <div class="sc"><div class="st" style="color:#f0a030">與DUP的關聯</div><div class="sb">波動模型（DUP）高量訓練可能使疲勞累積，降低準備狀態；有過度訓練風險（高階運動員）</div></div>
+  </div>
+</div>
+
+<!-- S4: Hierarchy -->
+<div class="sub-area" id="s4">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#e05252">🏗️ 週期化層級結構（Periodization Hierarchy）</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#e05252">多年計畫（2-4年）</div><div class="sb">最廣但最不詳細；如大學球員4年發展計畫；設定各年主要目標與里程碑；奧運週期＝四年計畫</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">年計畫 Annual Plan</div><div class="sb">依運動項目含1個或多個大週期；包含備賽期、競賽期、轉換期；是訓練年的整體藍圖</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">大週期 Macrocycle</div><div class="sb">數月～1年；單一賽季運動（如美式足球）＝1個大週期；雙賽季（如田徑）＝2個大週期</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">中週期 Mesocycle</div><div class="sb">2-6週；最常見4週；每個大週期含多個中週期；各有不同訓練目標與優先順序</div></div>
+    <div class="sc scc"><div class="st" style="color:#e05252">週期化<br>層級結構</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">小週期 Microcycle</div><div class="sb">數天～2週；最常見7天（1週）；由多個訓練日組成；是日常訓練安排的操作單位</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">訓練日 Training Day</div><div class="sb">1天；可含多個訓練節次（sessions）；在所屬小週期的脈絡下設計</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">訓練節次 Session</div><div class="sb">數小時；若兩訓練間休息&gt;30分鐘則視為兩個session；是最小的計畫單位</div></div>
+    <div class="sc"><div class="st" style="color:#e05252">由廣到精的設計邏輯</div><div class="sb">年計畫設定方向→大週期定結構→中週期選手段→小週期排課表；越細越具體</div></div>
+  </div>
+</div>
+
+<!-- S6: Preparatory Period -->
+<div class="sub-area" id="s6">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#3b8bd4">🏋️ 備賽期（Preparatory Period）＝ 休賽季</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#3b8bd4">時機與特性</div><div class="sb">無比賽；技術與專項訓練極少；對應休賽季（off-season）；建立後續高強度訓練的耐受基礎</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">一般備賽相（GPP）</div><div class="sb">高量、低強度；多樣化訓練手段；發展一般運動能力與技能；對應肥大/肌力耐力相</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">特殊備賽相（SPP）</div><div class="sb">在GPP基礎上，增加專項性訓練比重；為競賽期做準備；對應基礎肌力相</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">肥大/肌力耐力相</div><div class="sb">強度：50-75% 1RM；量：3-6組×8-20下；目標：↑瘦體重、肌耐力、代謝基礎；對應GPP</div></div>
+    <div class="sc scc"><div class="st" style="color:#3b8bd4">備賽期<br>Preparatory</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">基礎肌力相</div><div class="sb">強度：80-95% 1RM；量：2-6組×2-6下；目標：強化主要動作鏈肌力；對應SPP</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">初學者 vs 進階者</div><div class="sb">初學者：低強度起始，緩慢提升；進階者：需更高量與強度、更多變化才能持續適應</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">每日訓練變化</div><div class="sb">整個備賽期仍需每日變化強度與訓練量，以促進恢復；期末常安排減量週（unloading）</div></div>
+    <div class="sc"><div class="st" style="color:#3b8bd4">非週期特性</div><div class="sb">雖圖示看起來線性，實際上量與強度在微/中週期層次是非線性波動的，非真正線性週期化</div></div>
+  </div>
+</div>
+
+<!-- S7: First Transition + Competitive -->
+<div class="sub-area" id="s7">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#d46eb5">🚀 第一轉換期 ＆ 競賽期</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#d46eb5">第一轉換期角色</div><div class="sb">連結備賽期與競賽期；對應季前（preseason）；訓練聚焦肌力轉化為爆發力；末週減量</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">肌力/爆發力相</div><div class="sb">強度：30-95% 1RM（視動作而定）；量：2-5組×2-5下；爆發動作負荷視動作選擇而定</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">爆發動作負荷特殊性</div><div class="sb">爆發力動作不遵循標準%RM-反覆次數關係；如懸掛式抓舉以50-70% 1RM最大化爆發力輸出</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">競賽期目標</div><div class="sb">維持強度、降低量；balance between fitness retention vs fatigue reduction；強度↑量↓</div></div>
+    <div class="sc scc"><div class="st" style="color:#d46eb5">第一轉換<br>＋競賽期</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">巔峰（Peaking）</div><div class="sb">強度：50%~&gt;93% 1RM；量：1-3組×1-3下；持續1-2週；巔峰無法長期維持（超過7-14天即衰退）</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">維持（Maintenance）</div><div class="sb">團隊運動整季需要；強度：85-93% 1RM；量：~2-5組×3-6下；依賽程在小週期內微調</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">專項技術比重↑</div><div class="sb">競賽期專項技術與戰術練習大幅增加；體能訓練（含阻力訓練）時間相對減少</div></div>
+    <div class="sc"><div class="st" style="color:#d46eb5">長賽季策略</div><div class="sb">長賽季（12-16週）：以3-4週中週期為塊；末週減量→超補償→重要比賽前達峰值狀態</div></div>
+  </div>
+</div>
+
+<!-- S8: Second Transition -->
+<div class="sub-area" id="s8">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#4ecdc4">😴 第二轉換期（Active Rest / 主動休息）</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#4ecdc4">時機</div><div class="sb">競賽期結束後、下一年備賽期開始前；連結兩個大週期或年度計畫的橋樑</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">持續時間</div><div class="sb">建議1-4週；不應超過4週；若因傷需要延長則例外；過長→去適應→下一年需更長GPP</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">主動休息的內容</div><div class="sb">休閒性活動（排球、游泳、羽球等）；非常低強度、低量；無正式結構化訓練課程</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">目的</div><div class="sb">生理上：復健傷病、恢復疲勞；心理上：從長賽季的精神壓力中放鬆、重啟動力</div></div>
+    <div class="sc scc"><div class="st" style="color:#4ecdc4">第二轉換期<br>Active Rest</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">避免太快高強度訓練</div><div class="sb">剛結束競賽期後應避免立即進行積極訓練；讓身體與心理都有充分復原空間</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">去適應風險</div><div class="sb">賽後期越長，去適應越多；下一年備賽期需要更長的一般備賽相來恢復運動能力</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">次要用途：減量週</div><div class="sb">Active rest概念也可用於長期訓練相/期之間插入1週減量；降低過度訓練風險</div></div>
+    <div class="sc"><div class="st" style="color:#4ecdc4">阻力訓練建議</div><div class="sb">若做阻力訓練，量極低（30-85% 1RM）、非專項動作；維持基礎動作模式即可</div></div>
+  </div>
+</div>
+
+<!-- S9: Linear vs Undulating -->
+<div class="sub-area" id="s9">
+  <span class="back-btn" onclick="goBack()">← 返回</span>
+  <div class="sub-head" style="color:#f7c948">📊 線性 vs 波動週期化模型比較</div>
+  <div class="sub-grid">
+    <div class="sc"><div class="st" style="color:#f7c948">傳統模型（誤稱線性）</div><div class="sb">中週期間量↓強度↑；但小週期內仍有非線性波動（重日/輕日）；嚴格來說非真正線性</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">DUP 每日波動週期化</div><div class="sb">同一週內每次訓練的組數、反覆、強度和目標均不同；如週一6RM、週四10RM、週六3RM</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">傳統模型優勢</div><div class="sb">支持者：序列式發展肌力→爆發力更系統；符合GAS與fitness-fatigue的理論邏輯；殘留效果可疊加</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">傳統模型風險</div><div class="sb">DUP支持者指出：傳統模型持續高強度累積神經疲勞（neural fatigue）；可能限制爆發力表現</div></div>
+    <div class="sc scc"><div class="st" style="color:#f7c948">週期化<br>模型比較</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">DUP優勢</div><div class="sb">每日目標不同避免神經疲勞累積；訓練多樣性高；有研究顯示比傳統模型更有效</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">DUP風險</div><div class="sb">高量訓練產生更多代謝疲勞；與專項訓練並行時受傷風險↑；可能影響高階選手的準備狀態</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">研究結論分歧</div><div class="sb">部分研究：DUP&gt;傳統；部分：無差異；部分：傳統&gt;DUP；目前尚無定論，需視運動員個別情況</div></div>
+    <div class="sc"><div class="st" style="color:#f7c948">週期化核心原則</div><div class="sb">週期化的核心是「去除線性」（removal of linearity）；任何模型都需要有系統的負荷波動，非單調遞增</div></div>
+  </div>
+</div>
+
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+}
+</script>
+</body>
+</html>
