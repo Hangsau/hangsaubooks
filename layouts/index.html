@@ -14,6 +14,11 @@
     <a href="{{ printf "%slibrary/%s/" $.Site.BaseURL .slug }}" class="book-card" style="--book-color: {{ .color }}">
       <div class="book-spine"></div>
       <div class="book-cover">
+        {{ if .cover }}
+        <div class="book-cover-thumb">
+          <img src="{{ printf "%s%s" $.Site.BaseURL .cover }}" alt="{{ .title }}">
+        </div>
+        {{ end }}
         <div class="book-topics">{{ delimit .topics " · " }}</div>
         <div class="book-card-title">{{ .title }}</div>
         <div class="book-card-author">{{ .author }}</div>

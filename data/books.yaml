@@ -3,6 +3,7 @@
   edition: "4th"
   slug: "essentials-of-strength-training"
   status: "reading"
+  cover: "images/covers/cscs-cover.jpg"
   color: "#7c6af7"
   topics:
     - Strength Training

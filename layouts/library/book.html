@@ -5,9 +5,11 @@
 
 {{ define "main" }}
 <div class="book-hero">
+  {{ with .Params.cover }}
   <div class="book-cover-img">
-    <img src="{{ .Site.BaseURL }}images/cscs-cover.jpg" alt="{{ .Title }}封面">
+    <img src="{{ printf "%s%s" $.Site.BaseURL . }}" alt="{{ $.Title }}封面">
   </div>
+  {{ end }}
   <div class="book-info">
     <div class="book-tag">{{ delimit .Params.topics " · " }}</div>
     <div class="book-title-lg">{{ .Title }}</div>

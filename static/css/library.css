@@ -50,6 +50,32 @@
   color: #15803d;
 }
 
+/* Book page hero */
+.book-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-8);
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-8);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.book-cover-img {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.book-cover-img img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  display: block;
+}
+
+.book-info {
+  flex: 1;
+}
+
 /* Book page */
 .book-header {
   margin-bottom: var(--space-8);
