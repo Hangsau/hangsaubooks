@@ -1,0 +1,37 @@
+{{ define "head-extra" }}
+<link rel="stylesheet" href="{{ .Site.BaseURL }}css/library.css">
+<link rel="stylesheet" href="{{ .Site.BaseURL }}css/adm.css">
+{{ end }}
+
+{{ define "main" }}
+<div class="book-hero">
+  {{ with .Params.cover }}
+  <div class="book-cover-img">
+    <img src="{{ printf "%s%s" $.Site.BaseURL . }}" alt="{{ $.Title }}封面">
+  </div>
+  {{ end }}
+  <div class="book-info">
+    <div class="book-tag">{{ delimit .Params.topics " · " }}</div>
+    <div class="book-title-lg">{{ .Title }}</div>
+    {{ with .Params.author }}<div class="book-sub" style="margin-top:6px">{{ . }}</div>{{ end }}
+  </div>
+</div>
+
+<div class="adm-nav-cards">
+  {{ range .Pages }}
+  <a href="{{ .Permalink }}" class="adm-nav-card">
+    {{ if eq .File.BaseFileName "background" }}
+    <div class="adm-nav-card-icon">📖</div>
+    <div class="adm-nav-card-title">{{ .Title }}</div>
+    <div class="adm-nav-card-desc">LTD 模型、獎牌台路徑、四大支柱與八大考量</div>
+    {{ else if eq .File.BaseFileName "matrix" }}
+    <div class="adm-nav-card-icon">⊞</div>
+    <div class="adm-nav-card-title">{{ .Title }}</div>
+    <div class="adm-nav-card-desc">四大支柱 × 四個發展階段，互動瀏覽</div>
+    {{ else }}
+    <div class="adm-nav-card-title">{{ .Title }}</div>
+    {{ end }}
+  </a>
+  {{ end }}
+</div>
+{{ end }}

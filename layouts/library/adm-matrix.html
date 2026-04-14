@@ -1,0 +1,240 @@
+{{ define "head-extra" }}
+<link rel="stylesheet" href="{{ .Site.BaseURL }}css/adm.css">
+{{ end }}
+
+{{ define "main" }}
+<div class="adm-page-header">
+  <a href="{{ .Parent.Permalink }}" class="adm-back-link">← Athlete Development Matrix</a>
+  <h1 class="adm-page-title">發展矩陣</h1>
+  <p class="adm-page-desc">四大支柱 × 四個發展階段 — 選擇階段篩選，或點擊格子展開詳情</p>
+</div>
+
+<div class="adm-filter-bar">
+  <button class="adm-filter-btn active" data-stage="all">全覽</button>
+  <button class="adm-filter-btn" data-stage="l2t">
+    <span class="adm-filter-code">L2T</span>
+    <span class="adm-filter-name">學習訓練</span>
+  </button>
+  <button class="adm-filter-btn" data-stage="t2t">
+    <span class="adm-filter-code">T2T</span>
+    <span class="adm-filter-name">訓練為訓練</span>
+  </button>
+  <button class="adm-filter-btn" data-stage="t2c">
+    <span class="adm-filter-code">T2C</span>
+    <span class="adm-filter-name">訓練為競賽</span>
+  </button>
+  <button class="adm-filter-btn" data-stage="t2w">
+    <span class="adm-filter-code">T2W</span>
+    <span class="adm-filter-name">訓練為勝利</span>
+  </button>
+</div>
+
+<div class="adm-matrix" id="adm-matrix">
+
+  <!-- Header row -->
+  <div class="adm-row adm-row--header">
+    <div class="adm-label-cell"></div>
+    <div class="adm-head-cell" data-stage="l2t">
+      <div class="adm-stage-code">L2T</div>
+      <div class="adm-stage-name">學習訓練</div>
+      <div class="adm-stage-age">女 8 歲～青春期<br>男 9 歲～青春期</div>
+    </div>
+    <div class="adm-head-cell" data-stage="t2t">
+      <div class="adm-stage-code">T2T</div>
+      <div class="adm-stage-name">訓練為訓練</div>
+      <div class="adm-stage-age">青春期</div>
+    </div>
+    <div class="adm-head-cell" data-stage="t2c">
+      <div class="adm-stage-code">T2C</div>
+      <div class="adm-stage-name">訓練為競賽</div>
+      <div class="adm-stage-age">Podium Pathway</div>
+    </div>
+    <div class="adm-head-cell" data-stage="t2w">
+      <div class="adm-stage-code">T2W</div>
+      <div class="adm-stage-name">訓練為勝利</div>
+      <div class="adm-stage-age">Podium Pathway</div>
+    </div>
+  </div>
+
+  <!-- Row: Physical -->
+  <div class="adm-row" data-pillar="physical">
+    <div class="adm-label-cell adm-label--physical">
+      <div class="adm-pillar-icon">⚡</div>
+      <div class="adm-pillar-name">體能</div>
+    </div>
+
+    <div class="adm-cell" data-stage="l2t" data-pillar="physical">
+      <div class="adm-cell-summary">
+        <p>多元體能基礎；速度與柔軟度為敏感訓練期；以體重為阻力；GPP 佔 80%</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2t" data-pillar="physical">
+      <div class="adm-cell-summary">
+        <p>進入耐力與肌力可訓練窗口；開始離心負重；GPP 佔 50%</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2c" data-pillar="physical">
+      <div class="adm-cell-summary">
+        <p>針對性體能強化；比賽週期配合年度訓練計畫；GPP 佔 35%</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2w" data-pillar="physical">
+      <div class="adm-cell-summary">
+        <p>高度專項化；峰值管理；48 週年度計畫；兩次巔峰週期</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row: Technical/Tactical/Strategic -->
+  <div class="adm-row" data-pillar="technical">
+    <div class="adm-label-cell adm-label--technical">
+      <div class="adm-pillar-icon">🎯</div>
+      <div class="adm-pillar-name">技術戰術</div>
+    </div>
+
+    <div class="adm-cell" data-stage="l2t" data-pillar="technical">
+      <div class="adm-cell-summary">
+        <p>掌握四式基礎；起跳、轉身、抵壁入門；廣泛多項運動；身體素養打底</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2t" data-pillar="technical">
+      <div class="adm-cell-summary">
+        <p>技術精緻化；建立個人划水模型；開始加入戰術思考；競賽技能整合</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2c" data-pillar="technical">
+      <div class="adm-cell-summary">
+        <p>競賽策略成熟；個人化划水模型完善；比賽節奏與能量分配掌控</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2w" data-pillar="technical">
+      <div class="adm-cell-summary">
+        <p>頂尖技術執行；策略性競賽設計；致勝風格確立；應對對手能力</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row: Mental Skills -->
+  <div class="adm-row" data-pillar="mental">
+    <div class="adm-label-cell adm-label--mental">
+      <div class="adm-pillar-icon">🧠</div>
+      <div class="adm-pillar-name">心理技能</div>
+    </div>
+
+    <div class="adm-cell" data-stage="l2t" data-pillar="mental">
+      <div class="adm-cell-summary">
+        <p>建立正向態度；引入目標設定概念；認識情緒對表現的影響</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2t" data-pillar="mental">
+      <div class="adm-cell-summary">
+        <p>強化內在動機；發展正向自我對話；專注力訓練；建立賽前程序</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2c" data-pillar="mental">
+      <div class="adm-cell-summary">
+        <p>高壓情境表現技能；完整賽前準備程序；系統性錯誤分析；情緒調節</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2w" data-pillar="mental">
+      <div class="adm-cell-summary">
+        <p>頂峰表現心理；長期生涯管理；高度自主調節；應對媒體與外部壓力</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Row: Life Skills -->
+  <div class="adm-row" data-pillar="life">
+    <div class="adm-label-cell adm-label--life">
+      <div class="adm-pillar-icon">🌱</div>
+      <div class="adm-pillar-name">生活技能</div>
+    </div>
+
+    <div class="adm-cell" data-stage="l2t" data-pillar="life">
+      <div class="adm-cell-summary">
+        <p>建立時間管理習慣；學習團隊合作；正向飲食關係；基礎 SEL 技能</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2t" data-pillar="life">
+      <div class="adm-cell-summary">
+        <p>學業與訓練平衡；溝通技能；認識反禁藥規定；建立支援網絡</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2c" data-pillar="life">
+      <div class="adm-cell-summary">
+        <p>媒體應對技能；旅行知識；職涯規劃開始；承擔領導角色</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+
+    <div class="adm-cell" data-stage="t2w" data-pillar="life">
+      <div class="adm-cell-summary">
+        <p>完整生活自主管理；退役轉型計畫；成為後輩榜樣；運動大使角色</p>
+      </div>
+      <div class="adm-cell-detail">
+        <p><em>詳細內容即將填入（Batch 2）</em></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+{{ end }}
+
+{{ define "scripts" }}
+<script src="{{ .Site.BaseURL }}js/adm-matrix.js"></script>
+{{ end }}
