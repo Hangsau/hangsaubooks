@@ -12,24 +12,25 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [x] 書庫 section（library/list、library/book、library/chapter）
 - [x] 筆記本 section（notebook/list、notebook/single）
 - [x] Shortcodes：flashcard、highlight-quote、callout
-- [x] CSS 分層：variables / base / layout / bookshelf / library / cscs-chapter / notebook
+- [x] CSS 分層：variables / base / layout / bookshelf / library / cscs-chapter / notebook / adm
 - [x] CSCS 24 章搬入 `library/essentials-of-strength-training/`，九宮格正常
 - [x] 閃卡資料（ch01）正常，閃卡模式可用
-- [x] CSS 路徑問題修正（改用 `.Site.BaseURL` 拼接）
 - [x] GitHub Actions 自動部署完成
-- [x] 封面圖統一放 `static/images/covers/`
-- [x] Hugo 串接 Google Sheets CSV（閃卡資料源，data/flashcards/ 已刪除）
-- [x] CLAUDE.md 閃卡說明更新（Google Sheets appendRows 取代舊 JSON）
-- [x] **ADM 第二本書上線（完整）**
+- [x] Hugo 串接 Google Sheets CSV（閃卡資料源）
+- [x] **ADM 完整上線**（書架 + 背景頁 + 互動矩陣 + 附錄 A）
 
-## ADM 進度
+## ADM 架構（新增，本次對話完成）
 
-**Athlete Development Matrix**（Swimming Canada）已完整上線：
-- [x] 書架首頁顯示新書卡片
-- [x] 書本頁：封面 + 三張導航卡（背景頁、矩陣頁、附錄 A）
-- [x] 背景閱讀頁（Part 1–3 全文）：LTD 模型、獎牌台路徑、四大支柱、八大考量
-- [x] 互動矩陣頁：4 支柱 × 4 階段，全部 16 格有摘要 + 詳細要點（點擊展開）
-- [x] 附錄 A：四泳式划水技術 + 起跳 + 轉身（6 種）完整技術基準
+四個頁面，皆在 `content/library/athlete-development-matrix/`：
+
+| 頁面 | layout | 說明 |
+|------|--------|------|
+| `_index.md` | adm-book | 書本封面 + 導航卡（icon/description 從 front matter 讀） |
+| `background.md` | adm-single | Part 1–3 全文：LTD 模型、四大支柱、八大考量 |
+| `matrix.md` | adm-matrix | 互動矩陣：4 支柱 × 4 階段，篩選 + 點擊展開 |
+| `appendix-a.md` | adm-single | 四泳式划水 + 起跳 + 轉身（6 種）技術基準 |
+
+矩陣內容在 `data/adm/matrix.yaml`，要修改直接編輯這個檔案即可。
 
 ## 尚未完成
 
@@ -40,7 +41,7 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [ ] 書庫列表樣式優化（`library/list.html`）
 
 ### ADM
-- [ ] Appendix B：帕拉游泳分類（`appendix_b_para_swimming_classification.md`，若有需要才做）
+- [ ] Appendix B：帕拉游泳分類（若有需要才做，原始檔在 `resources/books/Athlete-development-matrix/appendix_b_para_swimming_classification.md`）
 
 ## Google Sheets 閃卡資料來源
 
@@ -60,6 +61,5 @@ Claude Code 讀 PDF / 已整理的 .md
 
 ## 下一步建議
 
-1. 看 ADM 矩陣頁，確認設計方向與內容是否滿意
-2. 若需要加 Appendix A（技術基準），可繼續 Batch 3
-3. 繼續 CSCS ch02 筆記
+1. 繼續 CSCS ch02 筆記（提供 ch02 PDF，產出 .md 確認品質）
+2. 若需要 ADM Appendix B，直接用 adm-single layout 加一頁即可
