@@ -3,9 +3,6 @@ languageCode = "zh-tw"
 title = "My Site"
 defaultContentLanguage = "zh-tw"
 
-# 不使用 theme，完全自訂 layout
-theme = ""
-
 [markup.goldmark.renderer]
   unsafe = true
 
