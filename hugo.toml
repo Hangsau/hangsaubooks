@@ -13,6 +13,7 @@ defaultContentLanguage = "zh-tw"
 [params]
   description = "個人知識庫"
   author = ""
+  cscsFlashcardsCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_qbjIe5MXYFLj7THraEwn2rZvlrtLSHUgU-ufCZkvbVSEkYq_0rDbXGfttWPoGrPErOngkg_6px41/pub?output=csv"
 
 [menu]
   [[menu.main]]

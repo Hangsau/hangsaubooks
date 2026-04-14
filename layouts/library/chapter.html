@@ -4,7 +4,17 @@
 
 {{ define "main" }}
 {{ $chID := path.Base (.RelPermalink | strings.TrimRight "/") }}
-{{ $cards := index .Site.Data.flashcards $chID }}
+{{ $cards := slice }}
+{{ $csvURL := .Site.Params.cscsFlashcardsCSV }}
+{{ if $csvURL }}
+  {{ with resources.GetRemote $csvURL }}
+    {{ range $i, $row := (. | transform.Unmarshal (dict "delimiter" ",")) }}
+      {{ if and (gt $i 0) (eq (index $row 0) $chID) }}
+        {{ $cards = $cards | append (dict "q" (index $row 1) "a" (index $row 2) "tag" (index $row 3)) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
 
 <div class="topbar">
   <a href="{{ .Parent.RelPermalink }}">&larr; {{ .Parent.Title }}</a>
