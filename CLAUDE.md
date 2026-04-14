@@ -80,10 +80,46 @@ data/
 ### 加新書的流程
 1. 在 `content/library/<book-slug>/` 建資料夾與 `_index.md`（`layout: book`）
 2. 在 `data/books.yaml` 加一筆（含 slug、color）
-3. 封面圖放 `static/images/`
+3. 封面圖放 `static/images/covers/`
+
+### ADM（Athlete Development Matrix）架構
+
+ADM 不用 CSCS 的九宮格 layout，有自己一套：
+
+```
+content/library/athlete-development-matrix/
+  _index.md          layout: adm-book      → 封面 + 兩張導航卡
+  background.md      layout: adm-single    → Parts 1-3 長文閱讀
+  matrix.md          layout: adm-matrix    → 互動矩陣頁
+
+layouts/library/
+  adm-book.html      封面頁 layout
+  adm-single.html    長文閱讀 layout（含返回連結）
+  adm-matrix.html    矩陣頁 layout（從 data 讀內容）
+
+data/adm/
+  matrix.yaml        矩陣的所有內容（4 支柱 × 4 階段）
+
+static/
+  css/adm.css        ADM 專用樣式
+  js/adm-matrix.js   篩選 + 格子展開互動
+```
+
+**矩陣內容修改方式**：只需編輯 `data/adm/matrix.yaml`，每個格子有 `summary`（摘要句）和 `points`（詳細要點清單），`points` 支援 Markdown（`**粗體**` 等）。
+
+**adm-matrix.html 使用 `hugo.Data`（非 `.Site.Data`）** 讀取資料：
+```
+{{ $data := index hugo.Data "adm" }}
+{{ range $data.matrix.pillars }}
+```
 
 ### 加新 CSCS 章節閃卡
-- 在 `data/flashcards/chXX.json` 建檔（格式：`[{"q":"","a":"","tag":""}]`）
+- 閃卡資料來源是 **Google Sheets CSV**，Hugo build time 透過 `resources.GetRemote` 抓取
+- Sheet URL 設定在 `hugo.toml` → `params.cscsFlashcardsCSV`
+- Sheet 欄位：`chapter, question, answer, tag`（第一列是 header）
+- 新增閃卡：往該 Sheet **append 新列**，`chapter` 填章節 ID（如 `ch01`）
+- 可用 `google-docs-mcp` 的 `appendRows` 工具直接寫入
+- **不再使用** `data/flashcards/` 本地 JSON 檔
 
 ---
 
