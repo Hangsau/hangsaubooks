@@ -1,12 +1,10 @@
-# my-site — CLAUDE.md
+# my-site (Cortex) — CLAUDE.md
 
 ## 專案定位
 
-個人知識網站，Hugo 靜態網站生成器。三個功能區塊：
-- **cscs/** — CSCS 備考內容（flashcard、重點整理）
-- **library/** — 書摘筆記（每本書一個資料夾）
-- **notebook/** — 個人筆記、教練方法論、想法記錄
-
+個人知識網站，Hugo 靜態網站生成器。  
+網址：`https://hangsau.github.io/cortex/`  
+Repo：`Hangsau/cortex`，branch：`hugo-source`  
 原始書檔（PDF）放在 `C:\claudehome\resources\books\`，不在此專案內。
 
 ---
@@ -14,54 +12,88 @@
 ## 架構速查
 
 ```
-content/        # 所有內容（markdown）
-layouts/        # HTML 模板
-  _default/     # 通用 layout
-  cscs/         # CSCS 專用 layout
-  library/      # 書庫專用 layout
-  notebook/     # 筆記本專用 layout
-  shortcodes/   # 可重用元件，每個單一功能
+content/
+  library/                  # 書庫（每本書一個資料夾）
+    essentials-of-strength-training/
+      _index.md             # layout: book
+      ch01/ ... ch24/       # 每章 layout: chapter，含 8 個 .md
+      highlights.md
+      notes.md
+  notebook/                 # 個人筆記
+    coaching/
+    ideas/
+layouts/
+  _default/                 # baseof、list、single
+  partials/                 # nav、footer
+  library/                  # list（書庫列表）、book（單書頁）、chapter（九宮格）、single
+  notebook/                 # list、single
+  shortcodes/               # flashcard、highlight-quote、callout
 static/
-  css/          # 樣式（拆檔，見下方規範）
-  js/           # 腳本（每個功能一個檔案）
-data/           # 結構化資料（YAML）
+  css/
+    variables.css           # 只放 CSS 變數
+    base.css                # reset + 基礎排版
+    layout.css              # nav/main/footer 結構
+    bookshelf.css           # 首頁書架樣式
+    library.css             # 書庫 section 樣式
+    cscs-chapter.css        # 九宮格 + 閃卡樣式（從 cscs-study 移植）
+    notebook.css            # 筆記本樣式
+  js/
+    flashcard.js            # 閃卡翻轉（單一功能）
+  images/
+    cscs-cover.jpg
+data/
+  books.yaml                # 書目索引（slug 對應 content/library/ 資料夾名）
+  flashcards/
+    ch01.json ... chXX.json # 每章閃卡資料（q / a / tag）
 ```
 
 ---
 
 ## 授權範圍
 
-- 此專案內所有檔案（內容、layout、CSS、設定）可直接修改，不需詢問確認
-- 包含 CLAUDE.md、HANDOFF.md、hugo.toml、所有 content/layouts/static 下的檔案
+- 此專案內所有檔案可直接修改，不需詢問確認
 
 ---
 
 ## 工作守則
 
-### 程式規範
-- **單一功能原則**：每個 shortcode / JS 檔案只做一件事
-- **命名統一**：
-  - 檔案名：kebab-case（`flashcard.html`、`highlight-quote.html`）
-  - CSS class：kebab-case（`.card-front`、`.section-header`）
-  - Hugo template 變數：PascalCase（`{{ .Title }}`）
-- **Layout 分層**：`baseof.html` 只管結構骨架，section layout 管區塊邏輯，不混用
+### Layout 規則
+- `baseof.html` 只管 HTML 骨架，不寫任何 section 邏輯
+- 每個 section 有自己的 list/single layout，互不干擾
+- CSS 用 `{{ "/css/xxx.css" | relURL }}` 載入（GitHub Pages 在子目錄，不能用裸 `/` 路徑）
+- 連結用 `{{ "/path/" | relURL }}` 或 `{{ .Permalink }}`，不寫死路徑
 
-### CSS 規範
-- 樣式分三個檔案，職責不重疊：
-  - `variables.css` — CSS 變數（顏色、字體、間距），只放變數
-  - `base.css` — reset + 基礎排版，不放元件樣式
-  - `layout.css` — 結構（nav、main、footer、grid）
-  - 各 section 或元件可有自己的 css（`flashcard.css`、`library.css`）
+### CSS 規則
+- 改全站外觀 → `variables.css`（改 CSS 變數即可）
+- 改排版結構 → `layout.css`
+- 加新元件 → 建新的 css 檔，不改 base
 - 不寫 inline style，不用 `!important`
 
-### 禁忌
-- 不在 `baseof.html` 寫 section 專用邏輯
-- 不在 `static/css/` 直接改 base 來遷就單一頁面，應新增獨立 css
-- 不把書籍原始檔案放入此專案
+### 命名規範
+- 檔案名：kebab-case
+- CSS class：kebab-case
+- Hugo template 變數：PascalCase
+
+### 加新書的流程
+1. 在 `content/library/<book-slug>/` 建資料夾與 `_index.md`（`layout: book`）
+2. 在 `data/books.yaml` 加一筆（含 slug、color）
+3. 封面圖放 `static/images/`
+
+### 加新 CSCS 章節閃卡
+- 在 `data/flashcards/chXX.json` 建檔（格式：`[{"q":"","a":"","tag":""}]`）
 
 ---
 
 ## 部署
 
-Hugo 生成靜態檔 → GitHub Pages 或 Netlify（待設定）。  
-本地預覽：`hugo server -D`
+```bash
+# push 後 GitHub Actions 自動建置部署
+git add . && git commit -m "..." && [push 指令見下]
+```
+
+Push 指令（Windows credential manager 問題，需繞過）：
+```bash
+TOKEN=$(gh auth token) && git remote set-url origin "https://$TOKEN@github.com/Hangsau/cortex.git" && GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=credential.helper GIT_CONFIG_VALUE_0= git push origin hugo-source && git remote set-url origin "https://github.com/Hangsau/cortex.git"
+```
+
+push 後執行 `gh run list --repo Hangsau/cortex --limit 1` 確認 CI 成功。
