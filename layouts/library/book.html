@@ -1,0 +1,26 @@
+{{ define "head-extra" }}
+<link rel="stylesheet" href="{{ "/css/library.css" | relURL }}">
+<link rel="stylesheet" href="{{ "/css/cscs-chapter.css" | relURL }}">
+{{ end }}
+
+{{ define "main" }}
+<div class="book-hero">
+  <div class="book-cover-img">
+    <img src="{{ "/images/cscs-cover.jpg" | relURL }}" alt="{{ .Title }}封面">
+  </div>
+  <div class="book-info">
+    <div class="book-tag">{{ delimit .Params.topics " · " }}</div>
+    <div class="book-title-lg">{{ .Title }}</div>
+    {{ with .Params.edition }}<div class="book-sub">{{ . }} Edition</div>{{ end }}
+    {{ with .Params.author }}<div class="book-sub" style="margin-top:6px">{{ . }}</div>{{ end }}
+  </div>
+</div>
+
+<div class="home-grid">
+  {{ range .Sections }}
+  <a href="{{ .Permalink }}" class="home-card">
+    <div>{{ .Title }}</div>
+  </a>
+  {{ end }}
+</div>
+{{ end }}

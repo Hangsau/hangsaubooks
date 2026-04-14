@@ -1,6 +1,6 @@
 baseURL = "https://hangsau.github.io/cortex/"
 languageCode = "zh-tw"
-title = "My Site"
+title = "Cortex"
 defaultContentLanguage = "zh-tw"
 
 [markup.goldmark.renderer]
@@ -11,19 +11,15 @@ defaultContentLanguage = "zh-tw"
   lineNos = false
 
 [params]
-  description = "個人知識網站"
+  description = "個人知識庫"
   author = ""
 
 [menu]
   [[menu.main]]
-    name = "CSCS"
-    url = "/cscs/"
-    weight = 1
-  [[menu.main]]
     name = "書庫"
     url = "/library/"
-    weight = 2
+    weight = 1
   [[menu.main]]
     name = "筆記"
     url = "/notebook/"
-    weight = 3
+    weight = 2

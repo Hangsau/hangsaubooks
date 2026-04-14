@@ -1,6 +1,5 @@
 {{ define "head-extra" }}
-<link rel="stylesheet" href="/css/cscs.css">
-<link rel="stylesheet" href="/css/cscs-chapter.css">
+<link rel="stylesheet" href="{{ "/css/cscs-chapter.css" | relURL }}">
 {{ end }}
 
 {{ define "main" }}
@@ -8,7 +7,7 @@
 {{ $cards := index .Site.Data.flashcards $chID }}
 
 <div class="topbar">
-  <a href="{{ "/cscs/" | relURL }}">&larr; Chapter List</a>
+  <a href="{{ .Parent.RelPermalink }}">&larr; {{ .Parent.Title }}</a>
   <span>/</span>
   <span style="color:#7c6af7">{{ .Title }}</span>
   {{ if $cards }}
@@ -17,7 +16,6 @@
 </div>
 
 <div id="reading-progress"></div>
-
 <h2 class="ch-title">{{ .Title }}</h2>
 
 <div id="main-view">
@@ -31,13 +29,10 @@
       <div class="cs" style="font-size:10px;margin-top:4px">點擊各格展開</div>
     </div>
     {{ end }}
-    <div class="cell" style="border-top:2px solid {{ $color }}"
-         onclick="showSub('s{{ $i }}')">
+    <div class="cell" style="border-top:2px solid {{ $color }}" onclick="showSub('s{{ $i }}')">
       <div class="ct" style="color:{{ $color }}">{{ $page.Title }}</div>
       <div class="cs">{{ $page.Description }}</div>
-      <div class="tag" style="color:{{ $color }};background:{{ $color }}22">
-        {{ index $page.Params.tags 0 }}
-      </div>
+      <div class="tag" style="color:{{ $color }};background:{{ $color }}22">{{ index $page.Params.tags 0 }}</div>
     </div>
     {{ end }}
   </div>
@@ -112,11 +107,9 @@
     <button class="fc-btn fc-know" onclick="restartCards()" style="margin-top:16px">重新開始</button>
   </div>
 </div>
-
 <script>
 const FC_DATA = JSON.parse({{ $cards | jsonify }});
 let fcIndex = 0, fcFlipped = false, fcKnown = new Set();
-
 function renderCard() {
   const c = FC_DATA[fcIndex];
   document.getElementById('fcQ').textContent = c.q;
@@ -130,7 +123,6 @@ function renderCard() {
   fcFlipped = false;
   renderDots();
 }
-
 function renderDots() {
   const dots = document.getElementById('fcDots');
   const total = FC_DATA.length;
@@ -144,24 +136,19 @@ function renderDots() {
     dots.appendChild(d);
   }
 }
-
 function flipCard() {
   if (fcFlipped) return;
   document.getElementById('fcCard').classList.add('flipped');
   document.getElementById('fcActions').style.display = 'flex';
   fcFlipped = true;
 }
-
 function markCard(known) {
   if (known) fcKnown.add(fcIndex); else fcKnown.delete(fcIndex);
   document.getElementById('fc-known').textContent = fcKnown.size;
-  if (fcIndex < FC_DATA.length - 1) { fcIndex++; renderCard(); }
-  else { showDone(); }
+  if (fcIndex < FC_DATA.length - 1) { fcIndex++; renderCard(); } else { showDone(); }
 }
-
 function nextCard() { if (fcIndex < FC_DATA.length - 1) { fcIndex++; renderCard(); } }
 function prevCard() { if (fcIndex > 0) { fcIndex--; renderCard(); } }
-
 function showDone() {
   document.getElementById('fcCard').style.display = 'none';
   document.getElementById('fcActions').style.display = 'none';
@@ -169,7 +156,6 @@ function showDone() {
   document.getElementById('fc-done').style.display = 'block';
   document.getElementById('fc-score').textContent = fcKnown.size;
 }
-
 function restartCards() {
   fcIndex = 0; fcKnown.clear();
   document.getElementById('fcCard').style.display = '';
@@ -177,7 +163,6 @@ function restartCards() {
   document.getElementById('fc-done').style.display = 'none';
   renderCard();
 }
-
 function toggleFlashcard() {
   const fcView = document.getElementById('fc-view');
   const mainView = document.getElementById('main-view');
@@ -185,43 +170,33 @@ function toggleFlashcard() {
   const btn = document.getElementById('fcBtn');
   const chTitle = document.querySelector('.ch-title');
   if (fcView.style.display === 'none') {
-    fcView.style.display = 'block';
-    mainView.style.display = 'none';
+    fcView.style.display = 'block'; mainView.style.display = 'none';
     subAreas.forEach(s => s.style.display = 'none');
-    btn.textContent = '📚 九宮格';
-    btn.classList.add('active');
-    chTitle.style.display = 'none';
-    renderCard();
+    btn.textContent = '📚 九宮格'; btn.classList.add('active');
+    chTitle.style.display = 'none'; renderCard();
   } else {
-    fcView.style.display = 'none';
-    mainView.style.display = 'block';
+    fcView.style.display = 'none'; mainView.style.display = 'block';
     subAreas.forEach(s => s.style.display = '');
-    btn.textContent = '🃏 閃卡模式';
-    btn.classList.remove('active');
-    chTitle.style.display = '';
-    goBack();
+    btn.textContent = '🃏 閃卡模式'; btn.classList.remove('active');
+    chTitle.style.display = ''; goBack();
   }
 }
-
 function showSub(id) {
   document.getElementById('main-view').style.display = 'none';
   document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
   document.getElementById(id).classList.add('show');
   window.scrollTo(0, 0);
 }
-
 function goBack() {
   document.getElementById('main-view').style.display = 'block';
   document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
   window.scrollTo(0, 0);
 }
-
 window.addEventListener('scroll', () => {
   const bar = document.getElementById('reading-progress');
   const total = document.body.scrollHeight - window.innerHeight;
   if (total > 0) bar.style.width = (window.scrollY / total * 100) + '%';
 });
-
 document.addEventListener('DOMContentLoaded', renderCard);
 </script>
 {{ else }}
