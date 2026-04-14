@@ -20,17 +20,9 @@
 <div class="adm-nav-cards">
   {{ range .Pages }}
   <a href="{{ .Permalink }}" class="adm-nav-card">
-    {{ if eq .File.BaseFileName "background" }}
-    <div class="adm-nav-card-icon">📖</div>
+    {{ with .Params.icon }}<div class="adm-nav-card-icon">{{ . }}</div>{{ end }}
     <div class="adm-nav-card-title">{{ .Title }}</div>
-    <div class="adm-nav-card-desc">LTD 模型、獎牌台路徑、四大支柱與八大考量</div>
-    {{ else if eq .File.BaseFileName "matrix" }}
-    <div class="adm-nav-card-icon">⊞</div>
-    <div class="adm-nav-card-title">{{ .Title }}</div>
-    <div class="adm-nav-card-desc">四大支柱 × 四個發展階段，互動瀏覽</div>
-    {{ else }}
-    <div class="adm-nav-card-title">{{ .Title }}</div>
-    {{ end }}
+    {{ with .Description }}<div class="adm-nav-card-desc">{{ . }}</div>{{ end }}
   </a>
   {{ end }}
 </div>
