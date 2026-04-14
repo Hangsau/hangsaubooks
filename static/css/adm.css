@@ -315,6 +315,25 @@
   margin: 0;
 }
 
+.adm-detail-list {
+  margin: 0;
+  padding-left: var(--space-4);
+  list-style: disc;
+}
+
+.adm-detail-list li {
+  margin-bottom: var(--space-2);
+  line-height: 1.6;
+}
+
+.adm-detail-list li:last-child {
+  margin-bottom: 0;
+}
+
+.adm-detail-list li strong {
+  color: var(--color-text);
+}
+
 .adm-cell.is-open .adm-cell-detail {
   display: block;
 }
