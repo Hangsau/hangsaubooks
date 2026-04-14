@@ -2,7 +2,7 @@
 
 ## 目前狀態（2026-04-14）
 
-網站已上線：https://hangsau.github.io/cortex/  
+網站已上線並完全正常：https://hangsau.github.io/cortex/  
 CI/CD 正常運作，push hugo-source 自動部署。
 
 ## 已完成
@@ -13,10 +13,10 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [x] 筆記本 section（notebook/list、notebook/single）
 - [x] Shortcodes：flashcard、highlight-quote、callout
 - [x] CSS 分層：variables / base / layout / bookshelf / library / cscs-chapter / notebook
-- [x] CSCS 24 章內容搬入 `library/essentials-of-strength-training/`
-- [x] 閃卡資料（ch01.json）已遷移，九宮格 layout 正常
-- [x] CSS 路徑改用 relURL（修正 GitHub Pages 子目錄問題）
-- [x] GitHub Actions 自動部署設定完成
+- [x] CSCS 24 章搬入 `library/essentials-of-strength-training/`，九宮格正常
+- [x] 閃卡資料（ch01.json）正常，閃卡模式可用
+- [x] CSS 路徑問題修正（改用 `.Site.BaseURL` 拼接，absURL/relURL 在 subdirectory 無效）
+- [x] GitHub Actions 自動部署完成
 
 ## 尚未完成
 

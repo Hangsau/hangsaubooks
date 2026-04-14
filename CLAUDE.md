@@ -60,8 +60,11 @@ data/
 ### Layout 規則
 - `baseof.html` 只管 HTML 骨架，不寫任何 section 邏輯
 - 每個 section 有自己的 list/single layout，互不干擾
-- CSS 用 `{{ "/css/xxx.css" | relURL }}` 載入（GitHub Pages 在子目錄，不能用裸 `/` 路徑）
-- 連結用 `{{ "/path/" | relURL }}` 或 `{{ .Permalink }}`，不寫死路徑
+- **CSS/JS/image 路徑用 `{{ .Site.BaseURL }}css/xxx.css`**（不加前綴 `/`）
+  - Hugo 的 `absURL`/`relURL` 對以 `/` 開頭的路徑在 subdirectory 部署時失效
+  - `.Site.BaseURL` = `https://hangsau.github.io/cortex/`，直接拼接即可
+- 頁面連結用 `{{ .RelPermalink }}` 或 `{{ .Permalink }}`（Hugo 自動帶入正確路徑）
+- nav menu 連結：`{{ printf "%s%s" $.Site.BaseURL (strings.TrimPrefix "/" .URL) }}`
 
 ### CSS 規則
 - 改全站外觀 → `variables.css`（改 CSS 變數即可）
