@@ -20,16 +20,16 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [x] 封面圖統一放 `static/images/covers/`
 - [x] Hugo 串接 Google Sheets CSV（閃卡資料源，data/flashcards/ 已刪除）
 - [x] CLAUDE.md 閃卡說明更新（Google Sheets appendRows 取代舊 JSON）
-- [x] **ADM 第二本書上線（Batch 1 + Batch 2 完成）**
+- [x] **ADM 第二本書上線（完整）**
 
 ## ADM 進度
 
 **Athlete Development Matrix**（Swimming Canada）已完整上線：
 - [x] 書架首頁顯示新書卡片
-- [x] 書本頁：封面 + 兩張導航卡（背景頁、矩陣頁）
+- [x] 書本頁：封面 + 三張導航卡（背景頁、矩陣頁、附錄 A）
 - [x] 背景閱讀頁（Part 1–3 全文）：LTD 模型、獎牌台路徑、四大支柱、八大考量
 - [x] 互動矩陣頁：4 支柱 × 4 階段，全部 16 格有摘要 + 詳細要點（點擊展開）
-- [x] 附錄尚未加入（見下方「尚未完成」）
+- [x] 附錄 A：四泳式划水技術 + 起跳 + 轉身（6 種）完整技術基準
 
 ## 尚未完成
 
@@ -40,8 +40,7 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [ ] 書庫列表樣式優化（`library/list.html`）
 
 ### ADM
-- [ ] Appendix A：各發展階段技術基準數字表（`part1_background.md` 有部分，`appendix_a_technical_benchmarks.md` 有完整資料）
-- [ ] Appendix B：帕拉游泳分類（`appendix_b_para_swimming_classification.md`）
+- [ ] Appendix B：帕拉游泳分類（`appendix_b_para_swimming_classification.md`，若有需要才做）
 
 ## Google Sheets 閃卡資料來源
 
