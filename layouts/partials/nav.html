@@ -1,9 +1,9 @@
 <nav class="site-nav">
-  <a href="{{ "/" | absURL }}" class="site-nav-logo">{{ .Site.Title }}</a>
+  <a href="{{ .Site.BaseURL }}" class="site-nav-logo">{{ .Site.Title }}</a>
   <ul class="site-nav-links">
     {{ range .Site.Menus.main }}
     <li>
-      <a href="{{ .URL | absURL }}" class="{{ if $.IsMenuCurrent "main" . }}active{{ end }}">{{ .Name }}</a>
+      <a href="{{ printf "%s%s" $.Site.BaseURL (strings.TrimPrefix "/" .URL) }}" class="{{ if $.IsMenuCurrent "main" . }}active{{ end }}">{{ .Name }}</a>
     </li>
     {{ end }}
   </ul>

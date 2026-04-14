@@ -1,5 +1,5 @@
 {{ define "head-extra" }}
-<link rel="stylesheet" href="{{ "/css/bookshelf.css" | absURL }}">
+<link rel="stylesheet" href="{{ .Site.BaseURL }}css/bookshelf.css">
 {{ end }}
 
 {{ define "main" }}
@@ -11,7 +11,7 @@
 
   <div class="shelf">
     {{ range .Site.Data.books }}
-    <a href="{{ printf "/library/%s/" .slug | absURL }}" class="book-card" style="--book-color: {{ .color }}">
+    <a href="{{ printf "%slibrary/%s/" $.Site.BaseURL .slug }}" class="book-card" style="--book-color: {{ .color }}">
       <div class="book-spine"></div>
       <div class="book-cover">
         <div class="book-topics">{{ delimit .topics " · " }}</div>
@@ -23,7 +23,7 @@
     </a>
     {{ end }}
 
-    <a href="{{ "/library/" | absURL }}" class="book-card book-card--add">
+    <a href="{{ printf "%slibrary/" $.Site.BaseURL }}" class="book-card book-card--add">
       <div class="book-spine book-spine--add"></div>
       <div class="book-cover book-cover--add">
         <span class="book-add-icon">+</span>
@@ -35,7 +35,7 @@
   <div class="shelf-divider"></div>
 
   <nav class="quick-nav">
-    <a href="{{ "/notebook/" | absURL }}" class="quick-nav-item">
+    <a href="{{ printf "%snotebook/" $.Site.BaseURL }}" class="quick-nav-item">
       <span class="quick-nav-icon">✏️</span>
       <span class="quick-nav-label">筆記本</span>
     </a>

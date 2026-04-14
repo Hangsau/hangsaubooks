@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} — {{ .Site.Title }}{{ end }}</title>
   <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  <link rel="stylesheet" href="{{ "/css/variables.css" | absURL }}">
-  <link rel="stylesheet" href="{{ "/css/base.css" | absURL }}">
-  <link rel="stylesheet" href="{{ "/css/layout.css" | absURL }}">
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/variables.css">
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/base.css">
+  <link rel="stylesheet" href="{{ .Site.BaseURL }}css/layout.css">
   {{ block "head-extra" . }}{{ end }}
 </head>
 <body>
