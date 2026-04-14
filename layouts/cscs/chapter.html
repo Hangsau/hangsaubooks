@@ -1,0 +1,247 @@
+{{ define "head-extra" }}
+<link rel="stylesheet" href="/css/cscs.css">
+<link rel="stylesheet" href="/css/cscs-chapter.css">
+{{ end }}
+
+{{ define "main" }}
+{{ $chID := path.Base (.RelPermalink | strings.TrimRight "/") }}
+{{ $cards := index .Site.Data.flashcards $chID }}
+
+<div class="topbar">
+  <a href="{{ "/cscs/" | relURL }}">&larr; Chapter List</a>
+  <span>/</span>
+  <span style="color:#7c6af7">{{ .Title }}</span>
+  {{ if $cards }}
+  <button class="fc-toggle-btn" onclick="toggleFlashcard()" id="fcBtn">🃏 閃卡模式</button>
+  {{ end }}
+</div>
+
+<div id="reading-progress"></div>
+
+<h2 class="ch-title">{{ .Title }}</h2>
+
+<div id="main-view">
+  <div class="mandala">
+    {{ $colors := slice "#7c6af7" "#3fc87c" "#f0a030" "#e05252" "#3b8bd4" "#3fc87c" "#7c6af7" "#f0a030" }}
+    {{ range $i, $page := .Pages }}
+    {{ $color := index $colors $i }}
+    {{ if eq $i 4 }}
+    <div class="cell center">
+      <div class="ch-num">{{ $.Title }}</div>
+      <div class="cs" style="font-size:10px;margin-top:4px">點擊各格展開</div>
+    </div>
+    {{ end }}
+    <div class="cell" style="border-top:2px solid {{ $color }}"
+         onclick="showSub('s{{ $i }}')">
+      <div class="ct" style="color:{{ $color }}">{{ $page.Title }}</div>
+      <div class="cs">{{ $page.Description }}</div>
+      <div class="tag" style="color:{{ $color }};background:{{ $color }}22">
+        {{ index $page.Params.tags 0 }}
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  <p class="hint">↑ 點擊各格展開詳細內容</p>
+</div>
+
+{{ range $i, $page := .Pages }}
+{{ $colors := slice "#7c6af7" "#3fc87c" "#f0a030" "#e05252" "#3b8bd4" "#3fc87c" "#7c6af7" "#f0a030" }}
+{{ $color := index $colors $i }}
+<div class="sub-area" id="s{{ $i }}">
+  <span class="back-btn" onclick="goBack()">&larr; 返回</span>
+  <div class="sub-head" style="color:{{ $color }}">{{ $page.Title }}</div>
+  <div class="sub-grid">
+    {{ $raw := $page.RawContent }}
+    {{ $sections := split $raw "## " }}
+    {{ range $si, $sec := $sections }}
+      {{ if gt $si 0 }}
+        {{ $lines := split $sec "\n" }}
+        {{ $heading := index $lines 0 }}
+        {{ $bodylines := after 1 $lines }}
+        {{ $body := delimit $bodylines " " }}
+        {{ if eq $si 4 }}
+        <div class="sc scc" style="border-color:{{ $color }}">
+          <div class="st" style="color:{{ $color }}">{{ $page.Title }}</div>
+        </div>
+        {{ end }}
+        <div class="sc">
+          <div class="st" style="color:{{ $color }}">{{ $heading }}</div>
+          <div class="sb">{{ $body }}</div>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+</div>
+{{ end }}
+
+{{ if $cards }}
+<div id="fc-view" style="display:none">
+  <div class="fc-header">
+    <button class="back-btn" onclick="toggleFlashcard()">← 返回九宮格</button>
+    <div class="fc-progress-text">
+      <span id="fc-current">1</span> / <span id="fc-total">{{ len $cards }}</span>
+      &nbsp;·&nbsp; ✓ <span id="fc-known">0</span>
+    </div>
+  </div>
+  <div class="fc-stage">
+    <div class="fc-card" id="fcCard" onclick="flipCard()">
+      <div class="fc-front">
+        <div class="fc-tag" id="fcTag"></div>
+        <div class="fc-question" id="fcQ"></div>
+        <div class="fc-tap-hint">點擊翻面查看答案</div>
+      </div>
+      <div class="fc-back">
+        <div class="fc-tag" id="fcTagB"></div>
+        <div class="fc-answer" id="fcA"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-actions" id="fcActions" style="display:none">
+    <button class="fc-btn fc-again" onclick="markCard(false)">↺ 再看</button>
+    <button class="fc-btn fc-know" onclick="markCard(true)">✓ 已懂</button>
+  </div>
+  <div class="fc-nav">
+    <button class="fc-nav-btn" onclick="prevCard()">‹ 上一張</button>
+    <div class="fc-dots" id="fcDots"></div>
+    <button class="fc-nav-btn" onclick="nextCard()">下一張 ›</button>
+  </div>
+  <div id="fc-done" style="display:none" class="fc-done-msg">
+    <div class="fc-done-icon">🎉</div>
+    <div>這輪完成！</div>
+    <div class="fc-done-score">已懂 <span id="fc-score"></span> / {{ len $cards }}</div>
+    <button class="fc-btn fc-know" onclick="restartCards()" style="margin-top:16px">重新開始</button>
+  </div>
+</div>
+
+<script>
+const FC_DATA = JSON.parse({{ $cards | jsonify }});
+let fcIndex = 0, fcFlipped = false, fcKnown = new Set();
+
+function renderCard() {
+  const c = FC_DATA[fcIndex];
+  document.getElementById('fcQ').textContent = c.q;
+  document.getElementById('fcA').textContent = c.a;
+  document.getElementById('fcTag').textContent = c.tag;
+  document.getElementById('fcTagB').textContent = c.tag;
+  document.getElementById('fc-current').textContent = fcIndex + 1;
+  document.getElementById('fc-known').textContent = fcKnown.size;
+  document.getElementById('fcCard').classList.remove('flipped');
+  document.getElementById('fcActions').style.display = 'none';
+  fcFlipped = false;
+  renderDots();
+}
+
+function renderDots() {
+  const dots = document.getElementById('fcDots');
+  const total = FC_DATA.length;
+  const start = Math.max(0, Math.min(fcIndex - 3, total - 7));
+  const end = Math.min(total, start + 7);
+  dots.innerHTML = '';
+  for (let i = start; i < end; i++) {
+    const d = document.createElement('span');
+    d.className = 'fc-dot' + (i === fcIndex ? ' active' : '') + (fcKnown.has(i) ? ' known' : '');
+    d.onclick = ((idx) => () => { fcIndex = idx; renderCard(); })(i);
+    dots.appendChild(d);
+  }
+}
+
+function flipCard() {
+  if (fcFlipped) return;
+  document.getElementById('fcCard').classList.add('flipped');
+  document.getElementById('fcActions').style.display = 'flex';
+  fcFlipped = true;
+}
+
+function markCard(known) {
+  if (known) fcKnown.add(fcIndex); else fcKnown.delete(fcIndex);
+  document.getElementById('fc-known').textContent = fcKnown.size;
+  if (fcIndex < FC_DATA.length - 1) { fcIndex++; renderCard(); }
+  else { showDone(); }
+}
+
+function nextCard() { if (fcIndex < FC_DATA.length - 1) { fcIndex++; renderCard(); } }
+function prevCard() { if (fcIndex > 0) { fcIndex--; renderCard(); } }
+
+function showDone() {
+  document.getElementById('fcCard').style.display = 'none';
+  document.getElementById('fcActions').style.display = 'none';
+  document.getElementById('fc-nav').style.display = 'none';
+  document.getElementById('fc-done').style.display = 'block';
+  document.getElementById('fc-score').textContent = fcKnown.size;
+}
+
+function restartCards() {
+  fcIndex = 0; fcKnown.clear();
+  document.getElementById('fcCard').style.display = '';
+  document.getElementById('fc-nav').style.display = '';
+  document.getElementById('fc-done').style.display = 'none';
+  renderCard();
+}
+
+function toggleFlashcard() {
+  const fcView = document.getElementById('fc-view');
+  const mainView = document.getElementById('main-view');
+  const subAreas = document.querySelectorAll('.sub-area');
+  const btn = document.getElementById('fcBtn');
+  const chTitle = document.querySelector('.ch-title');
+  if (fcView.style.display === 'none') {
+    fcView.style.display = 'block';
+    mainView.style.display = 'none';
+    subAreas.forEach(s => s.style.display = 'none');
+    btn.textContent = '📚 九宮格';
+    btn.classList.add('active');
+    chTitle.style.display = 'none';
+    renderCard();
+  } else {
+    fcView.style.display = 'none';
+    mainView.style.display = 'block';
+    subAreas.forEach(s => s.style.display = '');
+    btn.textContent = '🃏 閃卡模式';
+    btn.classList.remove('active');
+    chTitle.style.display = '';
+    goBack();
+  }
+}
+
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  window.scrollTo(0, 0);
+}
+
+window.addEventListener('scroll', () => {
+  const bar = document.getElementById('reading-progress');
+  const total = document.body.scrollHeight - window.innerHeight;
+  if (total > 0) bar.style.width = (window.scrollY / total * 100) + '%';
+});
+
+document.addEventListener('DOMContentLoaded', renderCard);
+</script>
+{{ else }}
+<script>
+function showSub(id) {
+  document.getElementById('main-view').style.display = 'none';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+  window.scrollTo(0, 0);
+}
+function goBack() {
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.sub-area').forEach(s => s.classList.remove('show'));
+  window.scrollTo(0, 0);
+}
+window.addEventListener('scroll', () => {
+  const bar = document.getElementById('reading-progress');
+  const total = document.body.scrollHeight - window.innerHeight;
+  if (total > 0) bar.style.width = (window.scrollY / total * 100) + '%';
+});
+</script>
+{{ end }}
+{{ end }}

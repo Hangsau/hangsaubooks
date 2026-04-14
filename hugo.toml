@@ -1,0 +1,32 @@
+baseURL = "https://hangsau.github.io/cortex/"
+languageCode = "zh-tw"
+title = "My Site"
+defaultContentLanguage = "zh-tw"
+
+# 不使用 theme，完全自訂 layout
+theme = ""
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.highlight]
+  style = "github-dark"
+  lineNos = false
+
+[params]
+  description = "個人知識網站"
+  author = ""
+
+[menu]
+  [[menu.main]]
+    name = "CSCS"
+    url = "/cscs/"
+    weight = 1
+  [[menu.main]]
+    name = "書庫"
+    url = "/library/"
+    weight = 2
+  [[menu.main]]
+    name = "筆記"
+    url = "/notebook/"
+    weight = 3

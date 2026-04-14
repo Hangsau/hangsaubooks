@@ -1,0 +1,23 @@
+{{ define "head-extra" }}
+<link rel="stylesheet" href="/css/notebook.css">
+{{ end }}
+
+{{ define "main" }}
+<section class="notebook-section">
+  <header class="section-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="section-description">{{ . }}</p>{{ end }}
+  </header>
+
+  <ul class="note-list">
+    {{ range .Pages }}
+    <li class="note-item">
+      <a href="{{ .RelPermalink }}" class="note-link">{{ .Title }}</a>
+      {{ with .Date }}
+      <time class="note-date" datetime="{{ .Format "2006-01-02" }}">{{ .Format "2006-01-02" }}</time>
+      {{ end }}
+    </li>
+    {{ end }}
+  </ul>
+</section>
+{{ end }}

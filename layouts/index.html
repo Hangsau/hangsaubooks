@@ -1,0 +1,13 @@
+{{ define "main" }}
+<section class="home">
+  <h1 class="home-title">{{ .Site.Title }}</h1>
+  <p class="home-description">{{ .Site.Params.description }}</p>
+  <nav class="home-sections">
+    {{ range .Site.Menus.main }}
+    <a href="{{ .URL }}" class="home-section-card">
+      <span class="home-section-name">{{ .Name }}</span>
+    </a>
+    {{ end }}
+  </nav>
+</section>
+{{ end }}
