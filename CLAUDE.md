@@ -5,7 +5,8 @@
 個人知識網站，Hugo 靜態網站生成器。  
 網址：`https://hangsau.github.io/cortex/`  
 Repo：`Hangsau/cortex`，branch：`hugo-source`  
-原始書檔（PDF）放在 `C:\claudehome\resources\books\`，不在此專案內。
+原始書檔（Markdown）放在 `C:\claudehome\resources\books\`，不在此專案內。
+CSCS 教材：`C:\claudehome\resources\books\Essentials_of_Strength_Training_and_Conditioning,_Fourth_Edition\`（EPUB 轉 MD，159 章節）
 
 ---
 
@@ -120,6 +121,9 @@ static/
 - 新增閃卡：往該 Sheet **append 新列**，`chapter` 填章節 ID（如 `ch01`）
 - 可用 `google-docs-mcp` 的 `appendRows` 工具直接寫入
 - **不再使用** `data/flashcards/` 本地 JSON 檔
+- **寫閃卡注意**：answer 欄位不能以 `=` 開頭，Google Sheets 會解析為公式（導致 #ERROR!）。用 `valueInputOption: RAW` 或改寫句子避開
+- **寫完 Sheets 後必須 push**：Hugo 是 build time 抓 CSV，Sheets 更新後網站不會自動反映，一定要 push 一個 commit 觸發 CI rebuild，閃卡才會出現在網站上
+- **數量基準**：每章目標約 52 張（以 ch01 為標準）；寫完後主動比較同章節現有數量，若明顯偏少（<48）應補充，不等使用者提問
 
 ---
 
