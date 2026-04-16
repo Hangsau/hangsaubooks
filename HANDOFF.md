@@ -1,6 +1,6 @@
 # HANDOFF — my-site (Cortex)
 
-## 目前狀態（2026-04-16）
+## 目前狀態（2026-04-16，更新）
 
 網站已上線並完全正常：https://hangsau.github.io/cortex/  
 CI/CD 正常運作，push hugo-source 自動部署。
@@ -37,8 +37,10 @@ CI/CD 正常運作，push hugo-source 自動部署。
 ### CSCS
 - [x] ch02 筆記（8 個子主題 .md 完成）
 - [x] ch02 閃卡（40 張，Google Sheets row 54–93）
-- [ ] ch03–ch24 筆記內容
-- [ ] ch03–ch24 閃卡
+- [x] ch03 筆記（8 個子主題 .md，已在前次 commit 完成）
+- [x] ch03 閃卡（40 張，Google Sheets row 94–133）
+- [ ] ch04–ch24 筆記內容
+- [ ] ch04–ch24 閃卡
 - [ ] 章節頁新增「完整重點整理」區塊（九宮格下方補充完整學習內容）
 - [ ] 書庫列表樣式優化（`library/list.html`）
 
@@ -63,5 +65,5 @@ Claude Code 讀 `resources/books/Essentials_of_Strength_Training_and_Conditionin
 
 ## 下一步建議
 
-1. 繼續 CSCS ch03 筆記與閃卡
+1. 繼續 CSCS ch04 筆記與閃卡（內分泌反應）
 2. 若需要 ADM Appendix B，直接用 adm-single layout 加一頁即可
