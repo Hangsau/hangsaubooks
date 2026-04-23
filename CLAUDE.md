@@ -114,6 +114,59 @@ static/
 {{ range $data.matrix.pillars }}
 ```
 
+### 自訂風格書籍設計模式（如 大腦喜歡這樣學）
+
+當一本書需要獨立視覺風格（不沿用 CSCS 九宮格或 ADM 矩陣），使用以下模式：
+
+```
+content/library/<slug>/
+  _index.md          layout: <abbrev>-book   → 封面 + 導航卡
+  toolkit.md         layout: <abbrev>-toolkit → 主要內容頁
+
+layouts/library/
+  <abbrev>-book.html
+  <abbrev>-toolkit.html
+
+data/<abbrev>/
+  <file>.yaml        所有內容資料
+
+static/css/
+  <abbrev>.css       書籍專用樣式（不改 variables.css）
+```
+
+**CSS 隔離規則**：
+- 所有 class 名稱加書籍縮寫前綴（如 `mnfl-*`）
+- 頁面級背景色用 `body:has(.<abbrev>-page) {}` 選擇器，不改全域 variables.css，不用 `!important`
+- Google Fonts 在 layout 的 `head-extra` block 載入，不影響其他頁面
+
+**可展開內容**：優先用原生 `<details>/<summary>`（零 JS），只有需要跨元素聯動（如主題篩選）才加 JavaScript。
+
+**Hugo data 讀取**（與 ADM 相同）：
+```
+{{ $data := index hugo.Data "<abbrev>" }}
+{{ range $data.<file>.themes }}
+```
+
+**姊妹書設計模式**（同一作者的相關書籍）：
+- 使用相同字型家族（如同樣是 Caveat + Crimson Text）建立視覺家族感
+- 主強調色換一個，讓兩本書在書架上一眼能區分（例：學習者版用磚紅、教師版用深藍綠）
+- 現有範例：`mnfl`（大腦喜歡這樣學，`#B5290B`）× `ust`（Uncommon Sense Teaching，`#1B5E69`）
+
+**書籍架構選擇決策流程**（設計前必做）：
+
+| 問題 | 卡片格（如 mnfl toolkit） | 長文章節（如 ust handbook） |
+|------|--------------------------|--------------------------|
+| 內容單位 | 原子技法（可獨立閱讀） | 章節概念（有知識層次） |
+| 每則長度 | 3-5 條 bullet | 6-12 條 bullet，每條 2-3 句 |
+| 使用情境 | 「我要試這個技法」→快速查 | 「我要理解這個概念」→深讀 |
+| 分類維度 | 主題/情境篩選（20+項目） | 章節導覽（10以下） |
+
+**兩層內容書籍**（同時有「為什麼」和「怎麼做」）→ 用 2 個子頁：
+- 一頁長文（深讀概念層）+ 一頁卡片（查找策略層）
+- 範例：UST 的 `handbook.md` + `strategies.md`
+
+---
+
 ### 加新 CSCS 章節閃卡
 - 閃卡資料來源是 **Google Sheets CSV**，Hugo build time 透過 `resources.GetRemote` 抓取
 - Sheet URL 設定在 `hugo.toml` → `params.cscsFlashcardsCSV`
@@ -124,6 +177,7 @@ static/
 - **寫閃卡注意**：answer 欄位不能以 `=` 開頭，Google Sheets 會解析為公式（導致 #ERROR!）。用 `valueInputOption: RAW` 或改寫句子避開
 - **寫完 Sheets 後必須 push**：Hugo 是 build time 抓 CSV，Sheets 更新後網站不會自動反映，一定要 push 一個 commit 觸發 CI rebuild，閃卡才會出現在網站上
 - **數量基準**：每章目標約 52 張（以 ch01 為標準）；寫完後主動比較同章節現有數量，若明顯偏少（<48）應補充，不等使用者提問
+- **完成後立即更新 HANDOFF**：push + CI 確認後，下一步必須更新 HANDOFF.md（勾選已完成項目、更新下一步建議），不等使用者提醒
 
 ---
 
