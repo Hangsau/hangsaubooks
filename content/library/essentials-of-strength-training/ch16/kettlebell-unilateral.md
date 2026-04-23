@@ -1,29 +1,57 @@
-﻿---
-title: "壺鈴 & 單側訓練 Kettlebell & Unilateral"
+---
+title: "壺鈴與單側訓練"
 draft: false
-tags: ["KB & Unilateral"]
 ---
 
-## 壺鈴種類
-① Cast iron（鑄鐵）：大小隨重量改變，較便宜普遍；② Sport/Competition（競技壺鈴）：鋼製，尺寸固定不隨重量改變，顏色代表重量；高度228mm、直徑210mm、握柄35mm
+# 壺鈴訓練（Kettlebell Training）
 
-## 固定 vs 可調壺鈴
-固定式（cast iron/competition）：負荷恆定，需備多個重量；可調式：片載式（本質是槓片+把手）或填充式（空心版，歷史上填沙/水/鉛）
+## 壺鈴類型
 
-## 握柄規格重要性
-≥20kg cast iron 握柄直徑 33~35mm；底部至球頂空間 55mm；握柄長 186mm；拋光鋼握柄（polished steel）最佳：能附著鎂粉，不易因汗水打滑
+| 類型 | 特徵 |
+|------|------|
+| **鑄鐵壺鈴（Cast Iron）** | 傳統款，重量越大體積越大，把手粗 |
+| **競技壺鈴（Sport/Competition）** | 各重量體積相同（方便技術一致性），把手尺寸標準化 |
 
-## 壺鈴訓練效益 & 限制
-最佳用途：一般體能發展；Swing 有助心肺，但不如跑步機；6週重量訓練：背蹲 +13.6%、垂直跳 +4%；壺鈴訓練僅 +4.5% 和 +0.8%（Otto et al.）
+## 壺鈴盪（Kettlebell Swing）
 
-## Two-Arm KB Swing (16.9)
-主要肌群：臀、腿後肌群、股四頭肌；從胯下後擺→髖膝伸展加速→讓慣性將壺鈴擺至眼睛高度；下擺屈髖膝吸震；非手臂主動上舉
+### 動作要點
 
-## Bilateral Deficit vs Facilitation
-Bilateral deficit：雙側動作時，單側力量輸出 < 各自單側測試之和（見於未訓練/受傷/較弱者）；Bilateral facilitation：雙側動作主動肌活化↑（見於訓練有素/較強者）
+- **髖鉸鏈（Hip Hinge）驅動**：不是蹲，是髖關節主導的前傾後推
+- 頂部：臀部完全鎖定，壺鈴漂浮至胸/肩高度
+- 底部：壺鈴向後擺至兩腿之間，膝蓋微屈，背部平直
 
-## 單側訓練適用情境
-未訓練、較弱、受傷的運動員（存在 bilateral deficit）→ 單側訓練有助發展肌力；已訓練的強壯運動員（bilateral facilitation）→ 不建議以單側作為主要肌力發展手段
+### 研究支持
 
-## 單側訓練動作例
-下肢：單腳蹲（Bulgarian split squat 16.10）、單腳 Romanian Deadlift（16.11）；全身：One-Arm Dumbbell Snatch（16.12）；常用於減少雙側不對稱（bilateral asymmetries）
+- 壺鈴盪研究顯示可提升最大力量（max strength）、爆發力（power）、有氧體能（aerobic capacity）
+- 對腰椎（lumbar spine）適應良好
+
+### 常見款式
+
+- **雙手盪（Two-hand swing）**：入門標準動作
+- **單手盪（One-hand swing）**：增加旋轉穩定需求
+- **抓舉（Snatch）**：進階爆發力動作
+
+---
+
+# 單側訓練（Unilateral Training）
+
+## 雙側訓練缺陷（Bilateral Deficit / Facilitation）
+
+| 情況 | 說明 |
+|------|------|
+| **雙側缺陷（Bilateral Deficit）** | 未訓練者：雙手合力 < 兩手單獨最大力之和；雙側訓練相互抑制 |
+| **雙側促進（Bilateral Facilitation）** | 訓練者：雙側同步訓練可能帶來更高的神經激活效率 |
+
+> 結論：訓練初期可能存在雙側缺陷，隨訓練程度提升，效應減弱甚至反轉。
+
+## 單側訓練的應用
+
+- **肌力不對稱修正**：識別並修正兩側力量差異（一般標準：弱側 ≤ 強側的 10–15%）
+- **功能特異性**：跑步、投擲、踢球等運動幾乎都是單側發力
+- **核心旋轉訓練**：單側負荷會產生旋轉力矩，核心需主動抵抗
+- **範例**：單腿深蹲（Bulgarian Split Squat）、單臂啞鈴划船、單臂臥推
+
+## 注意事項
+
+- 單側訓練每側分開計算，訓練量會倍增，注意疲勞累積
+- 先確認雙側技術成熟，再過渡到單側
