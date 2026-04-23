@@ -1,6 +1,6 @@
 # HANDOFF — my-site (Cortex)
 
-## 目前狀態（2026-04-16，Uncommon Sense Teaching 上線）
+## 目前狀態（2026-04-23，ch06 完成）
 
 網站已上線並完全正常：https://hangsau.github.io/cortex/  
 CI/CD 正常運作，push hugo-source 自動部署。
@@ -44,8 +44,10 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [x] ch04 閃卡（52 張，row 158–209，涵蓋內分泌基礎/睾固酮/GH/IGF/皮質醇/兒茶酚胺/受器/訓練處方）
 - [x] ch05 筆記（8 個子主題 .md 完成：neural/hypertrophy/fiber-type-transitions/connective-tissue/endocrine/cardiovascular/overtraining/detraining）
 - [x] ch05 閃卡（52 張，row 210–261，涵蓋神經適應/肌肉肥大/纖維轉換/結締組織/內分泌/心血管/混合訓練/過度訓練去訓練）
-- [ ] ch06–ch24 筆記內容
-- [ ] ch06–ch24 閃卡
+- [x] ch06 筆記（8 個子主題 .md 完成：acute-cardiovascular/acute-respiratory/chronic-cardiovascular/chronic-muscular/connective-endocrine/external-factors/overtraining/detraining）
+- [x] ch06 閃卡（52 張，row 262–313，涵蓋急性心血管/呼吸反應/血液運輸/慢性適應/外在因素/OTS/去訓練）
+- [ ] ch07–ch24 筆記內容
+- [ ] ch07–ch24 閃卡
 - [ ] 章節頁新增「完整重點整理」區塊（九宮格下方補充完整學習內容）
 - [ ] 書庫列表樣式優化（`library/list.html`）
 
@@ -80,6 +82,6 @@ Claude Code 讀 `resources/books/Essentials_of_Strength_Training_and_Conditionin
 
 ## 下一步建議
 
-1. 繼續 CSCS ch06 筆記與閃卡（Aerobic Endurance Training Programs）
+1. 繼續 CSCS ch07 筆記與閃卡（Skeletal Muscle Anatomy or next chapter）
 2. 若需要 ADM Appendix B，直接用 adm-single layout 加一頁即可
 3. 大腦喜歡這樣學 × 渦流計劃連結：使用者確認 wiki 需求後再設計（可在技法卡新增「在游泳教學中的應用」欄位）
