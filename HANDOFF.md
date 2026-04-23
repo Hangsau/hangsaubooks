@@ -1,6 +1,6 @@
 # HANDOFF — my-site (Cortex)
 
-## 目前狀態（2026-04-23，ch16 完成）
+## 目前狀態（2026-04-23，ch18 完成）
 
 網站已上線並完全正常：https://hangsau.github.io/cortex/  
 CI/CD 正常運作，push hugo-source 自動部署。
@@ -66,8 +66,10 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [x] ch15 閃卡（52 張，row 734–785，涵蓋握法/姿勢/呼吸/腰帶/保護時機/保護方式/保護溝通/爆發力動作）
 - [x] ch16 筆記（8 個子主題 .md 完成：general-guidelines/bodyweight-training/core-training/machine-vs-freeweight/variable-resistance/chains-bands/strongman-training/kettlebell-unilateral）
 - [x] ch16 閃卡（52 張，row 786–837，涵蓋一般原則/自體重量/核心訓練/器械vs自由重量/可變阻力/鏈條彈力帶/強人訓練/壺鈴單側）
-- [ ] ch17–ch24 筆記內容
-- [ ] ch17–ch24 閃卡
+- [x] ch17–ch24 筆記內容（所有8個 .md 已存在）
+- [x] ch17 閃卡（52 張，rows 838–889）
+- [x] ch18 閃卡（52 張，rows 890–941）
+- [ ] ch19–ch24 閃卡
 - [ ] 章節頁新增「完整重點整理」區塊（九宮格下方補充完整學習內容）
 - [ ] 書庫列表樣式優化（`library/list.html`）
 
