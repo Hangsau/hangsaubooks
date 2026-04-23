@@ -1,6 +1,6 @@
 # HANDOFF — my-site (Cortex)
 
-## 目前狀態（2026-04-23，ch13 完成）
+## 目前狀態（2026-04-23，ch16 完成）
 
 網站已上線並完全正常：https://hangsau.github.io/cortex/  
 CI/CD 正常運作，push hugo-source 自動部署。
@@ -60,8 +60,14 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [x] ch12 閃卡（53 張，row 577–629，涵蓋測驗目的/術語/效度四類/信度/選測五因素/施測順序/施測管理/熱環境安全）
 - [x] ch13 筆記（8 個子主題 .md 完成：max-strength/power-tests/anaerobic-endurance/aerobic-capacity/agility-speed/balance-flexibility-bc/statistics/test-administration）
 - [x] ch13 閃卡（52 張，row 630–681，涵蓋1RM/爆發力測試/無氧容量/有氧容量/敏捷速度/柔軟平衡體組成/統計解讀/測試條件）
-- [ ] ch14–ch24 筆記內容
-- [ ] ch14–ch24 閃卡
+- [x] ch14 筆記（8 個子主題 .md 完成：warmup-physiology/ramp-protocol/flexibility-factors/proprioceptors/static-stretch/ballistic-stretch/dynamic-stretch/pnf-techniques）
+- [x] ch14 閃卡（52 張，row 682–733，涵蓋熱身生理/RAMP/柔軟度因素/本體感覺器/靜態/彈振/動態/PNF）
+- [x] ch15 筆記（8 個子主題 .md 完成：grips/body-positioning/breathing/weight-belt/spotting-when/spotting-how/spotter-communication/power-exercises-technique）
+- [x] ch15 閃卡（52 張，row 734–785，涵蓋握法/姿勢/呼吸/腰帶/保護時機/保護方式/保護溝通/爆發力動作）
+- [x] ch16 筆記（8 個子主題 .md 完成：general-guidelines/bodyweight-training/core-training/machine-vs-freeweight/variable-resistance/chains-bands/strongman-training/kettlebell-unilateral）
+- [x] ch16 閃卡（52 張，row 786–837，涵蓋一般原則/自體重量/核心訓練/器械vs自由重量/可變阻力/鏈條彈力帶/強人訓練/壺鈴單側）
+- [ ] ch17–ch24 筆記內容
+- [ ] ch17–ch24 閃卡
 - [ ] 章節頁新增「完整重點整理」區塊（九宮格下方補充完整學習內容）
 - [ ] 書庫列表樣式優化（`library/list.html`）
 
@@ -96,6 +102,6 @@ Claude Code 讀 `resources/books/Essentials_of_Strength_Training_and_Conditionin
 
 ## 下一步建議
 
-1. 繼續 CSCS ch14 筆記與閃卡
+1. 繼續 CSCS ch17 筆記與閃卡
 2. 若需要 ADM Appendix B，直接用 adm-single layout 加一頁即可
 3. 大腦喜歡這樣學 × 渦流計劃連結：使用者確認 wiki 需求後再設計（可在技法卡新增「在游泳教學中的應用」欄位）
