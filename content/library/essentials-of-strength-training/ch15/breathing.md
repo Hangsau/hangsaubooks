@@ -1,29 +1,29 @@
-﻿---
-title: "呼吸 Breathing"
+---
+title: "呼吸技術"
 draft: false
-tags: ["Breathing"]
+tags: ["呼吸"]
 ---
 
-## Sticking Point
-一次動作中最費力的點（通常在向心轉換後不久）
+## 黏滯點（Sticking Point）
+每次反覆中最費力的位置，通常在離心→向心轉換後不久
 
-## 一般呼吸原則
-通過 sticking point 時呼氣（concentric）；回程吸氣（eccentric）
+## 標準呼吸規則
+向心（用力）通過黏滯點時吐氣；離心（放鬆）時吸氣
 
-## Valsalva 定義
-閉聲門用力呼氣（expiring against closed glottis）；腹肌與肋籠肌同時收縮
+## 範例：二頭彎舉
+上舉中途（向心彎曲肘關節）= 黏滯點 → 吐氣；下放 = 吸氣
 
-## Valsalva 作用
-增加腹內壓 → 全身軀幹剛性 → 減少脊椎椎間盤壓縮力
+## Valsalva Maneuver（閉聲門憋氣）
+對著閉合聲門呼氣 + 腹部與肋廓肌肉收縮 → 下軀幹液體柱 + 上軀幹氣體柱（「液體球」效果）
 
-## Fluid Ball
-下軀幹液體 + 上軀幹空氣 = 形成剛性腔室，支撐脊椎
+## Valsalva 的優點
+增加整個軀幹剛性，支撐脊椎，降低椎間盤壓縮力；協助維持腰椎正常前彎（中立脊椎）
 
-## Valsalva 適用
-有經驗者 × structural exercises × 大重量；憋氣約 1–2 秒
+## Valsalva 的適用對象與時機
+有訓練基礎的運動員執行結構性動作（脊椎負重類：深蹲、硬舉、肩推）且重量接近最大時
 
-## Valsalva 副作用
-頭暈、定向感喪失、血壓飆升（可達靜止 3 倍）、昏厥
+## Valsalva 的副作用
+腹內壓↑→暈眩、定向障礙、血壓過高、暈厥；憋氣只應持續 1–2 秒，不應延長
 
-## 1RM 注意
-squat、deadlift、hip sled 等測 1RM 時需告知 Valsalva 優缺點
+## Valsalva 血壓警示
+即使訓練有素者長時間憋氣，血壓可快速升至靜止水平三倍；故必須短暫憋氣
