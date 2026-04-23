@@ -1,6 +1,6 @@
 # HANDOFF — my-site (Cortex)
 
-## 目前狀態（2026-04-23，ch18 完成）
+## 目前狀態（2026-04-23，ch20 完成）
 
 網站已上線並完全正常：https://hangsau.github.io/cortex/  
 CI/CD 正常運作，push hugo-source 自動部署。
@@ -69,7 +69,9 @@ CI/CD 正常運作，push hugo-source 自動部署。
 - [x] ch17–ch24 筆記內容（所有8個 .md 已存在）
 - [x] ch17 閃卡（52 張，rows 838–889）
 - [x] ch18 閃卡（52 張，rows 890–941）
-- [ ] ch19–ch24 閃卡
+- [x] ch19 閃卡（52 張，rows 942–993，速度與敏捷訓練）
+- [x] ch20 閃卡（52 張，rows 994–1045，有氧耐力訓練）
+- [ ] ch21–ch24 閃卡
 - [ ] 章節頁新增「完整重點整理」區塊（九宮格下方補充完整學習內容）
 - [ ] 書庫列表樣式優化（`library/list.html`）
 
@@ -104,6 +106,6 @@ Claude Code 讀 `resources/books/Essentials_of_Strength_Training_and_Conditionin
 
 ## 下一步建議
 
-1. 繼續 CSCS ch17 筆記與閃卡
+1. 繼續 CSCS ch21 閃卡（Periodization）
 2. 若需要 ADM Appendix B，直接用 adm-single layout 加一頁即可
 3. 大腦喜歡這樣學 × 渦流計劃連結：使用者確認 wiki 需求後再設計（可在技法卡新增「在游泳教學中的應用」欄位）
